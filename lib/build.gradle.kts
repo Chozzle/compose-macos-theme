@@ -1,9 +1,9 @@
 import org.jetbrains.compose.compose
 
 plugins {
-    //id("com.android.library")
+    //id("com.android.library") // Cannot get this to build
     kotlin("multiplatform")
-    id("org.jetbrains.compose") version "0.2.0-build132"
+    id("org.jetbrains.compose") version "0.3.0-build133"
 }
 
 group = "me.carsonholzheimer"
@@ -13,6 +13,7 @@ repositories {
     google()
     mavenCentral()
     maven { url = uri("https://maven.pkg.jetbrains.space/public/p/compose/dev") }
+    jcenter()
 }
 
 kotlin {
