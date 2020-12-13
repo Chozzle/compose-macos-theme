@@ -12,13 +12,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerMoveFilter
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.font.FontWeight.Companion.W700
-import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Position
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import fromOfficalCompose.MacOutlinedTextField
 
 
 fun main() = Window {
@@ -29,14 +29,6 @@ fun main() = Window {
             verticalArrangement = Arrangement.spacedBy(16.dp),
             modifier = Modifier.padding(16.dp)
         ) {
-            Text(
-                "\uDBC0\uDD87\n" +
-                        "\uDBC0\uDD88 \n" +
-                        " Hello",
-                fontWeight = FontWeight.ExtraBold,
-                fontStyle = FontStyle.Italic,
-                fontFamily = MacFonts.SFPro()
-            )
             MacButton(
                 onClick = {
                     text = "Hello, Desktop!"
@@ -50,24 +42,24 @@ fun main() = Window {
                     ),
                 )
             }
-//            var isChecked by remember { mutableStateOf(false) }
-//            Checkbox(
-//                isChecked,
-//                {
-//                    isChecked = it
-//                }
-//            )
+            var isChecked by remember { mutableStateOf(false) }
+            Checkbox(
+                isChecked,
+                {
+                    isChecked = it
+                }
+            )
 
-//            var textFieldValue by remember { mutableStateOf("Hi") }
-//            OutlinedTextField(
-//                textFieldValue,
-//                { textFieldValue = it }
-//            )
-//            var textFieldValue2 by remember { mutableStateOf("Hi") }
-//            OutlinedTextField(
-//                textFieldValue2,
-//                { textFieldValue2 = it }
-//            )
+            var textFieldValue by remember { mutableStateOf("Hi") }
+            OutlinedTextField(
+                textFieldValue,
+                { textFieldValue = it }
+            )
+            var textFieldValue2 by remember { mutableStateOf("Hi") }
+            MacOutlinedTextField(
+                textFieldValue2,
+                { textFieldValue2 = it }
+            )
 
             val items = listOf("Blue", "Red", "Green")
             var showMenu by remember { mutableStateOf(false) }
@@ -84,21 +76,24 @@ fun main() = Window {
                             modifier = Modifier.padding(2.dp),
                             style = TextStyle(fontSize = 13.sp)
                         )
-                        MacButton(
-                            onClick = { showMenu = true },
-                            contentPadding = PaddingValues(0.dp),
-                            modifier = Modifier.size(16.dp)
+                        Surface(
+                            modifier = Modifier.size(16.dp),
+                            color = MaterialTheme.colors.primary,
+                            shape = MaterialTheme.shapes.small
                         ) {
                             Text(
-                                "\uDBC0\uDD87\n\uDBC0\uDD88",
-                                style = TextStyle(fontSize = 8.sp, fontWeight = W700, lineHeight = 6.sp)
+                                "\uDBC0\uDD87\uDBC0\uDD88",
+                                fontSize = 8.sp,
+                                fontWeight = W700,
+                                lineHeight = 6.sp,
+                                textAlign = TextAlign.Center
                             )
                         }
                     }
                 },
                 expanded = showMenu,
                 onDismissRequest = { showMenu = false },
-                Modifier.border(1.dp, MacColors.lightGray, RoundedCornerShape(4.dp)),
+                Modifier.border(1.dp, MacTheme.colors.border, RoundedCornerShape(4.dp)),
                 dropdownOffset = Position((-100).dp, (-20).dp) // TODO get exact widths
             ) {
                 items.forEachIndexed { index, string ->
@@ -108,7 +103,7 @@ fun main() = Window {
                             selectedIndex = index
                             showMenu = false
                         },
-                        modifier = Modifier.background(if (isMouseHovering) MacColors.lightBlue else Color.Unspecified)
+                        modifier = Modifier.background(if (isMouseHovering) MacTheme.colors.highlight else Color.Unspecified)
                             .height(20.dp)
                             .pointerMoveFilter(
                                 onEnter = {
@@ -122,7 +117,7 @@ fun main() = Window {
                             )
                     ) {
                         Text(
-                            text = string,
+                            text = (if (index == selectedIndex) "􀆅 " else "     ") + string,
                             color = if (isMouseHovering) Color.White else Color.Unspecified,
                             style = TextStyle(fontSize = 13.sp)
 

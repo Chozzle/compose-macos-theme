@@ -1,23 +1,31 @@
+import androidx.compose.animation.core.*
 import androidx.compose.foundation.*
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.RowScope
-import androidx.compose.foundation.layout.sizeIn
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.Providers
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.ContentDrawScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.layout.*
+import androidx.compose.ui.unit.*
+
+object MacTheme {
+
+    @Composable
+    val colors: MacColors
+        get() = AmbientMacColors.current
+}
+
+private val AmbientMacColors = staticAmbientOf<MacColors> {
+    error("No MacColors provided")
+}
 
 @Composable
 fun MacTheme(
     colors: Colors = lightColors(
-        primary = MacColors.blue,
+        primary = macLightPalette.primary,
     ),
     typography: Typography = Typography(defaultFontFamily = MacFonts.SFPro()),
     shapes: Shapes = Shapes(
@@ -27,14 +35,16 @@ fun MacTheme(
     ),
     content: @Composable () -> Unit
 ) {
-    MaterialTheme(colors, typography, shapes) {
-        val indicationFactory: @Composable () -> Indication = {
-            MacIndication
+    Providers(AmbientMacColors provides macLightPalette) {
+        MaterialTheme(colors, typography, shapes) {
+            val indicationFactory: @Composable () -> Indication = {
+                MacIndication
+            }
+            Providers(
+                AmbientIndication provides indicationFactory,
+                content = content
+            )
         }
-        Providers(
-            AmbientIndication provides indicationFactory,
-            content = content
-        )
     }
 }
 

@@ -11,7 +11,7 @@ object MacFonts {
     fun SFPro() = fontFamily(
         font(
             "SF Pro Regular",
-            "${fontDirectory}/SF-Pro-Display-Regular.otf",
+            "${fontDirectory}/SF-Pro-Display-Heavy.otf",
             FontWeight.Normal,
             FontStyle.Normal
         ),
