@@ -116,7 +116,6 @@ fun MacOutlinedTextField(
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
     textStyle: TextStyle = AmbientTextStyle.current.copy(fontSize = 13.sp),
-    label: @Composable (() -> Unit)? = null,
     placeholder: @Composable (() -> Unit)? = null,
     leadingIcon: @Composable (() -> Unit)? = null,
     trailingIcon: @Composable (() -> Unit)? = null,
@@ -147,7 +146,7 @@ fun MacOutlinedTextField(
         modifier = modifier,
         singleLine = singleLine,
         textStyle = textStyle,
-        label = label,
+        label = null,
         placeholder = placeholder,
         leading = leadingIcon,
         trailing = trailingIcon,
@@ -584,7 +583,7 @@ private fun Modifier.drawOutlinedBorder(
     val dy = if (radius > height / 2) height / 2 else radius
 
     val path = Path().apply {
-        // width and height minus corners and line width
+        // width and height minus corners plus line width
         val effectiveWidth: Float = width - 2 * dx + lineWidth
         val effectiveHeight: Float = height - 2 * dy + lineWidth
 
@@ -645,5 +644,5 @@ private class OutlinedBorderParams(
 }
 
 // TODO(b/158077409) support shape in OutlinedTextField
-private val OutlinedTextFieldCornerRadius = 4.dp
-private val OutlinedTextFieldInnerPadding = 4.dp
+private val OutlinedTextFieldCornerRadius = 8.dp
+private val OutlinedTextFieldInnerPadding = 8.dp

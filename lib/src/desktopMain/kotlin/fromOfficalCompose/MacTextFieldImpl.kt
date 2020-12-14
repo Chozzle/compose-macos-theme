@@ -181,7 +181,7 @@ internal fun TextFieldImpl(
 
     ) { labelProgress, animatedLabelColor, indicatorWidth, indicatorColor, placeholderAlpha ->
 
-        val leadingColor = inactiveColor.applyAlpha(alpha = TrailingLeadingAlpha)
+        val leadingColor = MacTheme.colors.primary50
         val trailingColor = if (isErrorValue) errorColor else leadingColor
 
         val decoratedLabel: @Composable (() -> Unit)? =
@@ -206,7 +206,7 @@ internal fun TextFieldImpl(
                     Box(modifier.alpha(placeholderAlpha)) {
                         Decoration(
                             contentColor = inactiveColor,
-                            typography = MaterialTheme.typography.subtitle1,
+                            typography = textStyle,
                             contentAlpha = ContentAlpha.medium,
                             content = placeholder
                         )
@@ -434,12 +434,12 @@ private object TextFieldTransitionScope {
     private fun TransitionSpec<InputPhase>.indicatorTransition(showFlash: ShowFlash? = null) {
         showFlash?.let {
             IndicatorWidthProp using keyframes {
-                durationMillis = 200
+                durationMillis = AnimationDuration
                 IndicatorFocusedWidth * 6 at 0 with LinearEasing
                 // By default transitions to end state
             }
             IndicatorColorProp using keyframes {
-                durationMillis = 200
+                durationMillis = AnimationDuration
                 showFlash.initialActiveColor at 0 with FastOutLinearInEasing
                 // By default transitions to end state
             }
@@ -495,12 +495,12 @@ private const val PlaceholderAnimationDuration = 83
 private const val PlaceholderAnimationDelayOrDuration = 67
 
 private val IndicatorUnfocusedWidth = 1.dp
-internal val IndicatorFocusedWidth = 3.dp
+internal val IndicatorFocusedWidth = 4.dp
 private const val TrailingLeadingAlpha = 0.54f
 private val TextFieldMinHeight = 26.dp
 private val TextFieldMinWidth = 160.dp
 internal val TextFieldPadding = 5.dp
-internal val HorizontalIconPadding = 12.dp
+internal val HorizontalIconPadding = 6.dp
 
 // Filled text field uses 42% opacity to meet the contrast requirements for accessibility reasons
 private const val IndicatorInactiveAlpha = 0.42f

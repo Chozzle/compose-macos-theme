@@ -29,6 +29,7 @@ fun main() = Window {
             verticalArrangement = Arrangement.spacedBy(16.dp),
             modifier = Modifier.padding(16.dp)
         ) {
+            Text("COMPLETED:")
             MacButton(
                 onClick = {
                     text = "Hello, Desktop!"
@@ -42,13 +43,6 @@ fun main() = Window {
                     ),
                 )
             }
-            var isChecked by remember { mutableStateOf(false) }
-            Checkbox(
-                isChecked,
-                {
-                    isChecked = it
-                }
-            )
 
             var textFieldValue by remember { mutableStateOf("Hi") }
             OutlinedTextField(
@@ -58,12 +52,25 @@ fun main() = Window {
             var textFieldValue2 by remember { mutableStateOf("Hi") }
             MacOutlinedTextField(
                 textFieldValue2,
-                { textFieldValue2 = it }
+                { textFieldValue2 = it },
+                leadingIcon = { Text("􀊫") },
+                placeholder = { Text("Search")}
             )
 
             val items = listOf("Blue", "Red", "Green")
             var showMenu by remember { mutableStateOf(false) }
             var selectedIndex by remember { mutableStateOf(0) }
+
+            Box(Modifier.height(20.dp))
+            Text("TODO:")
+
+            var isChecked by remember { mutableStateOf(false) }
+            Checkbox(
+                isChecked,
+                {
+                    isChecked = it
+                }
+            )
 
             DropdownMenu(
                 toggle = {
