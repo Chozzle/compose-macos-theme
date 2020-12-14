@@ -7,11 +7,11 @@ import androidx.compose.ui.text.platform.font
 object MacFonts {
     val fontDirectory = "font"
 
-    @Composable
+    //@Composable
     fun SFPro() = fontFamily(
         font(
             "SF Pro Regular",
-            "${fontDirectory}/SF-Pro-Display-Heavy.otf",
+            "${fontDirectory}/SF-Pro-Display-Regular.otf",
             FontWeight.Normal,
             FontStyle.Normal
         ),

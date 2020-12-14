@@ -22,6 +22,7 @@ import androidx.compose.foundation.Interaction
 import androidx.compose.foundation.InteractionState
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
@@ -46,11 +47,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.unit.Constraints
-import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.LayoutDirection
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.offset
+import androidx.compose.ui.unit.*
 import kotlin.math.max
 import kotlin.math.roundToInt
 
@@ -114,11 +111,11 @@ import kotlin.math.roundToInt
  * used when [isErrorValue] is set to true
  */
 @Composable
-fun OutlinedTextField(
+fun MacOutlinedTextField(
     value: String,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
-    textStyle: TextStyle = AmbientTextStyle.current,
+    textStyle: TextStyle = AmbientTextStyle.current.copy(fontSize = 13.sp),
     label: @Composable (() -> Unit)? = null,
     placeholder: @Composable (() -> Unit)? = null,
     leadingIcon: @Composable (() -> Unit)? = null,
@@ -131,8 +128,8 @@ fun OutlinedTextField(
     onImeActionPerformed: (ImeAction, SoftwareKeyboardController?) -> Unit = { _, _ -> },
     onTextInputStarted: (SoftwareKeyboardController) -> Unit = {},
     interactionState: InteractionState = remember { InteractionState() },
-    activeColor: Color = MaterialTheme.colors.primary,
-    inactiveColor: Color = MaterialTheme.colors.onSurface,
+    activeColor: Color = MacTheme.colors.highlight,
+    inactiveColor: Color = MacTheme.colors.borderDark,
     errorColor: Color = MaterialTheme.colors.error
 ) {
     var textFieldValueState by remember { mutableStateOf(TextFieldValue(text = value)) }
@@ -229,7 +226,7 @@ fun OutlinedTextField(
  * used when [isErrorValue] is set to true
  */
 @Composable
-fun OutlinedTextField(
+fun MacOutlinedTextField(
     value: TextFieldValue,
     onValueChange: (TextFieldValue) -> Unit,
     modifier: Modifier = Modifier,
@@ -588,11 +585,11 @@ private fun Modifier.drawOutlinedBorder(
 
     val path = Path().apply {
         // width and height minus corners and line width
-        val effectiveWidth: Float = width - 2 * dx - lineWidth
-        val effectiveHeight: Float = height - 2 * dy - lineWidth
+        val effectiveWidth: Float = width - 2 * dx + lineWidth
+        val effectiveHeight: Float = height - 2 * dy + lineWidth
 
         // top-right corner
-        moveTo(width - lineWidth / 2, dy + lineWidth / 2)
+        moveTo(width + lineWidth / 2, dy - lineWidth / 2)
         relativeQuadraticBezierTo(0f, -dy, -dx, -dy)
 
         // top line with gap

@@ -18,11 +18,7 @@ package fromOfficalCompose
 
 import androidx.compose.animation.ColorPropKey
 import androidx.compose.animation.DpPropKey
-import androidx.compose.animation.core.FloatPropKey
-import androidx.compose.animation.core.LinearEasing
-import androidx.compose.animation.core.TransitionSpec
-import androidx.compose.animation.core.transitionDefinition
-import androidx.compose.animation.core.tween
+import androidx.compose.animation.core.*
 import androidx.compose.animation.transition
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.InteractionState
@@ -132,7 +128,7 @@ internal fun TextFieldImpl(
                 modifier = tagModifier.defaultMinSizeConstraints(minWidth = TextFieldMinWidth),
                 textStyle = mergedTextStyle,
                 onValueChange = onValueChange,
-                cursorColor = if (isErrorValue) errorColor else activeColor,
+                cursorColor = if (isErrorValue) errorColor else MaterialTheme.colors.onSurface,
                 visualTransformation = visualTransformation,
                 keyboardOptions = keyboardOptions,
                 maxLines = maxLines,
@@ -417,11 +413,11 @@ private object TextFieldTransitionScope {
             indicatorTransition()
         }
         transition(fromState = InputPhase.UnfocusedNotEmpty, toState = InputPhase.Focused) {
-            indicatorTransition()
+            indicatorTransition(ShowFlash(initialActiveColor = activeColor.copy(alpha = 0f)))
         }
         transition(fromState = InputPhase.UnfocusedEmpty, toState = InputPhase.Focused) {
             labelTransition()
-            indicatorTransition()
+            indicatorTransition(ShowFlash(initialActiveColor = activeColor.copy(alpha = 0f)))
             placeholderAppearTransition()
         }
         // below states are needed to support case when a single state is used to control multiple
@@ -435,9 +431,22 @@ private object TextFieldTransitionScope {
         }
     }
 
-    private fun TransitionSpec<InputPhase>.indicatorTransition() {
-        IndicatorColorProp using tween(durationMillis = AnimationDuration)
-        IndicatorWidthProp using tween(durationMillis = AnimationDuration)
+    private fun TransitionSpec<InputPhase>.indicatorTransition(showFlash: ShowFlash? = null) {
+        showFlash?.let {
+            IndicatorWidthProp using keyframes {
+                durationMillis = 200
+                IndicatorFocusedWidth * 6 at 0 with LinearEasing
+                // By default transitions to end state
+            }
+            IndicatorColorProp using keyframes {
+                durationMillis = 200
+                showFlash.initialActiveColor at 0 with FastOutLinearInEasing
+                // By default transitions to end state
+            }
+        } ?: run {
+            IndicatorColorProp using tween(durationMillis = AnimationDuration)
+            IndicatorWidthProp using tween(durationMillis = AnimationDuration)
+        }
     }
 
     private fun TransitionSpec<InputPhase>.labelTransition() {
@@ -475,6 +484,8 @@ private enum class InputPhase {
     UnfocusedNotEmpty
 }
 
+private data class ShowFlash(val initialActiveColor: Color)
+
 internal const val TextFieldId = "TextField"
 internal const val PlaceholderId = "Hint"
 internal const val LabelId = "Label"
@@ -484,11 +495,11 @@ private const val PlaceholderAnimationDuration = 83
 private const val PlaceholderAnimationDelayOrDuration = 67
 
 private val IndicatorUnfocusedWidth = 1.dp
-private val IndicatorFocusedWidth = 3.dp
+internal val IndicatorFocusedWidth = 3.dp
 private const val TrailingLeadingAlpha = 0.54f
-private val TextFieldMinHeight = 56.dp
-private val TextFieldMinWidth = 280.dp
-internal val TextFieldPadding = 16.dp
+private val TextFieldMinHeight = 26.dp
+private val TextFieldMinWidth = 160.dp
+internal val TextFieldPadding = 5.dp
 internal val HorizontalIconPadding = 12.dp
 
 // Filled text field uses 42% opacity to meet the contrast requirements for accessibility reasons
