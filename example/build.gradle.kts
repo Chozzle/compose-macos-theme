@@ -4,7 +4,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     kotlin("jvm")
-    id("org.jetbrains.compose") version "0.3.0-build133"
+    id("org.jetbrains.compose")
 }
 
 group = "me.carsonholzheimer"
@@ -23,6 +23,7 @@ dependencies {
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.6.0")
     implementation(compose.desktop.currentOs)
     implementation(project(":lib"))
+    implementation(kotlin("stdlib-jdk8"))
 }
 
 tasks.test {
@@ -41,4 +42,12 @@ compose.desktop {
             packageName = "compose-macos-theme"
         }
     }
+}
+val compileKotlin: KotlinCompile by tasks
+compileKotlin.kotlinOptions {
+    jvmTarget = "1.8"
+}
+val compileTestKotlin: KotlinCompile by tasks
+compileTestKotlin.kotlinOptions {
+    jvmTarget = "1.8"
 }

@@ -1,28 +1,42 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
-plugins {
-    kotlin("jvm") version "1.4.20"
-}
 
 group = "me.carsonholzheimer"
 version = "1.0"
 
-repositories {
-    jcenter()
-    mavenCentral()
-    jcenter()
+buildscript {
+    repositories {
+        // TODO: remove after new build is published
+        mavenLocal()
+        google()
+        maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
+        jcenter()
+    }
+
+    dependencies {
+        // __LATEST_COMPOSE_RELEASE_VERSION__
+        classpath("org.jetbrains.compose:compose-gradle-plugin:0.3.0-build133")
+        classpath("com.android.tools.build:gradle:4.0.1")
+        classpath(kotlin("gradle-plugin", version = "1.4.21"))
+    }
 }
 
-dependencies {
-    testImplementation(kotlin("test-junit5"))
-    testImplementation("org.junit.jupiter:junit-jupiter-api:5.6.0")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.6.0")
+allprojects {
+    repositories {
+        google()
+        maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
+        jcenter()
+    }
 }
 
-tasks.test {
-    useJUnitPlatform()
-}
+//dependencies {
+//    testImplementation(kotlin("test-junit5"))
+//    testImplementation("org.junit.jupiter:junit-jupiter-api:5.6.0")
+//    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.6.0")
+//}
 
-tasks.withType<KotlinCompile> {
-    kotlinOptions.jvmTarget = "1.8"
-}
+//tasks.test {
+//    useJUnitPlatform()
+//}
+
+//tasks.withType<KotlinCompile> {
+//    kotlinOptions.jvmTarget = "1.8"
+//}

@@ -11,52 +11,52 @@ object MacFonts {
     fun SFPro() = fontFamily(
         font(
             "SF Pro Regular",
-            "${fontDirectory}/SF-Pro-Display-Regular.otf",
+            "${fontDirectory}/sf_pro_display_regular.otf",
             FontWeight.Normal,
             FontStyle.Normal
         ),
         font(
             "SF Pro Regular Italic",
-            "${fontDirectory}/SF-Pro-Display-RegularItalic.otf",
+            "${fontDirectory}/sf_pro_display_regularitalic.otf",
             FontWeight.Normal,
             FontStyle.Italic
         ),
 
         font(
             "SF Pro Bold",
-            "${fontDirectory}/SF-Pro-Display-Bold.otf",
+            "${fontDirectory}/sf_pro_display_bold.otf",
             FontWeight.Bold,
             FontStyle.Normal
         ),
         font(
             "SF Pro Bold Italic",
-            "${fontDirectory}/SF-Pro-Display-BoldItalic.otf",
+            "${fontDirectory}/sf_pro_display_bolditalic.otf",
             FontWeight.Bold,
             FontStyle.Italic
         ),
 
         font(
             "SF Pro Extra Bold ",
-            "${fontDirectory}/SF-Pro-Display-Heavy.otf",
+            "${fontDirectory}/sf_pro_display_heavy.otf",
             FontWeight.ExtraBold,
             FontStyle.Normal
         ),
         font(
             "SF Pro Extra Bold Italic",
-            "${fontDirectory}/SF-Pro-Display-HeavyItalic.otf",
+            "${fontDirectory}/sf_pro_display_heavyitalic.otf",
             FontWeight.ExtraBold,
             FontStyle.Italic
         ),
 
         font(
             "SF Pro Medium",
-            "${fontDirectory}/SF-Pro-Display-Medium.otf",
+            "${fontDirectory}/sf_pro_display_medium.otf",
             FontWeight.Medium,
             FontStyle.Normal
         ),
         font(
             "SF Pro Medium Italic",
-            "${fontDirectory}/SF-Pro-Display-MediumItalic.otf",
+            "${fontDirectory}/sf_pro_display_mediumitalic.otf",
             FontWeight.Medium,
             FontStyle.Italic
         )

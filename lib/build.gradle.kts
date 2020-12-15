@@ -1,9 +1,9 @@
 import org.jetbrains.compose.compose
 
 plugins {
-    //id("com.android.library") // Cannot get this to build
     kotlin("multiplatform")
-    id("org.jetbrains.compose") version "0.3.0-build133"
+    id("com.android.library")
+    id("org.jetbrains.compose")
 }
 
 group = "me.carsonholzheimer"
@@ -16,16 +16,31 @@ repositories {
     jcenter()
 }
 
+android {
+    compileSdkVersion(29)
+    defaultConfig {
+        minSdkVersion(21)
+        targetSdkVersion(29)
+    }
+    sourceSets {
+        named("main") {
+            manifest.srcFile("src/androidMain/AndroidManifest.xml")
+            res.srcDirs("src/androidMain/res", "src/commonMain/resources")
+        }
+    }
+}
+
 kotlin {
+    android()
     jvm("desktop")
-    //android()
+
     sourceSets {
         val commonMain by getting {
             dependencies {
                 implementation(kotlin("stdlib-common"))
                 implementation(compose.runtime)
                 implementation(compose.foundation)
-                implementation(compose.material) // Maybe not needed?
+                implementation(compose.material)
                 implementation(compose.materialIconsExtended) // Probably not needed
             }
         }
@@ -40,14 +55,14 @@ kotlin {
                 implementation(compose.desktop.common)
             }
         }
-//        val androidMain by getting {
-//            dependencies {
-//                implementation("com.google.android.material:material:1.2.1")
-//            }
-//        }
+        val androidMain by getting {
+            dependencies {
+                implementation("com.google.android.material:material:1.2.1")
+            }
+        }
     }
 }
-//
+
 //android {
 //    compileSdkVersion(30)
 //
