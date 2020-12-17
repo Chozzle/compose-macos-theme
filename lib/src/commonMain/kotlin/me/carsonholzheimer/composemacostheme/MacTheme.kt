@@ -1,3 +1,5 @@
+package me.carsonholzheimer.composemacostheme
+
 import androidx.compose.foundation.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -16,7 +18,7 @@ object MacTheme {
 }
 
 private val AmbientMacColors = staticAmbientOf<MacColors> {
-    error("No MacColors provided")
+    error("No me.carsonholzheimer.composemacostheme.MacColors provided")
 }
 
 @Composable
@@ -24,7 +26,7 @@ fun MacTheme(
     colors: Colors = lightColors(
         primary = macLightPalette.primary,
     ),
-    typography: Typography = Typography(defaultFontFamily = MacFonts.SFPro()),
+    typography: Typography = Typography(/*defaultFontFamily = MacFonts.SFPro()*/),
     shapes: Shapes = Shapes(
         small = RoundedCornerShape(6.dp),
         medium = RoundedCornerShape(11.dp),

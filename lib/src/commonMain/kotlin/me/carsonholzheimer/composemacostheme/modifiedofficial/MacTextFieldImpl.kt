@@ -14,13 +14,20 @@
  * limitations under the License.
  */
 
-package fromOfficalCompose
+package me.carsonholzheimer.composemacostheme.modifiedofficial
 
 import androidx.compose.animation.ColorPropKey
 import androidx.compose.animation.DpPropKey
-import androidx.compose.animation.core.*
+import androidx.compose.animation.core.FastOutLinearInEasing
+import androidx.compose.animation.core.FloatPropKey
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.TransitionSpec
+import androidx.compose.animation.core.keyframes
+import androidx.compose.animation.core.transitionDefinition
+import androidx.compose.animation.core.tween
 import androidx.compose.animation.transition
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.Interaction
 import androidx.compose.foundation.InteractionState
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -29,23 +36,21 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.preferredSizeIn
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.*
+import androidx.compose.material.AmbientContentAlpha
+import androidx.compose.material.AmbientContentColor
+import androidx.compose.material.ContentAlpha
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.ProvideTextStyle
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Providers
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.focus.ExperimentalFocus
-import androidx.compose.ui.focus.FocusRequester
-import androidx.compose.ui.focus.isFocused
-import androidx.compose.ui.focusObserver
-import androidx.compose.ui.focusRequester
+import androidx.compose.ui.focus.FocusReference
+import androidx.compose.ui.focus.focusReference
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.graphics.useOrElse
+import androidx.compose.ui.graphics.takeOrElse
 import androidx.compose.ui.layout.LayoutModifier
 import androidx.compose.ui.layout.Measurable
 import androidx.compose.ui.layout.MeasureResult
@@ -65,6 +70,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.constrainWidth
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.offset
+import me.carsonholzheimer.composemacostheme.MacTheme
 
 internal enum class TextFieldType {
     Filled, Outlined
@@ -74,10 +80,7 @@ internal enum class TextFieldType {
  * Implementation of the [TextField] and [OutlinedTextField]
  */
 @Composable
-@OptIn(
-    ExperimentalFocus::class,
-    ExperimentalFoundationApi::class
-)
+@OptIn(ExperimentalFoundationApi::class)
 internal fun TextFieldImpl(
     type: TextFieldType,
     value: TextFieldValue,
@@ -103,21 +106,21 @@ internal fun TextFieldImpl(
     shape: Shape
 ) {
     // If color is not provided via the text style, use content color as a default
-    val textColor = textStyle.color.useOrElse {
+    val textColor = textStyle.color.takeOrElse {
         AmbientContentColor.current.copy(alpha = AmbientContentAlpha.current)
     }
     val mergedTextStyle = textStyle.merge(TextStyle(color = textColor))
 
     val keyboardController: Ref<SoftwareKeyboardController> = remember { Ref() }
 
-    var isFocused by remember { mutableStateOf(false) }
+    val isFocused = interactionState.contains(Interaction.Focused)
     val inputState = when {
         isFocused -> InputPhase.Focused
         value.text.isEmpty() -> InputPhase.UnfocusedEmpty
         else -> InputPhase.UnfocusedNotEmpty
     }
 
-    val decoratedTextField = @Composable { tagModifier: Modifier ->
+    val decoratedTextField: @Composable (Modifier) -> Unit = @Composable { tagModifier ->
         Decoration(
             contentColor = inactiveColor,
             typography = MaterialTheme.typography.subtitle1,
@@ -132,6 +135,7 @@ internal fun TextFieldImpl(
                 visualTransformation = visualTransformation,
                 keyboardOptions = keyboardOptions,
                 maxLines = maxLines,
+                interactionState = interactionState,
                 onImeActionPerformed = {
                     onImeActionPerformed(it, keyboardController.value)
                 },
@@ -144,17 +148,16 @@ internal fun TextFieldImpl(
         }
     }
 
-    val focusRequester = FocusRequester()
+    val focusReference = FocusReference()
     val textFieldModifier = modifier
-        .focusRequester(focusRequester)
-        .focusObserver { isFocused = it.isFocused }
+        .focusReference(focusReference)
         .let {
             it.clickable(interactionState = interactionState, indication = null) {
-                focusRequester.requestFocus()
+                focusReference.requestFocus()
                 // TODO(b/163109449): Showing and hiding keyboard should be handled by BaseTextField.
                 //  The requestFocus() call here should be enough to trigger the software keyboard.
                 //  Investiate why this is needed here. If it is really needed, instead of doing
-                //  this in the onClick callback, we should move this logic to the focusObserver
+                //  this in the onClick callback, we should move this logic to onFocusChanged
                 //  so that it can show or hide the keyboard based on the focus state.
                 keyboardController.value?.showSoftwareKeyboard()
             }
@@ -228,6 +231,7 @@ internal fun TextFieldImpl(
                     decoratedLabel = decoratedLabel,
                     leading = leading,
                     trailing = trailing,
+                    singleLine = singleLine,
                     leadingColor = leadingColor,
                     trailingColor = trailingColor,
                     labelProgress = labelProgress,
@@ -251,6 +255,7 @@ internal fun TextFieldImpl(
                     decoratedLabel = decoratedLabel,
                     leading = leading,
                     trailing = trailing,
+                    singleLine = singleLine,
                     leadingColor = leadingColor,
                     trailingColor = trailingColor,
                     labelProgress = labelProgress,

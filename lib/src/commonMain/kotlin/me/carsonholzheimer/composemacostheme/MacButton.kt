@@ -1,3 +1,5 @@
+package me.carsonholzheimer.composemacostheme
+
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.RowScope
@@ -5,9 +7,7 @@ import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
-import androidx.compose.ui.ContentDrawScope
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp

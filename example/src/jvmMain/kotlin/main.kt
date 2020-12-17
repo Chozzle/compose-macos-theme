@@ -1,23 +1,32 @@
-package me.carsonholzheimer.composemacosthemeexample
 
-import MacTheme
-import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.Composable
-import androidx.compose.ui.platform.setContent
+import androidx.compose.desktop.Window
+import androidx.compose.foundation.*
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.*
+import androidx.compose.material.Text
+import androidx.compose.runtime.*
+import androidx.compose.ui.Modifier
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.pointerMoveFilter
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.font.FontWeight.Companion.W700
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.Position
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import me.carsonholzheimer.composemacostheme.MacButton
+import me.carsonholzheimer.composemacostheme.MacTheme
+import me.carsonholzheimer.composemacostheme.modifiedofficial.MacOutlinedTextField
 
-class MainActivity : AppCompatActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
 
-        setContent {
-            MainView()
-        }
-    }
-}
+fun main() = Window {
+    var text by remember { mutableStateOf("Hello, World!") }
 
-@Composable
-fun MainView() {
     MacTheme {
         Column(
             verticalArrangement = Arrangement.spacedBy(16.dp),

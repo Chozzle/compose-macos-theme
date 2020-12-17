@@ -1,4 +1,3 @@
-
 group = "me.carsonholzheimer"
 version = "1.0"
 
@@ -13,7 +12,7 @@ buildscript {
 
     dependencies {
         // __LATEST_COMPOSE_RELEASE_VERSION__
-        classpath("org.jetbrains.compose:compose-gradle-plugin:0.3.0-build133")
+        classpath("org.jetbrains.compose:compose-gradle-plugin:0.3.0-build135")
         classpath("com.android.tools.build:gradle:4.0.1")
         classpath(kotlin("gradle-plugin", version = "1.4.21"))
     }
@@ -31,12 +30,4 @@ allprojects {
 //    testImplementation(kotlin("test-junit5"))
 //    testImplementation("org.junit.jupiter:junit-jupiter-api:5.6.0")
 //    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.6.0")
-//}
-
-//tasks.test {
-//    useJUnitPlatform()
-//}
-
-//tasks.withType<KotlinCompile> {
-//    kotlinOptions.jvmTarget = "1.8"
 //}

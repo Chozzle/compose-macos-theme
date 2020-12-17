@@ -1,3 +1,5 @@
+package me.carsonholzheimer.composemacostheme
+
 import androidx.compose.ui.graphics.Color
 
 data class MacColors(
