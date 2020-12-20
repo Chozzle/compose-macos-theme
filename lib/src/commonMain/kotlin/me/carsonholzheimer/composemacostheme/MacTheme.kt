@@ -56,7 +56,7 @@ private object MacIndication : Indication {
         override fun ContentDrawScope.drawIndication(interactionState: InteractionState) {
             drawContent()
             if (interactionState.contains(Interaction.Pressed)) {
-                drawRect(color = Color.Black.copy(alpha = 0.1f), size = size)
+                drawRect(color = Color.Black.copy(alpha = 0.07f), size = size)
             }
         }
     }

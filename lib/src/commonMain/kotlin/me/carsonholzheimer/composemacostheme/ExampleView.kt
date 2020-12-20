@@ -43,30 +43,39 @@ fun ExampleView() {
             }
 
             var textFieldValue by remember { mutableStateOf("Hi") }
-            OutlinedTextField(
+            MacOutlinedTextField(
                 textFieldValue,
-                { textFieldValue = it }
+                { textFieldValue = it },
+                leadingIcon = { Text("􀊫") },
+                placeholder = { Text("Search") }
             )
             var textFieldValue2 by remember { mutableStateOf("Hi") }
             MacOutlinedTextField(
                 textFieldValue2,
                 { textFieldValue2 = it },
                 leadingIcon = { Text("􀊫") },
-                placeholder = { Text("Search") }
+                trailingIcon = {
+                    Text("\uDBC0\uDD84", fontSize = 10.sp, fontWeight = FontWeight.W700)
+                               },
+                placeholder = { Text("Curmudgeons") }
             )
+            var isChecked by remember { mutableStateOf(false) }
 
-            val items = listOf("Blue", "Red", "Green")
-            var showMenu by remember { mutableStateOf(false) }
-            var selectedIndex by remember { mutableStateOf(0) }
+            MacCheckbox(
+                isChecked,
+                {
+                    isChecked = it
+                }
+            )
 
             Box(Modifier.height(20.dp))
             Text("TODO:")
 
-            var isChecked by remember { mutableStateOf(false) }
+            var isChecked2 by remember { mutableStateOf(false) }
             Checkbox(
-                isChecked,
+                isChecked2,
                 {
-                    isChecked = it
+                    isChecked2 = it
                 }
             )
 

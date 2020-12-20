@@ -19,8 +19,10 @@ package me.carsonholzheimer.composemacostheme.modifiedofficial
 import androidx.compose.animation.ColorPropKey
 import androidx.compose.animation.DpPropKey
 import androidx.compose.animation.core.FastOutLinearInEasing
+import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.FloatPropKey
 import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.TransitionSpec
 import androidx.compose.animation.core.keyframes
 import androidx.compose.animation.core.transitionDefinition
