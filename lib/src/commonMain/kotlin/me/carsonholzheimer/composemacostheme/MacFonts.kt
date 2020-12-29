@@ -1,12 +1,15 @@
+package me.carsonholzheimer.composemacostheme
+
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.font.fontFamily
-import androidx.compose.ui.text.platform.font
 
 object MacFonts {
     val fontDirectory = "font"
 
-    //@Composable
+    @Composable
     fun SFPro() = fontFamily(
         font(
             "SF Pro Regular",
@@ -61,3 +64,5 @@ object MacFonts {
         )
     )
 }
+
+expect fun font(alias: String, path: String, weight: FontWeight, style: FontStyle): Font

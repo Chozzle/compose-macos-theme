@@ -25,12 +25,11 @@ import me.carsonholzheimer.composemacostheme.modifiedofficial.MacOutlinedTextFie
 
 
 fun main() = Window {
-
     MacTheme {
         Column {
             ExampleView()
 
-            val items = listOf("Red", "Orange", "Yellow", "Green", "Blue", "Indigo", "Violet")
+            /*val items = listOf("Red", "Orange", "Yellow", "Green", "Blue", "Indigo", "Violet")
             var showMenu by remember { mutableStateOf(false) }
             var selectedIndex by remember { mutableStateOf(0) }
             DropdownMenu(
@@ -92,7 +91,7 @@ fun main() = Window {
                         )
                     }
                 }
-            }
+            }*/
         }
     }
 }

@@ -26,7 +26,7 @@ fun MacTheme(
     colors: Colors = lightColors(
         primary = macLightPalette.primary,
     ),
-    typography: Typography = Typography(/*defaultFontFamily = MacFonts.SFPro()*/),
+    typography: Typography = Typography(defaultFontFamily = MacFonts.SFPro()),
     shapes: Shapes = Shapes(
         small = RoundedCornerShape(6.dp),
         medium = RoundedCornerShape(11.dp),

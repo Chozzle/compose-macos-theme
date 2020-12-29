@@ -29,6 +29,12 @@ compose.desktop {
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
             packageName = "compose-macos-theme-example"
+
+            windows {
+                menu = true
+                // see https://wixtoolset.org/documentation/manual/v3/howtos/general/generate_guids.html
+                upgradeUuid = "AF792DA6-2EA3-495A-95E5-C3C6CBCB9948"
+            }
         }
     }
 }
