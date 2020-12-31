@@ -21,6 +21,8 @@ import androidx.compose.ui.unit.sp
 import me.carsonholzheimer.composemacostheme.ExampleView
 import me.carsonholzheimer.composemacostheme.MacButton
 import me.carsonholzheimer.composemacostheme.MacTheme
+import me.carsonholzheimer.composemacostheme.modifiedofficial.MacDropdownMenu
+import me.carsonholzheimer.composemacostheme.modifiedofficial.MacDropdownMenuItem
 import me.carsonholzheimer.composemacostheme.modifiedofficial.MacOutlinedTextField
 
 
@@ -29,10 +31,10 @@ fun main() = Window {
         Column {
             ExampleView()
 
-            /*val items = listOf("Red", "Orange", "Yellow", "Green", "Blue", "Indigo", "Violet")
+            val items = listOf("Red", "Orange", "Yellow", "Green", "Blue", "Indigo", "Violet")
             var showMenu by remember { mutableStateOf(false) }
             var selectedIndex by remember { mutableStateOf(0) }
-            DropdownMenu(
+            MacDropdownMenu(
                 toggle = {
                     Row(
                         modifier = Modifier.clickable(onClick = { showMenu = true }),
@@ -65,7 +67,7 @@ fun main() = Window {
             ) {
                 items.forEachIndexed { index, string ->
                     var isMouseHovering by remember { mutableStateOf(false) }
-                    DropdownMenuItem(
+                    MacDropdownMenuItem(
                         onClick = {
                             selectedIndex = index
                             showMenu = false
@@ -84,14 +86,15 @@ fun main() = Window {
                             )
                     ) {
                         Text(
-                            text = (if (index == selectedIndex) "􀆅 " else "     ") + string,
+                            text = (if (index == selectedIndex) "\uDBC0\uDD85 " else "     ") + string,
                             color = if (isMouseHovering) Color.White else Color.Unspecified,
-                            style = TextStyle(fontSize = 13.sp)
+                            fontSize = 13.sp,
+                            fontWeight = FontWeight.W800
 
                         )
                     }
                 }
-            }*/
+            }
         }
     }
 }

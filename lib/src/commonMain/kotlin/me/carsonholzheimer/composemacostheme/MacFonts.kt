@@ -65,4 +65,5 @@ object MacFonts {
     )
 }
 
+@Composable
 expect fun font(alias: String, path: String, weight: FontWeight, style: FontStyle): Font
