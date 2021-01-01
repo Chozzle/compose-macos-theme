@@ -69,7 +69,6 @@ fun ExampleView() {
             )
 
             Box(Modifier.height(20.dp))
-            Text("TODO:")
 
             var isChecked2 by remember { mutableStateOf(false) }
             Checkbox(

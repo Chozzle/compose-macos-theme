@@ -97,23 +97,24 @@ fun MacDropdownMenu(
                     )
             ) {
 
-                Row(Modifier.fillMaxHeight(), verticalAlignment = Alignment.CenterVertically) {
-                    val noCheckSpacing = "      "
-                    val checkOrSpace = if (index == selectedIndex) "\uDBC0\uDD85 " else noCheckSpacing
+                Row(
+                    Modifier.fillMaxHeight().padding(MenuItemPadding),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    val checkOrSpace = if (index == selectedIndex) "\uDBC0\uDD85" else "     "
 
                     Text(
                         text = checkOrSpace,
-                        modifier = Modifier.padding(MenuItemPadding),
+                        Modifier.padding(end = MenuItemPadding),
                         color = if (isMouseHovering) Color.White else Color.Unspecified,
                         fontSize = CheckTextStyle.fontSize - 2.sp,
                         fontWeight = CheckTextStyle.fontWeight
                     )
 
-                    // Invisible text just to calculate potential space taken by longest item
-                    Box {
+                    Box(contentAlignment = Alignment.CenterStart) {
+                        // Invisible text just to calculate potential space taken by longest item
                         Text(
                             text = longestItem,
-                            modifier = Modifier.padding(MenuItemPadding),
                             color = Color.Transparent,
                             style = AmbientTextStyle.current.merge(CheckTextStyle)
                         )
@@ -136,6 +137,6 @@ private val CheckTextStyle = TextStyle(
     fontWeight = FontWeight.W800,
 )
 private val FontPadding = 1.5.dp
-private val MenuItemPadding = 4.dp
+private val MenuItemPadding = 3.dp
 
 
