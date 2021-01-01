@@ -14,27 +14,24 @@
  * limitations under the License.
  */
 
-package me.carsonholzheimer.composemacostheme.modifiedofficial;
+package me.carsonholzheimer.composemacostheme;
 
 import androidx.compose.animation.core.FloatPropKey
 import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.transitionDefinition
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.transition
-import androidx.compose.foundation.Interaction
-import androidx.compose.foundation.InteractionState
-import androidx.compose.foundation.ScrollableColumn
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.ExperimentalLayout
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.preferredSizeIn
 import androidx.compose.foundation.layout.preferredWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
+import androidx.compose.material.ProvideTextStyle
 import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
@@ -59,6 +56,7 @@ import androidx.compose.ui.unit.height
 import androidx.compose.ui.unit.width
 import androidx.compose.ui.window.Popup
 import androidx.compose.ui.window.PopupPositionProvider
+import me.carsonholzheimer.composemacostheme.MacTheme
 import kotlin.math.max
 import kotlin.math.min
 
@@ -138,6 +136,8 @@ fun MacDropdownMenu(
                         transformOrigin = transformOriginState.value
                     },
                     elevation = MenuElevation,
+                    backgroundColor = MacTheme.colors.surfaceDark,
+                    border = BorderStroke(1.dp, MacTheme.colors.surfaceBorder),
                     shape = RoundedCornerShape(4.dp)
                 ) {
                     @OptIn(ExperimentalLayout::class)
@@ -186,12 +186,6 @@ fun MacDropdownMenuItem(
                 indication = rememberRipple(true)
             )
             .fillMaxWidth()
-            // Preferred min and max width used during the intrinsic measurement.
-            .preferredSizeIn(
-                minWidth = DropdownMenuItemDefaultMinWidth,
-                maxWidth = DropdownMenuItemDefaultMaxWidth,
-                minHeight = DropdownMenuItemDefaultMinHeight
-            )
             .padding(horizontal = DropdownMenuHorizontalPadding),
         contentAlignment = Alignment.CenterStart
     ) {
@@ -207,10 +201,7 @@ fun MacDropdownMenuItem(
 private val MenuElevation = 16.dp
 private val MenuVerticalMargin = 32.dp
 private val DropdownMenuHorizontalPadding = 4.dp
-internal val DropdownMenuVerticalPadding = 8.dp
-private val DropdownMenuItemDefaultMinWidth = 112.dp
-private val DropdownMenuItemDefaultMaxWidth = 280.dp
-private val DropdownMenuItemDefaultMinHeight = 48.dp
+internal val DropdownMenuVerticalPadding = 6.dp
 
 // Menu open/close animation.
 private val Scale = FloatPropKey()
@@ -262,9 +253,9 @@ private fun calculateTransformOrigin(
         else -> {
             val intersectionCenter =
                 (
-                    max(parentBounds.left, menuBounds.left) +
-                        min(parentBounds.right, menuBounds.right)
-                    ) / 2
+                        max(parentBounds.left, menuBounds.left) +
+                                min(parentBounds.right, menuBounds.right)
+                        ) / 2
             (intersectionCenter - menuBounds.left).toFloat() / menuBounds.width
         }
     }
@@ -275,9 +266,9 @@ private fun calculateTransformOrigin(
         else -> {
             val intersectionCenter =
                 (
-                    max(parentBounds.top, menuBounds.top) +
-                        min(parentBounds.bottom, menuBounds.bottom)
-                    ) / 2
+                        max(parentBounds.top, menuBounds.top) +
+                                min(parentBounds.bottom, menuBounds.bottom)
+                        ) / 2
             (intersectionCenter - menuBounds.top).toFloat() / menuBounds.height
         }
     }
@@ -328,7 +319,7 @@ internal data class DropdownMenuPositionProvider(
         val toDisplayBottom = windowGlobalBounds.height - popupContentSize.height - verticalMargin
         val y = sequenceOf(toBottom, toTop, toCenter, toDisplayBottom).firstOrNull {
             it >= verticalMargin &&
-                it + popupContentSize.height <= windowGlobalBounds.height - verticalMargin
+                    it + popupContentSize.height <= windowGlobalBounds.height - verticalMargin
         } ?: toTop
 
         onPositionCalculated(
