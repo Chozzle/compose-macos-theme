@@ -18,6 +18,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Position
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
@@ -26,49 +27,27 @@ import androidx.compose.ui.unit.sp
 fun MacDropdownMenu(
     menuItems: List<String>,
     onItemSelected: (selectedIndex: Int) -> Unit,
+    toggleModifier: Modifier = Modifier,
+    dropdownModifier: Modifier = Modifier
 ) {
-
     val longestItem = menuItems.maxByOrNull { it.length }.orEmpty()
     var showMenu by remember { mutableStateOf(false) }
     var selectedIndex by remember { mutableStateOf(0) }
     val heightOfItem = with(AmbientDensity.current) { FontSize.toDp() + MenuItemPadding * 2 + FontPadding * 2 }
     MacDropdownMenu(
         toggle = {
-            Row(
-                modifier = Modifier.clickable(onClick = { showMenu = true }),
-
-                ) {
-                Box {
-                    Text(
-                        longestItem,
-                        modifier = Modifier.padding(2.dp),
-                        fontSize = FontSize,
-                        color = Color.Transparent
-                    )
-                    Text(
-                        menuItems[selectedIndex],
-                        modifier = Modifier.padding(2.dp),
-                        fontSize = FontSize
-                    )
-                }
-                Surface(
-                    modifier = Modifier.size(16.dp),
-                    color = MaterialTheme.colors.primary,
-                    shape = MaterialTheme.shapes.small
-                ) {
-                    Text(
-                        "\uDBC0\uDD87\uDBC0\uDD88",
-                        fontSize = 8.sp,
-                        fontWeight = FontWeight.W700,
-                        lineHeight = 6.sp,
-                        textAlign = TextAlign.Center,
-                    )
-                }
-            }
+            DropdownToggle(
+                longestItem,
+                FontSize,
+                menuItems,
+                selectedIndex,
+                onClick = { showMenu = true }
+            )
         },
+        toggleModifier = toggleModifier,
+        dropdownModifier = dropdownModifier,
         expanded = showMenu,
         onDismissRequest = { showMenu = false },
-        Modifier.border(1.dp, MacTheme.colors.border, RoundedCornerShape(4.dp)),
         dropdownOffset = Position(0.dp, -(heightOfItem * (selectedIndex + 1)))
     ) {
         menuItems.forEachIndexed { index, itemString ->
@@ -80,7 +59,6 @@ fun MacDropdownMenu(
                     onItemSelected(index)
                 },
                 modifier = Modifier
-
                     .pointerMoveFilter(
                         onEnter = {
                             isMouseHovering = true
@@ -96,7 +74,6 @@ fun MacDropdownMenu(
                         shape = RoundedCornerShape(4.dp)
                     )
             ) {
-
                 Row(
                     Modifier.fillMaxHeight().padding(MenuItemPadding),
                     verticalAlignment = Alignment.CenterVertically
@@ -127,6 +104,55 @@ fun MacDropdownMenu(
                     }
                 }
             }
+        }
+    }
+}
+
+@Composable
+private fun DropdownToggle(
+    longestItem: String,
+    FontSize: TextUnit,
+    menuItems: List<String>,
+    selectedIndex: Int,
+    onClick: () -> Unit
+) {
+    Row(
+        modifier = Modifier.clickable(onClick = onClick)
+            .border(1.dp, MacTheme.colors.border, RoundedCornerShape(4.dp))
+            .padding(3.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Box(contentAlignment = Alignment.CenterStart) {
+            Text(
+                longestItem,
+                fontSize = FontSize,
+                color = Color.Transparent
+            )
+            Text(
+                menuItems[selectedIndex],
+                fontSize = FontSize
+            )
+        }
+        DisclosureDoubleArrow()
+    }
+}
+
+@Composable
+private fun DisclosureDoubleArrow() {
+    Surface(
+        modifier = Modifier.size(16.dp),
+        color = MaterialTheme.colors.primary,
+        shape = MaterialTheme.shapes.small
+    ) {
+        Box(contentAlignment = Alignment.Center) {
+            Text(
+                "\uDBC0\uDD87\n\uDBC0\uDD88",
+                // TODO Change to 8 and check after this is fixed: https://github.com/JetBrains/compose-jb/issues/171
+                fontSize = 7.sp,
+                fontWeight = FontWeight.W700,
+                lineHeight = 6.sp,
+                textAlign = TextAlign.Center,
+            )
         }
     }
 }

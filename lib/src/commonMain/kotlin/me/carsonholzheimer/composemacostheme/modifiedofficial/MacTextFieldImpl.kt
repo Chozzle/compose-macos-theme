@@ -18,15 +18,7 @@ package me.carsonholzheimer.composemacostheme.modifiedofficial
 
 import androidx.compose.animation.ColorPropKey
 import androidx.compose.animation.DpPropKey
-import androidx.compose.animation.core.FastOutLinearInEasing
-import androidx.compose.animation.core.FastOutSlowInEasing
-import androidx.compose.animation.core.FloatPropKey
-import androidx.compose.animation.core.LinearEasing
-import androidx.compose.animation.core.LinearOutSlowInEasing
-import androidx.compose.animation.core.TransitionSpec
-import androidx.compose.animation.core.keyframes
-import androidx.compose.animation.core.transitionDefinition
-import androidx.compose.animation.core.tween
+import androidx.compose.animation.core.*
 import androidx.compose.animation.transition
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Interaction
@@ -38,11 +30,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.preferredSizeIn
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.AmbientContentAlpha
-import androidx.compose.material.AmbientContentColor
-import androidx.compose.material.ContentAlpha
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.ProvideTextStyle
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Providers
 import androidx.compose.runtime.remember
@@ -53,11 +41,7 @@ import androidx.compose.ui.focus.focusReference
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.takeOrElse
-import androidx.compose.ui.layout.LayoutModifier
-import androidx.compose.ui.layout.Measurable
-import androidx.compose.ui.layout.MeasureResult
-import androidx.compose.ui.layout.MeasureScope
-import androidx.compose.ui.layout.Placeable
+import androidx.compose.ui.layout.*
 import androidx.compose.ui.node.Ref
 import androidx.compose.ui.platform.InspectorValueInfo
 import androidx.compose.ui.platform.debugInspectorInfo
@@ -67,11 +51,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.lerp
-import androidx.compose.ui.unit.Constraints
-import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.constrainWidth
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.offset
+import androidx.compose.ui.unit.*
 import me.carsonholzheimer.composemacostheme.MacTheme
 
 internal enum class TextFieldType {
@@ -105,7 +85,8 @@ internal fun TextFieldImpl(
     inactiveColor: Color,
     errorColor: Color,
     backgroundColor: Color,
-    shape: Shape
+    shape: Shape,
+    cornerRadius: Dp
 ) {
     // If color is not provided via the text style, use content color as a default
     val textColor = textStyle.color.takeOrElse {
@@ -262,7 +243,8 @@ internal fun TextFieldImpl(
                     trailingColor = trailingColor,
                     labelProgress = labelProgress,
                     indicatorWidth = indicatorWidth,
-                    indicatorColor = indicatorColor
+                    indicatorColor = indicatorColor,
+                    cornerRadius = cornerRadius
                 )
             }
         }
@@ -503,10 +485,9 @@ private const val PlaceholderAnimationDelayOrDuration = 67
 
 private val IndicatorUnfocusedWidth = 1.dp
 internal val IndicatorFocusedWidth = 4.dp
-private const val TrailingLeadingAlpha = 0.54f
-private val TextFieldMinHeight = 26.dp
-private val TextFieldMinWidth = 160.dp
-internal val TextFieldPadding = 5.dp
+private val TextFieldMinHeight = 0.dp
+private val TextFieldMinWidth = 0.dp
+internal val TextFieldPadding = 3.dp
 internal val HorizontalIconPadding = 6.dp
 
 // Filled text field uses 42% opacity to meet the contrast requirements for accessibility reasons

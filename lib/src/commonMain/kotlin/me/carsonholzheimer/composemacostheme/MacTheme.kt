@@ -28,7 +28,7 @@ fun MacTheme(
     ),
     typography: Typography = Typography(defaultFontFamily = MacFonts.SFPro()),
     shapes: Shapes = Shapes(
-        small = RoundedCornerShape(6.dp),
+        small = RoundedCornerShape(4.dp),
         medium = RoundedCornerShape(11.dp),
         large = RoundedCornerShape(11.dp)
     ),

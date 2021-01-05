@@ -7,58 +7,57 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.font.fontFamily
 
 object MacFonts {
-    val fontDirectory = "font"
 
     @Composable
     fun SFPro() = fontFamily(
         font(
             "SF Pro Regular",
-            "$fontDirectory/sf_pro_display_regular.otf",
+            "sf_pro_display_regular",
             FontWeight.Normal,
             FontStyle.Normal
         ),
         font(
             "SF Pro Regular Italic",
-            "$fontDirectory/sf_pro_display_regularitalic.otf",
+            "sf_pro_display_regularitalic",
             FontWeight.Normal,
             FontStyle.Italic
         ),
 
         font(
             "SF Pro Bold",
-            "$fontDirectory/sf_pro_display_bold.otf",
+            "sf_pro_display_bold",
             FontWeight.Bold,
             FontStyle.Normal
         ),
         font(
             "SF Pro Bold Italic",
-            "$fontDirectory/sf_pro_display_bolditalic.otf",
+            "sf_pro_display_bolditalic",
             FontWeight.Bold,
             FontStyle.Italic
         ),
 
         font(
             "SF Pro Extra Bold ",
-            "$fontDirectory/sf_pro_display_heavy.otf",
+            "sf_pro_display_heavy",
             FontWeight.ExtraBold,
             FontStyle.Normal
         ),
         font(
             "SF Pro Extra Bold Italic",
-            "$fontDirectory/sf_pro_display_heavyitalic.otf",
+            "sf_pro_display_heavyitalic",
             FontWeight.ExtraBold,
             FontStyle.Italic
         ),
 
         font(
             "SF Pro Medium",
-            "$fontDirectory/sf_pro_display_medium.otf",
+            "sf_pro_display_medium",
             FontWeight.Medium,
             FontStyle.Normal
         ),
         font(
             "SF Pro Medium Italic",
-            "$fontDirectory/sf_pro_display_mediumitalic.otf",
+            "sf_pro_display_mediumitalic",
             FontWeight.Medium,
             FontStyle.Italic
         )

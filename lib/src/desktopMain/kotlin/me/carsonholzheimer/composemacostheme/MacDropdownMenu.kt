@@ -138,7 +138,7 @@ fun MacDropdownMenu(
                     elevation = MenuElevation,
                     backgroundColor = MacTheme.colors.surfaceDark,
                     border = BorderStroke(1.dp, MacTheme.colors.surfaceBorder),
-                    shape = RoundedCornerShape(4.dp)
+                    shape = RoundedCornerShape(8.dp)
                 ) {
                     @OptIn(ExperimentalLayout::class)
                     ScrollableColumn(

@@ -67,7 +67,12 @@ fun MacCheckbox(
             )
         }
         val checkColor = colors.checkmarkColor(state)
-        Text("\uDBC0\uDD85", fontSize = 10.sp, color = checkColor, fontWeight = FontWeight.W800)
+        Text(
+            "\uDBC0\uDD85",
+            fontSize = 10.sp,
+            color = checkColor,
+            fontWeight = FontWeight.W800
+        )
     }
 }
 

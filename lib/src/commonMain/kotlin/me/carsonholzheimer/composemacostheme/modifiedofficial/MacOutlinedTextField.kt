@@ -22,6 +22,7 @@ import androidx.compose.foundation.Interaction
 import androidx.compose.foundation.InteractionState
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
@@ -128,7 +129,8 @@ fun MacOutlinedTextField(
     interactionState: InteractionState = remember { InteractionState() },
     activeColor: Color = MacTheme.colors.highlight,
     inactiveColor: Color = MacTheme.colors.borderDark,
-    errorColor: Color = MaterialTheme.colors.error
+    errorColor: Color = MaterialTheme.colors.error,
+    cornerRadius: Dp = 1.dp
 ) {
     var textFieldValueState by remember { mutableStateOf(TextFieldValue(text = value)) }
     val textFieldValue = textFieldValueState.copy(text = value)
@@ -160,7 +162,8 @@ fun MacOutlinedTextField(
         inactiveColor = inactiveColor,
         errorColor = errorColor,
         backgroundColor = Color.Unspecified,
-        shape = RectangleShape
+        shape = RectangleShape,
+        cornerRadius = cornerRadius
     )
 }
 
@@ -243,7 +246,8 @@ fun MacOutlinedTextField(
     interactionState: InteractionState = remember { InteractionState() },
     activeColor: Color = MaterialTheme.colors.primary,
     inactiveColor: Color = MaterialTheme.colors.onSurface,
-    errorColor: Color = MaterialTheme.colors.error
+    errorColor: Color = MaterialTheme.colors.error,
+    cornerRadius: Dp = 0.dp
 ) {
     TextFieldImpl(
         type = TextFieldType.Outlined,
@@ -267,7 +271,8 @@ fun MacOutlinedTextField(
         inactiveColor = inactiveColor,
         errorColor = errorColor,
         backgroundColor = Color.Unspecified,
-        shape = RectangleShape
+        shape = RectangleShape,
+        cornerRadius = cornerRadius
     )
 }
 
@@ -284,10 +289,12 @@ internal fun OutlinedTextFieldLayout(
     trailingColor: Color,
     labelProgress: Float,
     indicatorWidth: Dp,
-    indicatorColor: Color
+    indicatorColor: Color,
+    cornerRadius: Dp
 ) {
     val outlinedBorderParams = remember {
         OutlinedBorderParams(
+            cornerRadius,
             indicatorWidth,
             indicatorColor
         )
@@ -649,15 +656,15 @@ private fun Modifier.drawOutlinedBorder(
  */
 @Stable
 private class OutlinedBorderParams(
+    cornerRadius: Dp,
     initialBorderWidth: Dp,
     initialColor: Color
 ) {
     val borderWidth = mutableStateOf(initialBorderWidth)
     val color = mutableStateOf(initialColor)
-    val cornerRadius = OutlinedTextFieldCornerRadius
+    val cornerRadius = cornerRadius
     val labelWidth = mutableStateOf(0f)
 }
 
 // TODO(b/158077409) support shape in OutlinedTextField
-private val OutlinedTextFieldCornerRadius = 8.dp
 private val OutlinedTextFieldInnerPadding = 8.dp

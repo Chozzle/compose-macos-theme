@@ -1,17 +1,11 @@
 package me.carsonholzheimer.composemacostheme
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-
+import androidx.compose.foundation.Indication
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Checkbox
-import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -23,61 +17,60 @@ import me.carsonholzheimer.composemacostheme.modifiedofficial.MacOutlinedTextFie
 fun ExampleView() {
     MacTheme {
         Column(
+            Modifier.padding(16.dp).fillMaxSize(),
             verticalArrangement = Arrangement.spacedBy(16.dp),
-            modifier = Modifier.padding(16.dp)
         ) {
-            var text by remember { mutableStateOf("Hello, World!") }
-            Text("COMPLETED:")
-            MacButton(
-                onClick = {
-                    text = "Hello, Desktop!"
-                }
+            MacSearchField(
+                onSearchRequested = { println(it) },
+                modifier = Modifier.width(200.dp).align(Alignment.End)
+            )
+
+            Column(
+                Modifier.align(Alignment.CenterHorizontally).fillMaxHeight(),
+                verticalArrangement = Arrangement.spacedBy(16.dp),
             ) {
-                Text(
-                    text,
-                    style = TextStyle(
-                        fontWeight = FontWeight.Medium,
-                        fontSize = 13.sp,
-                    ),
+                var textFieldValue by remember { mutableStateOf("One of those small text fields") }
+                MacOutlinedTextField(
+                    textFieldValue,
+                    { textFieldValue = it },
+                    placeholder = { Text("Phone No.") },
                 )
+
+                CheckboxWithLabel()
+
+                Spacer(Modifier.height(16.dp))
+                var text by remember { mutableStateOf("Those familiar buttons") }
+                MacButton(
+                    onClick = {
+                        text = "With the subtle interaction"
+                    }
+                ) {
+                    Text(
+                        text,
+                        style = TextStyle(
+                            fontWeight = FontWeight.Medium,
+                            fontSize = 13.sp,
+                        ),
+                    )
+                }
             }
-
-            var textFieldValue by remember { mutableStateOf("Hi") }
-            MacOutlinedTextField(
-                textFieldValue,
-                { textFieldValue = it },
-                leadingIcon = { Text("􀊫") },
-                placeholder = { Text("Search") }
-            )
-            var textFieldValue2 by remember { mutableStateOf("Hi") }
-            MacOutlinedTextField(
-                textFieldValue2,
-                { textFieldValue2 = it },
-                leadingIcon = { Text("􀊫") },
-                trailingIcon = {
-                    Text("\uDBC0\uDD84", fontSize = 10.sp, fontWeight = FontWeight.W700)
-                               },
-                placeholder = { Text("Curmudgeons") }
-            )
-            var isChecked by remember { mutableStateOf(false) }
-
-            MacCheckbox(
-                isChecked,
-                {
-                    isChecked = it
-                }
-            )
-
-            Box(Modifier.height(20.dp))
-
-            var isChecked2 by remember { mutableStateOf(false) }
-            Checkbox(
-                isChecked2,
-                {
-                    isChecked2 = it
-                }
-            )
-
         }
+    }
+}
+
+@Composable
+private fun CheckboxWithLabel() {
+    Row(verticalAlignment = Alignment.CenterVertically) {
+        var isChecked by remember { mutableStateOf(false) }
+        MacCheckbox(
+            isChecked,
+            { isChecked = it }
+        )
+        Spacer(Modifier.width(6.dp))
+        Text(
+            "You better check yourself!",
+            Modifier.clickable(indication = null) { isChecked = !isChecked },
+            fontSize = 13.sp
+        )
     }
 }
