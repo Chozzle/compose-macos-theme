@@ -61,7 +61,7 @@ fun MacSearchField(
 private fun CloseIcon(closeClicked: () -> Unit) {
     Text(
         "\uDBC0\uDD84",
-        Modifier.clickable {
+        Modifier.clickable(indication = null) {
             closeClicked()
         },
         fontSize = 10.sp,

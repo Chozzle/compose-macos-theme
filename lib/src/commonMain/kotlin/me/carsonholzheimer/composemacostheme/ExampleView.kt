@@ -25,6 +25,8 @@ fun ExampleView() {
                 modifier = Modifier.width(200.dp).align(Alignment.End)
             )
 
+            Spacer(Modifier.height(32.dp))
+
             Column(
                 Modifier.align(Alignment.CenterHorizontally).fillMaxHeight(),
                 verticalArrangement = Arrangement.spacedBy(16.dp),
