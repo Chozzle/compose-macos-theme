@@ -231,8 +231,7 @@ internal fun TextFieldImpl(
                             minWidth = TextFieldMinWidth,
                             minHeight = TextFieldMinHeight + OutlinedTextFieldTopPadding
                         )
-                        .then(textFieldModifier)
-                        .padding(top = OutlinedTextFieldTopPadding),
+                        .then(textFieldModifier),
                     decoratedTextField = decoratedTextField,
                     decoratedPlaceholder = decoratedPlaceholder,
                     decoratedLabel = decoratedLabel,

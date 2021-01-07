@@ -8,7 +8,10 @@ import androidx.compose.runtime.Providers
 import androidx.compose.runtime.staticAmbientOf
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.ContentDrawScope
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 
 object MacTheme {
 
@@ -26,7 +29,13 @@ fun MacTheme(
     colors: Colors = lightColors(
         primary = macLightPalette.primary,
     ),
-    typography: Typography = Typography(defaultFontFamily = MacFonts.SFPro()),
+    typography: Typography = Typography(
+        defaultFontFamily = MacFonts.SFPro(),
+        button = TextStyle(
+            fontWeight = FontWeight.Medium,
+            fontSize = 13.sp,
+        )
+    ),
     shapes: Shapes = Shapes(
         small = RoundedCornerShape(4.dp),
         medium = RoundedCornerShape(11.dp),
