@@ -6,8 +6,6 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import me.carsonholzheimer.composemacostheme.modifiedofficial.MacOutlinedTextField
@@ -42,6 +40,7 @@ fun ExampleView() {
                 Spacer(Modifier.height(16.dp))
 
 
+                CheckboxWithLabel("Check", initiallyChecked = true, initiallyEnabled = false)
                 CheckboxWithLabel("Check", initiallyChecked = false)
                 CheckboxWithLabel("Boxes!", initiallyChecked = true)
 
@@ -76,15 +75,23 @@ private fun ButtonsView() {
 }
 
 @Composable
-private fun CheckboxWithLabel(label: String, initiallyChecked: Boolean) {
+private fun CheckboxWithLabel(
+    label: String,
+    initiallyChecked: Boolean,
+    initiallyEnabled: Boolean = true
+) {
     var isChecked by remember { mutableStateOf(initiallyChecked) }
     Row(
-        Modifier.clickable(indication = null) { isChecked = !isChecked },
+        Modifier.clickable(indication = null) {
+            if (!initiallyEnabled) return@clickable
+            isChecked = !isChecked
+        },
         verticalAlignment = Alignment.CenterVertically,
     ) {
         MacCheckbox(
             isChecked,
-            { isChecked = it }
+            { isChecked = it },
+            enabled = initiallyEnabled
         )
         Spacer(Modifier.width(6.dp))
         Text(

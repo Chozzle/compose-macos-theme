@@ -77,7 +77,7 @@ private fun macCheckboxColors(
     checkedColor: Color = MacTheme.colors.primary,
     uncheckedColor: Color = MacTheme.colors.primary50,
     checkmarkColor: Color = MaterialTheme.colors.surface,
-    disabledColor: Color = MaterialTheme.colors.onSurface.copy(alpha = ContentAlpha.disabled),
+    disabledColor: Color = MacDisabledBackgroundColor,
     disabledIndeterminateColor: Color = checkedColor.copy(alpha = ContentAlpha.disabled)
 ): CheckboxColors {
     return remember(
@@ -94,7 +94,7 @@ private fun macCheckboxColors(
             uncheckedCheckmarkColor = checkmarkColor.copy(alpha = 0f),
             uncheckedBoxColor = checkedColor.copy(alpha = 0f),
             disabledCheckedBoxColor = disabledColor,
-            disabledUncheckedBoxColor = disabledColor.copy(alpha = 0f),
+            disabledUncheckedBoxColor = disabledColor,
             disabledIndeterminateBoxColor = disabledIndeterminateColor,
             uncheckedBorderColor = uncheckedColor,
             disabledBorderColor = disabledColor,
@@ -146,6 +146,7 @@ private class MacCheckboxColors(
         }
     }
 
+    // TODO fix colors when disabled. This callback doesn't provide enabled state
     override fun checkmarkColor(state: ToggleableState): Color {
         return if (state == ToggleableState.Off) {
             uncheckedCheckmarkColor

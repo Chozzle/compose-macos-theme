@@ -10,7 +10,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
@@ -26,10 +25,10 @@ fun MacButton(
     shape: Shape = MaterialTheme.shapes.small,
     border: BorderStroke? = null,
     colors: ButtonColors = ButtonDefaults.buttonColors(
-        disabledBackgroundColor = MacButtonDisabledColor,
-        disabledContentColor = MacButtonDisabledContentColor
+        disabledBackgroundColor = MacDisabledBackgroundColor,
+        disabledContentColor = MacDisabledContentColor
     ),
-    contentPadding: PaddingValues = PaddingValues(10.dp, 6.dp, 10.dp, 6.dp),
+    contentPadding: PaddingValues = macButtonPaddingValues(macButtonStyle),
     content: @Composable RowScope.() -> Unit
 ) {
     Button(
@@ -45,6 +44,14 @@ fun MacButton(
         content = content
     )
 }
+
+@Composable
+private fun macButtonPaddingValues(macButtonStyle: MacButtonStyle) =
+    if (macButtonStyle == MacButtonStyle.Small) {
+        PaddingValues(10.dp, 2.dp, 10.dp, 2.dp)
+    } else {
+        PaddingValues(10.dp, 6.dp, 10.dp, 6.dp)
+    }
 
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -63,7 +70,7 @@ fun MacSecondaryButton(
     shape: Shape = MaterialTheme.shapes.small,
     border: BorderStroke? = null,
     colors: ButtonColors = MacButtonDefaults.secondaryButtonColors(),
-    contentPadding: PaddingValues = PaddingValues(10.dp, 6.dp, 10.dp, 6.dp),
+    contentPadding: PaddingValues = macButtonPaddingValues(macButtonStyle),
     content: @Composable RowScope.() -> Unit
 ) {
     MacButton(
@@ -99,12 +106,8 @@ object MacButtonDefaults {
         contentColor: Color = MaterialTheme.colors.onSurface,
     ): ButtonColors = ButtonDefaults.buttonColors(
         backgroundColor = backgroundColor,
-        disabledBackgroundColor = MacButtonDisabledColor,
+        disabledBackgroundColor = MacDisabledBackgroundColor,
         contentColor = contentColor,
-        disabledContentColor = MacButtonDisabledContentColor
+        disabledContentColor = MacDisabledContentColor
     )
 }
-
-// TODO handle dark theme here
-private val MacButtonDisabledColor = Color(0x0D000000)
-private val MacButtonDisabledContentColor = macLightPalette.primary50

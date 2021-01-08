@@ -17,10 +17,7 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.Position
-import androidx.compose.ui.unit.TextUnit
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import androidx.compose.ui.unit.*
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -118,7 +115,7 @@ private fun DropdownToggle(
 ) {
     Row(
         modifier = Modifier.clickable(onClick = onClick)
-            .border(1.dp, MacTheme.colors.border, RoundedCornerShape(4.dp))
+            .border(Dp.Hairline, MacTheme.colors.border, RoundedCornerShape(4.dp))
             .padding(3.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {

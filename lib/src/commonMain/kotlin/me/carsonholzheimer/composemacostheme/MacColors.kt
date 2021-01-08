@@ -1,5 +1,7 @@
 package me.carsonholzheimer.composemacostheme
 
+import androidx.compose.material.MaterialTheme
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 
 data class MacColors(
@@ -22,3 +24,13 @@ val macLightPalette = MacColors(
     primary50 = Color(0xFF797979), // light gray
 )
 
+
+internal val MacDisabledBackgroundColor: Color
+    @Composable
+    get() = MaterialTheme.colors.onSurface.copy(alpha = 0.05f)
+
+
+// TODO handle dark theme here
+internal val MacDisabledContentColor: Color
+    @Composable
+    get() = macLightPalette.primary50
