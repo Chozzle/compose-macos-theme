@@ -7,7 +7,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 
 @Composable
-actual fun CheckboxCheck(checkColor: Color)  {
+actual fun MacCheckboxCheck(checkColor: Color)  {
     Text(
         "\uDBC0\uDD85",
         fontSize = 10.sp,

@@ -608,6 +608,7 @@ private fun Modifier.drawOutlinedBorder(
         // width and height minus corners plus line width
         val effectiveWidth: Float = width - 2 * dx + lineWidth
         val effectiveHeight: Float = height - 2 * dy + lineWidth
+        println(effectiveHeight)
 
         // top-right corner
         moveTo(width + lineWidth / 2, dy - lineWidth / 2)

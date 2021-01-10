@@ -2,6 +2,8 @@ package me.carsonholzheimer.composemacostheme
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.AmbientTextStyle
+import androidx.compose.material.ContentAlpha
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -29,10 +31,18 @@ fun ExampleView() {
                 verticalArrangement = Arrangement.spacedBy(8.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-                var textFieldValue by remember { mutableStateOf("One of those small text fields") }
+                var textFieldValue by remember { mutableStateOf("") }
                 MacOutlinedTextField(
                     textFieldValue,
                     { textFieldValue = it },
+                    placeholder = { Text("Email") },
+                    singleLine = true
+                )
+
+                var textFieldValue2 by remember { mutableStateOf("An imaginary form") }
+                MacOutlinedTextField(
+                    textFieldValue2,
+                    { textFieldValue2 = it },
                     placeholder = { Text("Phone No.") },
                     singleLine = true
                 )
@@ -40,9 +50,11 @@ fun ExampleView() {
                 Spacer(Modifier.height(16.dp))
 
 
-                CheckboxWithLabel("Check", initiallyChecked = true, initiallyEnabled = false)
-                CheckboxWithLabel("Check", initiallyChecked = false)
-                CheckboxWithLabel("Boxes!", initiallyChecked = true)
+                Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                    CheckboxWithLabel("Haz", initiallyChecked = true, initiallyEnabled = false)
+                    CheckboxWithLabel("Check", initiallyChecked = false)
+                    CheckboxWithLabel("Boxes!", initiallyChecked = true)
+                }
 
                 Spacer(Modifier.height(16.dp))
 
@@ -96,6 +108,11 @@ private fun CheckboxWithLabel(
         Spacer(Modifier.width(6.dp))
         Text(
             label,
+            color = if (initiallyEnabled) {
+                AmbientTextStyle.current.color
+            } else {
+                AmbientTextStyle.current.color.copy(alpha = ContentAlpha.disabled)
+            },
             fontSize = 13.sp
         )
     }

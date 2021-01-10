@@ -1,19 +1,13 @@
 package me.carsonholzheimer.composemacostheme
 
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.InteractionState
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.*
 import androidx.compose.material.CheckboxColors
-import androidx.compose.material.CheckboxDefaults
-import androidx.compose.material.ContentAlpha
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -26,9 +20,7 @@ import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Fill
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.state.ToggleableState
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -37,14 +29,15 @@ fun MacCheckbox(
     onCheckedChange: (Boolean) -> Unit,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
-    colors: CheckboxColors = macCheckboxColors()
+    colors: MacCheckboxColors = macCheckboxColors()
 ) {
     Box(
         modifier = modifier.size(CheckboxSize)
             .clip(RoundedCornerShape(RadiusSize))
             .clickable {
-            onCheckedChange(!checked)
-        },
+                if (!enabled) return@clickable
+                onCheckedChange(!checked)
+            },
         Alignment.Center
     ) {
         val state = ToggleableState(checked)
@@ -63,13 +56,13 @@ fun MacCheckbox(
                 strokeWidth = strokeWidthPx
             )
         }
-        val checkColor = colors.checkmarkColor(state)
-        CheckboxCheck(checkColor)
+        val checkColor = colors.checkmarkColor(enabled, state)
+        MacCheckboxCheck(checkColor)
     }
 }
 
 @Composable
-expect fun CheckboxCheck(checkColor: Color)
+expect fun MacCheckboxCheck(checkColor: Color)
 
 @ExperimentalMaterialApi
 @Composable
@@ -77,9 +70,10 @@ private fun macCheckboxColors(
     checkedColor: Color = MacTheme.colors.primary,
     uncheckedColor: Color = MacTheme.colors.primary50,
     checkmarkColor: Color = MaterialTheme.colors.surface,
-    disabledColor: Color = MacDisabledBackgroundColor,
+    disabledCheckmarkColor: Color = MacTheme.colors.primary50,
+    disabledColor: Color = MacDisabledBackgroundColor.copy(alpha = 0.03f),
     disabledIndeterminateColor: Color = checkedColor.copy(alpha = ContentAlpha.disabled)
-): CheckboxColors {
+): MacCheckboxColors {
     return remember(
         checkedColor,
         uncheckedColor,
@@ -87,28 +81,30 @@ private fun macCheckboxColors(
         disabledColor,
         disabledIndeterminateColor
     ) {
-        MacCheckboxColors(
-            checkedBorderColor = checkedColor,
-            checkedBoxColor = checkedColor,
+        MacCheckboxColorsImpl(
             checkedCheckmarkColor = checkmarkColor,
             uncheckedCheckmarkColor = checkmarkColor.copy(alpha = 0f),
+            checkedBoxColor = checkedColor,
             uncheckedBoxColor = checkedColor.copy(alpha = 0f),
+            disabledCheckmarkColor = disabledCheckmarkColor,
             disabledCheckedBoxColor = disabledColor,
             disabledUncheckedBoxColor = disabledColor,
             disabledIndeterminateBoxColor = disabledIndeterminateColor,
+            checkedBorderColor = checkedColor,
             uncheckedBorderColor = uncheckedColor,
-            disabledBorderColor = disabledColor,
+            disabledBorderColor = uncheckedColor.copy(alpha = 0.33f),
             disabledIndeterminateBorderColor = disabledIndeterminateColor
         )
     }
 }
 
 @ExperimentalMaterialApi
-private class MacCheckboxColors(
+private class MacCheckboxColorsImpl(
     private val checkedCheckmarkColor: Color,
     private val uncheckedCheckmarkColor: Color,
     private val checkedBoxColor: Color,
     private val uncheckedBoxColor: Color,
+    private val disabledCheckmarkColor: Color,
     private val disabledCheckedBoxColor: Color,
     private val disabledUncheckedBoxColor: Color,
     private val disabledIndeterminateBoxColor: Color,
@@ -116,7 +112,7 @@ private class MacCheckboxColors(
     private val uncheckedBorderColor: Color,
     private val disabledBorderColor: Color,
     private val disabledIndeterminateBorderColor: Color
-) : CheckboxColors {
+) : MacCheckboxColors {
     override fun borderColor(enabled: Boolean, state: ToggleableState): Color {
         return if (enabled) {
             when (state) {
@@ -146,12 +142,19 @@ private class MacCheckboxColors(
         }
     }
 
-    // TODO fix colors when disabled. This callback doesn't provide enabled state
-    override fun checkmarkColor(state: ToggleableState): Color {
-        return if (state == ToggleableState.Off) {
-            uncheckedCheckmarkColor
+    override fun checkmarkColor(enabled: Boolean, state: ToggleableState): Color {
+        return if (enabled) {
+            if (state == ToggleableState.Off) {
+                uncheckedCheckmarkColor
+            } else {
+                checkedCheckmarkColor
+            }
         } else {
-            checkedCheckmarkColor
+            if (state == ToggleableState.Off) {
+                uncheckedCheckmarkColor
+            } else {
+                disabledCheckmarkColor
+            }
         }
     }
 }
@@ -179,6 +182,39 @@ private fun DrawScope.drawBox(
         cornerRadius = CornerRadius(radius),
         style = stroke
     )
+}
+
+
+/**
+ * Copies [CheckboxColors] but with the addition of passing in the enabled state to calculate checkbox color
+ */
+@ExperimentalMaterialApi
+@Stable
+interface MacCheckboxColors {
+
+    /**
+     * Represents the color used for the checkmark inside the checkbox, depending on [state].
+     *
+     * @param state the [ToggleableState] of the checkbox
+     */
+    fun checkmarkColor(enabled: Boolean, state: ToggleableState): Color
+
+    /**
+     * Represents the color used for the box (background) of the checkbox, depending on [enabled]
+     * and [state].
+     *
+     * @param enabled whether the checkbox is enabled or not
+     * @param state the [ToggleableState] of the checkbox
+     */
+    fun boxColor(enabled: Boolean, state: ToggleableState): Color
+
+    /**
+     * Represents the color used for the border of the checkbox, depending on [enabled] and [state].
+     *
+     * @param enabled whether the checkbox is enabled or not
+     * @param state the [ToggleableState] of the checkbox
+     */
+    fun borderColor(enabled: Boolean, state: ToggleableState): Color
 }
 
 private val RadiusSize = 4.dp

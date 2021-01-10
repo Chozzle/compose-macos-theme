@@ -10,7 +10,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-actual fun CheckboxCheck(checkColor: Color)  {
+actual fun MacCheckboxCheck(checkColor: Color)  {
     Text(
         "\uDBC0\uDD85",
         Modifier.offset(x = (-0.5).dp, y = (-2.5).dp), // Strangely need this on android so text is actually centered

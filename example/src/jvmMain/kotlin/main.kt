@@ -9,23 +9,19 @@ import me.carsonholzheimer.composemacostheme.MacDropdownMenu
 import me.carsonholzheimer.composemacostheme.MacTheme
 
 
-fun main() = Window {
+fun main() = Window(title = "MacOS theme for Compose :)") {
     MacTheme {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             ExampleView()
 
             val menuItems = listOf(
-                "Red",
+                "Some options",
                 "Orange",
                 "Yellow",
                 "Green",
                 "Blue",
                 "Indigo",
-                "Violet long word",
-                "Yellow",
-                "Green",
-                "Blue",
-                "Indigo"
+                "Kinda brownish gray",
             )
             MacDropdownMenu(
                 menuItems,
@@ -33,7 +29,6 @@ fun main() = Window {
                     println(menuItems[selectedIndex] + " selected")
                 },
                 toggleModifier = Modifier.padding(start = 16.dp)
-
             )
         }
     }
