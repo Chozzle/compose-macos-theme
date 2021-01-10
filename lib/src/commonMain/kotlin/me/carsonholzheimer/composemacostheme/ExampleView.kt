@@ -58,9 +58,9 @@ fun ExampleView() {
 
 
                 Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                    CheckboxWithLabel("Haz", initiallyChecked = true, initiallyEnabled = false)
-                    CheckboxWithLabel("Check", initiallyChecked = false)
-                    CheckboxWithLabel("Boxes!", initiallyChecked = true)
+                    CheckboxWithLabel("Haz", checked = true, enabled = false)
+                    CheckboxWithLabel("Check", checked = false)
+                    CheckboxWithLabel("Boxes!", checked = true)
                 }
 
                 Spacer(Modifier.height(16.dp))
@@ -96,13 +96,13 @@ private fun ButtonsView() {
 @Composable
 private fun CheckboxWithLabel(
     label: String,
-    initiallyChecked: Boolean,
-    initiallyEnabled: Boolean = true
+    checked: Boolean,
+    enabled: Boolean = true
 ) {
-    var isChecked by remember { mutableStateOf(initiallyChecked) }
+    var isChecked by remember { mutableStateOf(checked) }
     Row(
         Modifier.clickable(indication = null) {
-            if (!initiallyEnabled) return@clickable
+            if (!enabled) return@clickable
             isChecked = !isChecked
         },
         verticalAlignment = Alignment.CenterVertically,
@@ -110,12 +110,12 @@ private fun CheckboxWithLabel(
         MacCheckbox(
             isChecked,
             { isChecked = it },
-            enabled = initiallyEnabled
+            enabled = enabled
         )
         Spacer(Modifier.width(6.dp))
         Text(
             label,
-            color = if (initiallyEnabled) {
+            color = if (enabled) {
                 AmbientTextStyle.current.color
             } else {
                 AmbientTextStyle.current.color.copy(alpha = ContentAlpha.disabled)
