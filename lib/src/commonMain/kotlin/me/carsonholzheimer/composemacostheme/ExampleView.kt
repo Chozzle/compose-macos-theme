@@ -21,7 +21,7 @@ fun ExampleView() {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             MacSearchField(
-                onSearchRequested = { println(it) },
+                onSearchRequested = { println("Searched: $it") },
                 modifier = Modifier.width(200.dp).align(Alignment.End)
             )
 
@@ -31,21 +31,28 @@ fun ExampleView() {
                 verticalArrangement = Arrangement.spacedBy(8.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-                var textFieldValue by remember { mutableStateOf("") }
-                MacOutlinedTextField(
-                    textFieldValue,
-                    { textFieldValue = it },
-                    placeholder = { Text("Email") },
-                    singleLine = true
-                )
+                Column(
+                    modifier = Modifier.width(180.dp),
+                    verticalArrangement = Arrangement.spacedBy(16.dp)
+                ) {
+                    var textFieldValue by remember { mutableStateOf("") }
+                    MacOutlinedTextField(
+                        textFieldValue,
+                        { textFieldValue = it },
+                        Modifier.fillMaxWidth(),
+                        placeholder = { Text("Email") },
+                        singleLine = true
+                    )
 
-                var textFieldValue2 by remember { mutableStateOf("An imaginary form") }
-                MacOutlinedTextField(
-                    textFieldValue2,
-                    { textFieldValue2 = it },
-                    placeholder = { Text("Phone No.") },
-                    singleLine = true
-                )
+                    var textFieldValue2 by remember { mutableStateOf("An imaginary form") }
+                    MacOutlinedTextField(
+                        textFieldValue2,
+                        { textFieldValue2 = it },
+                        Modifier.fillMaxWidth(),
+                        placeholder = { Text("Phone No.") },
+                        singleLine = true
+                    )
+                }
 
                 Spacer(Modifier.height(16.dp))
 

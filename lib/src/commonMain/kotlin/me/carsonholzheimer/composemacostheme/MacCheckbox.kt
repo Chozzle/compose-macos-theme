@@ -1,11 +1,15 @@
 package me.carsonholzheimer.composemacostheme
 
+import androidx.compose.foundation.AmbientIndication
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.InteractionState
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.selection.triStateToggleable
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.CheckboxColors
+import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.remember
@@ -29,15 +33,19 @@ fun MacCheckbox(
     onCheckedChange: (Boolean) -> Unit,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
+    interactionState: InteractionState = remember { InteractionState() },
     colors: MacCheckboxColors = macCheckboxColors()
 ) {
     Box(
         modifier = modifier.size(CheckboxSize)
             .clip(RoundedCornerShape(RadiusSize))
-            .clickable {
-                if (!enabled) return@clickable
-                onCheckedChange(!checked)
-            },
+            .triStateToggleable(
+            state = ToggleableState(checked),
+            onClick = { onCheckedChange(!checked) },
+            enabled = enabled,
+            interactionState = interactionState,
+            indication = if (enabled) AmbientIndication.current() else null // Unfortunately necessary
+        ),
         Alignment.Center
     ) {
         val state = ToggleableState(checked)

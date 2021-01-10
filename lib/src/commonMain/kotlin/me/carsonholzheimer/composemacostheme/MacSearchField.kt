@@ -33,7 +33,8 @@ fun MacSearchField(
         onValueChange = { value = it },
 
         // Not sure this is the best way to handle enter pressed. IME actions don't seem reliable yet on desktop
-        modifier = modifier.onKeyEvent {
+        modifier = modifier.preferredHeight(26.dp)
+        .onKeyEvent {
             if (it.type == KeyEventType.KeyUp && it.key == Key.Enter) {
                 onSearchRequested(value)
                 return@onKeyEvent true

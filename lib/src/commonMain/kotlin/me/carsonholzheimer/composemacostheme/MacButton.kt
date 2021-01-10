@@ -58,12 +58,12 @@ private fun macButtonPaddingValues(macButtonStyle: MacButtonStyle) =
 @Composable
 fun MacSecondaryButton(
     onClick: () -> Unit,
-    modifier: Modifier = Modifier,
+    modifier: Modifier = Modifier, // TODO: Make an "indication" that changes to primary color on click
     enabled: Boolean = true,
     macButtonStyle: MacButtonStyle = MacButtonStyle.Small,
     interactionState: InteractionState = remember { InteractionState() },
     elevation: ButtonElevation? = ButtonDefaults.elevation(
-        defaultElevation = 2.dp,
+        defaultElevation = 2.dp, // TODO: Try to adjust shadow to be more similar to Mac
         pressedElevation = 2.dp,
         disabledElevation = 0.dp
     ),

@@ -4,10 +4,11 @@ plugins {
     id("com.android.library")
     kotlin("multiplatform")
     id("org.jetbrains.compose")
+    id("maven-publish")
 }
 
 group = "me.carsonholzheimer"
-version = "1.0"
+version = "0.1.0"
 
 kotlin {
     android()
@@ -64,6 +65,20 @@ android {
         named("main") {
             manifest.srcFile("src/androidMain/AndroidManifest.xml")
             res.srcDirs("src/androidMain/res", "src/commonMain/resources")
+        }
+    }
+}
+
+kotlin {
+    android {
+        publishLibraryVariants("release", "debug")
+    }
+}
+
+publishing {
+    repositories {
+        maven {
+            //...
         }
     }
 }

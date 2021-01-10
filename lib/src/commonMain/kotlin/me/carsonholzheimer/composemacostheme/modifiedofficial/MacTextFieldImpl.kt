@@ -485,6 +485,7 @@ private val IndicatorUnfocusedWidth = 1.dp
 internal val IndicatorFocusedWidth = 4.dp
 private val TextFieldMinHeight = 0.dp
 private val TextFieldMinWidth = 0.dp
+internal val TextFieldVerticalPadding = 1.dp
 internal val TextFieldPadding = 3.dp
 internal val HorizontalIconPadding = 6.dp
 
