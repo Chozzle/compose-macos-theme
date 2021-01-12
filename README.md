@@ -1,5 +1,5 @@
-# compose-macos-theme
-MacOS theme for JetBrains Compose UI framework
+# MacOS theme for Compose
+MacOS theme for Compose for Desktop UI framework + Android Jetpack Compose
 
 Still in alpha. Will be publishing very soon. Feedback and help welcome!
 
