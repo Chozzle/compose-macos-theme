@@ -21,9 +21,11 @@ object MacTheme {
 }
 
 private val AmbientMacColors = staticAmbientOf<MacColors> {
-    error("No me.carsonholzheimer.composemacostheme.MacColors provided")
+    error("No MacColors provided")
 }
-
+/**
+ * Wraps [MaterialTheme] with modifications to match MacOS Theme
+ * */
 @Composable
 fun MacTheme(
     colors: Colors = lightColors(
@@ -57,7 +59,7 @@ fun MacTheme(
 }
 
 /**
- * Use the default debug click indication (gray overlay) since this is what Mac UI does.
+ * Uses the default debug click indication (gray overlay) since this is exactly what Mac Theme does.
  * */
 private object MacIndication : Indication {
 
