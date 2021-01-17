@@ -1,4 +1,4 @@
-package me.carsonholzheimer.composemacostheme
+package io.chozzle.composemacostheme
 
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.PaddingValues

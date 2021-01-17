@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="me.carsonholzheimer.composemacostheme">
+          package="io.chozzle.composemacostheme">
 
     <application
             android:allowBackup="true"
@@ -8,7 +8,7 @@
             android:supportsRtl="true"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         <activity
-                android:name="me.carsonholzheimer.composemacostheme.MainActivity"
+                android:name="io.chozzle.composemacostheme.MainActivity"
                 android:label="Example">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -1,4 +1,4 @@
-package me.carsonholzheimer.composemacostheme
+package io.chozzle.composemacostheme
 
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable

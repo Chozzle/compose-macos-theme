@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package me.carsonholzheimer.composemacostheme;
+package io.chozzle.composemacostheme;
 
 import androidx.compose.animation.core.FloatPropKey
 import androidx.compose.animation.core.LinearOutSlowInEasing
@@ -56,7 +56,6 @@ import androidx.compose.ui.unit.height
 import androidx.compose.ui.unit.width
 import androidx.compose.ui.window.Popup
 import androidx.compose.ui.window.PopupPositionProvider
-import me.carsonholzheimer.composemacostheme.MacTheme
 import kotlin.math.max
 import kotlin.math.min
 

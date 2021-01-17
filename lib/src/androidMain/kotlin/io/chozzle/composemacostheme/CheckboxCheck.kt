@@ -1,4 +1,4 @@
-package me.carsonholzheimer.composemacostheme
+package io.chozzle.composemacostheme
 
 import androidx.compose.foundation.layout.offset
 import androidx.compose.material.Text

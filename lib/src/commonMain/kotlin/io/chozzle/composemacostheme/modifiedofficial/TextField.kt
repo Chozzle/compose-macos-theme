@@ -1,4 +1,4 @@
-package me.carsonholzheimer.composemacostheme.modifiedofficial
+package io.chozzle.composemacostheme.modifiedofficial
 
 import androidx.compose.material.*
 

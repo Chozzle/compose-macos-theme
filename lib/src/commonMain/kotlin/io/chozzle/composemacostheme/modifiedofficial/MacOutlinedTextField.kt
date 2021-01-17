@@ -1,4 +1,4 @@
-package me.carsonholzheimer.composemacostheme.modifiedofficial
+package io.chozzle.composemacostheme.modifiedofficial
 
 
 /*
@@ -22,7 +22,6 @@ import androidx.compose.foundation.Interaction
 import androidx.compose.foundation.InteractionState
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
@@ -47,7 +46,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.*
-import me.carsonholzheimer.composemacostheme.MacTheme
+import io.chozzle.composemacostheme.MacTheme
 import kotlin.math.max
 import kotlin.math.roundToInt
 

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package me.carsonholzheimer.composemacostheme.modifiedofficial
+package io.chozzle.composemacostheme.modifiedofficial
 
 import androidx.compose.animation.ColorPropKey
 import androidx.compose.animation.DpPropKey
@@ -51,7 +51,7 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.lerp
 import androidx.compose.ui.unit.*
-import me.carsonholzheimer.composemacostheme.MacTheme
+import io.chozzle.composemacostheme.MacTheme
 
 internal enum class TextFieldType {
     Filled, Outlined

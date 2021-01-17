@@ -6,9 +6,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import me.carsonholzheimer.composemacostheme.ExampleView
-import me.carsonholzheimer.composemacostheme.MacDropdownMenu
-import me.carsonholzheimer.composemacostheme.MacTheme
+import io.chozzle.composemacostheme.ExampleView
+import io.chozzle.composemacostheme.MacDropdownMenu
+import io.chozzle.composemacostheme.MacTheme
 
 
 fun main() = Window(title = "MacOS theme for Compose :)") {

@@ -1,4 +1,4 @@
-package me.carsonholzheimer.composemacostheme
+package io.chozzle.composemacostheme
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -10,7 +10,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import me.carsonholzheimer.composemacostheme.modifiedofficial.MacOutlinedTextField
+import io.chozzle.composemacostheme.modifiedofficial.MacOutlinedTextField
 
 @Composable
 fun ExampleView() {

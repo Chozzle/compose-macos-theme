@@ -7,7 +7,7 @@ plugins {
     id("maven-publish")
 }
 
-group = "me.carsonholzheimer"
+group = "io.github.chozzle"
 version = "0.1.0"
 
 kotlin {

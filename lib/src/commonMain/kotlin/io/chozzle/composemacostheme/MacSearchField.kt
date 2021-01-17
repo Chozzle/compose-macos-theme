@@ -1,4 +1,4 @@
-package me.carsonholzheimer.composemacostheme
+package io.chozzle.composemacostheme
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -9,7 +9,7 @@ import androidx.compose.ui.input.key.*
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import me.carsonholzheimer.composemacostheme.modifiedofficial.MacOutlinedTextField
+import io.chozzle.composemacostheme.modifiedofficial.MacOutlinedTextField
 
 /**
  * Wraps a [MacOutlinedTextField] and also interprets a Enter keypress as a search request

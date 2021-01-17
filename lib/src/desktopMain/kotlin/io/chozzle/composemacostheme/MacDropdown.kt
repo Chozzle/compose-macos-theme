@@ -1,4 +1,4 @@
-package me.carsonholzheimer.composemacostheme
+package io.chozzle.composemacostheme
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -12,8 +12,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerMoveFilter
 import androidx.compose.ui.platform.AmbientDensity
-import androidx.compose.ui.text.AnnotatedString
-import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -117,9 +115,12 @@ private fun DropdownToggle(
         modifier = Modifier.clickable(onClick = onClick)
             .border(Dp.Hairline, MacTheme.colors.border, RoundedCornerShape(4.dp))
             .padding(3.dp),
-        verticalAlignment = Alignment.CenterVertically
+        verticalAlignment = Alignment.CenterVertically,
     ) {
-        Box(contentAlignment = Alignment.CenterStart) {
+        Box(
+            Modifier.padding(horizontal = 6.dp),
+            contentAlignment = Alignment.CenterStart
+        ) {
             Text(
                 longestItem,
                 fontSize = FontSize,
