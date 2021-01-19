@@ -104,11 +104,50 @@ if (secretPropsFile.exists()) {
     extra["ossrhPassword"] = System.getenv("OSSRH_PASSWORD")
 }
 
+// Create empty jar for javadoc classifier to satisfy maven requirements
+tasks.register<Jar>("stubJavadoc") {
+    archiveClassifier.set("javadoc")
+}
+
 signing {
     sign(publishing.publications)
 }
 
 publishing {
+    publications.withType<MavenPublication>().configureEach {
+        pom {
+            name.set("MacOS Theme for Compose")
+            description.set("A collection of components that follow MacOS Theme, written in Compose UI")
+            url.set("https://https://github.com/chozzle/compose-macos-theme")
+
+            licenses {
+                license {
+                    name.set("The Apache Software License, Version 2.0")
+                    url.set("http://www.apache.org/licenses/LICENSE-2.0.txt")
+                    distribution.set("repo")
+                }
+            }
+            developers {
+                developer {
+                    id.set("Chozzle")
+                    name.set("Carson Holzheimer")
+                }
+            }
+            scm {
+                url.set("https://https://github.com/chozzle/compose-macos-theme")
+            }
+        }
+
+        // Patch publications with fake javadoc
+        artifact(tasks.findByName("stubJavadoc"))
+    }
+    // Patch publications with fake javadoc
+    kotlin.targets.forEach { target ->
+        val targetPublication = publications.findByName(target.name)
+        if (targetPublication != null) {
+            targetPublication.name
+        }
+    }
     repositories {
         maven {
             name = "mavencentral"

@@ -17,7 +17,6 @@ kotlin {
         named("jvmMain") {
             dependencies {
                 implementation(compose.desktop.currentOs)
-                implementation(project(":compose-macos-theme"))
             }
         }
     }
