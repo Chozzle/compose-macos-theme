@@ -1,5 +1,6 @@
 package io.chozzle.composemacostheme
 
+import androidx.compose.foundation.InteractionState
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
@@ -54,7 +55,7 @@ fun MacSearchField(
 private fun CloseIcon(closeClicked: () -> Unit) {
     Text(
         "\uDBC0\uDD84",
-        Modifier.clickable(indication = null) {
+        Modifier.clickable(interactionState = remember { InteractionState() }, indication = null) {
             closeClicked()
         },
         fontSize = 10.sp,

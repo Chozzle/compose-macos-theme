@@ -18,7 +18,13 @@ package io.chozzle.composemacostheme.modifiedofficial
 
 import androidx.compose.animation.ColorPropKey
 import androidx.compose.animation.DpPropKey
-import androidx.compose.animation.core.*
+import androidx.compose.animation.core.FastOutLinearInEasing
+import androidx.compose.animation.core.FloatPropKey
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.TransitionSpec
+import androidx.compose.animation.core.keyframes
+import androidx.compose.animation.core.transitionDefinition
+import androidx.compose.animation.core.tween
 import androidx.compose.animation.transition
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Interaction
@@ -35,12 +41,16 @@ import androidx.compose.runtime.Providers
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.focus.FocusReference
-import androidx.compose.ui.focus.focusReference
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.takeOrElse
-import androidx.compose.ui.layout.*
+import androidx.compose.ui.layout.LayoutModifier
+import androidx.compose.ui.layout.Measurable
+import androidx.compose.ui.layout.MeasureResult
+import androidx.compose.ui.layout.MeasureScope
+import androidx.compose.ui.layout.Placeable
 import androidx.compose.ui.node.Ref
 import androidx.compose.ui.platform.InspectorValueInfo
 import androidx.compose.ui.platform.debugInspectorInfo
@@ -50,7 +60,11 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.lerp
-import androidx.compose.ui.unit.*
+import androidx.compose.ui.unit.Constraints
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.constrainWidth
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.offset
 import io.chozzle.composemacostheme.MacTheme
 
 internal enum class TextFieldType {
@@ -64,6 +78,8 @@ internal enum class TextFieldType {
 @OptIn(ExperimentalFoundationApi::class)
 internal fun TextFieldImpl(
     type: TextFieldType,
+    enabled: Boolean,
+    readOnly: Boolean,
     value: TextFieldValue,
     onValueChange: (TextFieldValue) -> Unit,
     modifier: Modifier,
@@ -112,6 +128,8 @@ internal fun TextFieldImpl(
                 value = value,
                 modifier = tagModifier.defaultMinSizeConstraints(minWidth = TextFieldMinWidth),
                 textStyle = mergedTextStyle,
+                enabled = enabled,
+                readOnly = readOnly,
                 onValueChange = onValueChange,
                 cursorColor = if (isErrorValue) errorColor else MaterialTheme.colors.onSurface,
                 visualTransformation = visualTransformation,
@@ -130,20 +148,24 @@ internal fun TextFieldImpl(
         }
     }
 
-    val focusReference = FocusReference()
-    val textFieldModifier = modifier
-        .focusReference(focusReference)
-        .let {
-            it.clickable(interactionState = interactionState, indication = null) {
-                focusReference.requestFocus()
+    val focusRequester = FocusRequester()
+    val textFieldModifier = if (enabled) {
+        modifier
+            .focusRequester(focusRequester)
+            .clickable(interactionState = interactionState, indication = null) {
+                focusRequester.requestFocus()
                 // TODO(b/163109449): Showing and hiding keyboard should be handled by BaseTextField.
                 //  The requestFocus() call here should be enough to trigger the software keyboard.
                 //  Investiate why this is needed here. If it is really needed, instead of doing
                 //  this in the onClick callback, we should move this logic to onFocusChanged
                 //  so that it can show or hide the keyboard based on the focus state.
-                keyboardController.value?.showSoftwareKeyboard()
+                if (!readOnly) {
+                    keyboardController.value?.showSoftwareKeyboard()
+                }
             }
-        }
+    } else {
+        modifier
+    }
 
     TextFieldTransitionScope.Transition(
         inputState = inputState,

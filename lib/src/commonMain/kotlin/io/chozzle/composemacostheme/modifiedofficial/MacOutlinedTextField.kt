@@ -45,10 +45,15 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.unit.*
-import io.chozzle.composemacostheme.MacTheme
+import androidx.compose.ui.unit.Constraints
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.LayoutDirection
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.offset
+import androidx.compose.ui.unit.sp
 import kotlin.math.max
 import kotlin.math.roundToInt
+import io.chozzle.composemacostheme.MacTheme
 
 /**
  * Material Design implementation of an
@@ -65,6 +70,12 @@ import kotlin.math.roundToInt
  * @param onValueChange the callback that is triggered when the input service updates the text. An
  * updated text comes as a parameter of the callback
  * @param modifier a [Modifier] for this text field
+ * @param enabled controls the enabled state of the [OutlinedTextField]. When `false`, the text field will
+ * be neither editable nor focusable, the input of the text field will not be selectable,
+ * visually text field will appear in the disabled UI state
+ * @param readOnly controls the editable state of the [OutlinedTextField]. When `true`, the text
+ * fields will not be editable but otherwise operable. Read-only text fields are usually used to
+ * display the pre-filled text that user cannot edit
  * @param textStyle the style to be applied to the input text. The default [textStyle] uses the
  * [AmbientTextStyle] defined by the theme
  * @param label the optional label to be displayed inside the text field container. The default
@@ -114,7 +125,10 @@ fun MacOutlinedTextField(
     value: String,
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
+    enabled: Boolean = true,
+    readOnly: Boolean = false,
     textStyle: TextStyle = AmbientTextStyle.current.copy(fontSize = 13.sp),
+    label: @Composable (() -> Unit)? = null,
     placeholder: @Composable (() -> Unit)? = null,
     leadingIcon: @Composable (() -> Unit)? = null,
     trailingIcon: @Composable (() -> Unit)? = null,
@@ -136,6 +150,8 @@ fun MacOutlinedTextField(
 
     TextFieldImpl(
         type = TextFieldType.Outlined,
+        enabled = enabled,
+        readOnly = readOnly,
         value = textFieldValue,
         onValueChange = {
             textFieldValueState = it
@@ -181,6 +197,12 @@ fun MacOutlinedTextField(
  * @param onValueChange the callback that is triggered when the input service updates values in
  * [TextFieldValue]. An updated [TextFieldValue] comes as a parameter of the callback
  * @param modifier a [Modifier] for this text field
+ * @param enabled controls the enabled state of the [OutlinedTextField]. When `false`, the text field will
+ * be neither editable nor focusable, the input of the text field will not be selectable,
+ * visually text field will appear in the disabled UI state
+ * @param readOnly controls the editable state of the [OutlinedTextField]. When `true`, the text
+ * fields will not be editable but otherwise operable. Read-only text fields are usually used to
+ * display the pre-filled text that user cannot edit
  * @param textStyle the style to be applied to the input text. The default [textStyle] uses the
  * [AmbientTextStyle] defined by the theme
  * @param label the optional label to be displayed inside the text field container. The default
@@ -230,6 +252,8 @@ fun MacOutlinedTextField(
     value: TextFieldValue,
     onValueChange: (TextFieldValue) -> Unit,
     modifier: Modifier = Modifier,
+    enabled: Boolean = true,
+    readOnly: Boolean = false,
     textStyle: TextStyle = AmbientTextStyle.current,
     label: @Composable (() -> Unit)? = null,
     placeholder: @Composable (() -> Unit)? = null,
@@ -250,6 +274,8 @@ fun MacOutlinedTextField(
 ) {
     TextFieldImpl(
         type = TextFieldType.Outlined,
+        enabled = enabled,
+        readOnly = readOnly,
         value = value,
         onValueChange = onValueChange,
         modifier = modifier,
