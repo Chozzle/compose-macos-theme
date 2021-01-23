@@ -1,7 +1,8 @@
 # MacOS theme for Compose
-Multiplatform MacOS theme written in Compose (Compose for Desktop UI framework + Android Jetpack Compose)
+Multiplatform MacOS theme written in Compose UI.
 
-Still in alpha, but it's a start... Feedback and help welcome!
+Create native looking UIs for Mac using Compose UI. Share your UI code to run on Android, Windows or Linux. 
+You could combine this with themes to match other platforms and write your UI once, but themed to appear native.
 
 ![Desktop Example](screenshots/desktop.png)
 
@@ -66,3 +67,16 @@ repositories {
     mavenCentral()
 }
 ```
+
+### Planned work - please assign yourself!
+- [x] Search field
+- [x] Text field
+- [x] Checkbox
+- [x] Buttons
+- [x] Dropdown menu - desktop only
+- [ ] Switch
+- [ ] Radio button
+- [ ] Dark theme
+- [ ] Theme for Windows?
+
+Note that SF Symbols used in this library are only licenced to be used on Apple devices.
