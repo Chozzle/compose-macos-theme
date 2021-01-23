@@ -1,11 +1,13 @@
 package io.chozzle.composemacostheme
 
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.InteractionState
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -24,7 +26,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerMoveFilter
 import androidx.compose.ui.platform.AmbientDensity
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
@@ -39,13 +40,13 @@ import io.chozzle.composemacostheme.modifiedofficial.MacDropdownMenuItem
 @Composable
 fun MacDropdownMenu(
     menuItems: List<String>,
+    selectedIndex: Int,
     onItemSelected: (selectedIndex: Int) -> Unit,
     toggleModifier: Modifier = Modifier,
     dropdownModifier: Modifier = Modifier
 ) {
     val longestItem = menuItems.maxByOrNull { it.length }.orEmpty()
     var showMenu by remember { mutableStateOf(false) }
-    var selectedIndex by remember { mutableStateOf(0) }
     val heightOfItem = with(AmbientDensity.current) { FontSize.toDp() + MenuItemPadding * 2 + FontPadding * 2 }
     MacDropdownMenu(
         toggle = {
@@ -67,7 +68,6 @@ fun MacDropdownMenu(
             var isMouseHovering by remember { mutableStateOf(false) }
             MacDropdownMenuItem(
                 onClick = {
-                    selectedIndex = index
                     showMenu = false
                     onItemSelected(index)
                 },
@@ -88,7 +88,7 @@ fun MacDropdownMenu(
                     )
             ) {
                 Row(
-                    Modifier.fillMaxHeight().padding(MenuItemPadding),
+                    Modifier.fillMaxHeight().padding(2.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     val checkOrSpace = if (index == selectedIndex) "\uDBC0\uDD85" else "     "
@@ -97,8 +97,8 @@ fun MacDropdownMenu(
                         text = checkOrSpace,
                         Modifier.padding(end = MenuItemPadding),
                         color = if (isMouseHovering) Color.White else Color.Unspecified,
-                        fontSize = CheckTextStyle.fontSize - 2.sp,
-                        fontWeight = CheckTextStyle.fontWeight
+                        fontSize = FontSize - 3.sp,
+                        fontWeight = FontWeight.Bold
                     )
 
                     Box(contentAlignment = Alignment.CenterStart) {
@@ -106,13 +106,13 @@ fun MacDropdownMenu(
                         Text(
                             text = longestItem,
                             color = Color.Transparent,
-                            style = AmbientTextStyle.current.merge(CheckTextStyle)
+                            style = AmbientTextStyle.current.copy(fontSize = FontSize)
                         )
 
                         Text(
                             text = itemString,
                             color = if (isMouseHovering) Color.White else Color.Unspecified,
-                            style = AmbientTextStyle.current.merge(CheckTextStyle)
+                            style = AmbientTextStyle.current.copy(fontSize = FontSize)
                         )
                     }
                 }
@@ -129,27 +129,35 @@ private fun DropdownToggle(
     selectedIndex: Int,
     onClick: () -> Unit
 ) {
-    Row(
-        modifier = Modifier.clickable(onClick = onClick)
-            .border(Dp.Hairline, MacTheme.colors.border, RoundedCornerShape(4.dp))
-            .padding(3.dp),
-        verticalAlignment = Alignment.CenterVertically,
+    Surface(
+        shape = RoundedCornerShape(6.dp),
+        elevation = 2.dp,
+        border = BorderStroke(Dp.Hairline, MacTheme.colors.border)
     ) {
-        Box(
-            Modifier.padding(horizontal = 6.dp),
-            contentAlignment = Alignment.CenterStart
+        Row(
+            modifier = Modifier.clickable(
+                onClick = onClick,
+                interactionState = remember { InteractionState() },
+                indication = null
+            ).padding(3.dp),
+            verticalAlignment = Alignment.CenterVertically,
         ) {
-            Text(
-                longestItem,
-                fontSize = FontSize,
-                color = Color.Transparent
-            )
-            Text(
-                menuItems[selectedIndex],
-                fontSize = FontSize
-            )
+            Box(
+                Modifier.padding(horizontal = 6.dp),
+                contentAlignment = Alignment.CenterStart
+            ) {
+                Text(
+                    longestItem,
+                    fontSize = FontSize,
+                    color = Color.Transparent
+                )
+                Text(
+                    menuItems[selectedIndex],
+                    fontSize = FontSize
+                )
+            }
+            DisclosureDoubleArrow()
         }
-        DisclosureDoubleArrow()
     }
 }
 
@@ -161,23 +169,26 @@ private fun DisclosureDoubleArrow() {
         shape = MaterialTheme.shapes.small
     ) {
         Box(contentAlignment = Alignment.Center) {
+            // Unfortunately lineHeight doesn't seem to respect small enough values so used offsets
             Text(
-                "\uDBC0\uDD87\n\uDBC0\uDD88",
-                // TODO Change to 8 and check after this is fixed: https://github.com/JetBrains/compose-jb/issues/171
-                fontSize = 7.sp,
-                fontWeight = FontWeight.W700,
-                lineHeight = 6.sp,
+                "\uDBC0\uDD87",
+                fontSize = 7.5.sp,
+                fontWeight = FontWeight.Bold,
                 textAlign = TextAlign.Center,
+                modifier = Modifier.offset(y = (-3).dp)
+            )
+            Text(
+                "\uDBC0\uDD88",
+                fontSize = 7.5.sp,
+                fontWeight = FontWeight.Bold,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.offset(y = 3.dp)
             )
         }
     }
 }
 
 private val FontSize = 13.sp
-private val CheckTextStyle = TextStyle(
-    fontSize = FontSize,
-    fontWeight = FontWeight.W800,
-)
 private val FontPadding = 1.5.dp
 private val MenuItemPadding = 3.dp
 

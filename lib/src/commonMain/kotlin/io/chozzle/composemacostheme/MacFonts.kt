@@ -22,7 +22,30 @@ object MacFonts {
             FontWeight.Normal,
             FontStyle.Italic
         ),
-
+        font(
+            "SF Pro Medium",
+            "sf_pro_display_medium",
+            FontWeight.Medium,
+            FontStyle.Normal
+        ),
+        font(
+            "SF Pro Medium Italic",
+            "sf_pro_display_mediumitalic",
+            FontWeight.Medium,
+            FontStyle.Italic
+        ),
+        font(
+            "SF Pro SemiBold",
+            "sf_pro_display_semibold",
+            FontWeight.SemiBold,
+            FontStyle.Normal
+        ),
+        font(
+            "SF Pro SemiBold",
+            "sf_pro_display_semibolditalic",
+            FontWeight.SemiBold,
+            FontStyle.Italic
+        ),
         font(
             "SF Pro Bold",
             "sf_pro_display_bold",
@@ -46,19 +69,6 @@ object MacFonts {
             "SF Pro Extra Bold Italic",
             "sf_pro_display_heavyitalic",
             FontWeight.ExtraBold,
-            FontStyle.Italic
-        ),
-
-        font(
-            "SF Pro Medium",
-            "sf_pro_display_medium",
-            FontWeight.Medium,
-            FontStyle.Normal
-        ),
-        font(
-            "SF Pro Medium Italic",
-            "sf_pro_display_mediumitalic",
-            FontWeight.Medium,
             FontStyle.Italic
         )
     )

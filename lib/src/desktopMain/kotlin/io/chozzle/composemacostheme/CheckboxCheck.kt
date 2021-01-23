@@ -12,6 +12,6 @@ actual fun MacCheckboxCheck(checkColor: Color)  {
         "\uDBC0\uDD85",
         fontSize = 10.sp,
         color = checkColor,
-        fontWeight = FontWeight.W800
+        fontWeight = FontWeight.W700
     )
 }
