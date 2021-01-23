@@ -6,9 +6,6 @@ plugins {
     id("org.jetbrains.compose")
 }
 
-group = "io.github.chozzle"
-version = "1.0"
-
 kotlin {
     jvm {
         withJava()
@@ -17,7 +14,7 @@ kotlin {
         named("jvmMain") {
             dependencies {
                 implementation(compose.desktop.currentOs)
-                implementation(project(":compose-macos-theme"))
+                implementation("io.github.chozzle:compose-macos-theme:${rootProject.version}")
             }
         }
     }

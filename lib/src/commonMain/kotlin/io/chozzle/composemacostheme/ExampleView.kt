@@ -1,10 +1,12 @@
 package io.chozzle.composemacostheme
 
 import androidx.compose.foundation.InteractionState
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.AmbientTextStyle
 import androidx.compose.material.ContentAlpha
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -40,7 +42,7 @@ fun ExampleView() {
                     MacOutlinedTextField(
                         textFieldValue,
                         { textFieldValue = it },
-                        Modifier.fillMaxWidth(),
+                        Modifier.fillMaxWidth().background(color = MaterialTheme.colors.surface),
                         placeholder = { Text("Email") },
                         singleLine = true
                     )
@@ -49,7 +51,7 @@ fun ExampleView() {
                     MacOutlinedTextField(
                         textFieldValue2,
                         { textFieldValue2 = it },
-                        Modifier.fillMaxWidth(),
+                        Modifier.fillMaxWidth().background(color = MaterialTheme.colors.surface),
                         placeholder = { Text("Phone No.") },
                         singleLine = true
                     )

@@ -21,5 +21,5 @@ android {
 }
 
 dependencies {
-    implementation(project(":compose-macos-theme"))
+    implementation("io.github.chozzle:compose-macos-theme:${rootProject.version}")
 }

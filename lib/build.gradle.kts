@@ -10,9 +10,6 @@ plugins {
     id("signing")
 }
 
-group = "io.github.chozzle"
-version = "0.1.0"
-
 kotlin {
     android()
     jvm("desktop")

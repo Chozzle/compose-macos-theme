@@ -14,7 +14,7 @@ Add the common dependency which will work for both android and desktop.
 sourceSets {
     named("commonMain") {
         dependencies {
-            implementation("io.github.chozzle:compose-macos-theme:0.1.0")
+            implementation("io.github.chozzle:compose-macos-theme:0.2.0")
         }
     }
 }
@@ -35,7 +35,7 @@ kotlin {
         named("jvmMain") {
             dependencies {
                 implementation(compose.desktop.currentOs)
-                implementation("io.github.chozzle:compose-macos-theme-desktop:0.1.0")
+                implementation("io.github.chozzle:compose-macos-theme-desktop:0.2.0")
             }
         }
     }
@@ -46,14 +46,19 @@ kotlin {
 Do not specify android specifically (it won't work). Gradle will automatically import the android sourceset only.
 ```kotlin 
 dependencies {
-    implementation("io.github.chozzle:compose-macos-theme:0.1.0")
+    implementation("io.github.chozzle:compose-macos-theme:0.2.0")
 }
 ```
 
-Ensure you have the required compiler options for compose generally, see https://developer.android.com/jetpack/compose/setup#configure_gradle:
+Ensure you have the [required compiler options for compose](https://developer.android.com/jetpack/compose/setup#configure_gradle) generally 
+or alternatively you can use Jetbrains' plugin:
+```kotlin
+plugins {
+    id("org.jetbrains.compose")
+}
+```
 
-
-and Maven Central as a repository
+You'll need Maven Central as a repository
 
 ```kotlin
 repositories {
