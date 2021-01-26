@@ -7,14 +7,13 @@ plugins {
 }
 
 kotlin {
-    jvm {
-        withJava()
-    }
+    jvm()
     sourceSets {
         named("jvmMain") {
             dependencies {
                 implementation(compose.desktop.currentOs)
-                implementation("io.github.chozzle:compose-macos-theme:${rootProject.version}")
+                implementation(project(":compose-windows-theme"))
+                implementation(project(":compose-macos-theme"))
             }
         }
     }

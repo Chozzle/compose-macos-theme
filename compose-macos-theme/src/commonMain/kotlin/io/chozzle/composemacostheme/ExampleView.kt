@@ -16,7 +16,7 @@ import androidx.compose.ui.unit.sp
 import io.chozzle.composemacostheme.modifiedofficial.MacOutlinedTextField
 
 @Composable
-fun ExampleView() {
+fun MacExampleView() {
     MacTheme {
         Column(
             Modifier.padding(16.dp).fillMaxWidth(),
