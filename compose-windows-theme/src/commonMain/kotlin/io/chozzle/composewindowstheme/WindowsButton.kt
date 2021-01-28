@@ -1,13 +1,16 @@
 package io.chozzle.composewindowstheme
 
-import androidx.compose.foundation.*
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.InteractionState
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.Dp
@@ -25,25 +28,46 @@ fun WindowsButton(
     shape: Shape = MaterialTheme.shapes.small,
     border: BorderStroke? = null,
     colors: ButtonColors = ButtonDefaults.buttonColors(
-        disabledBackgroundColor = MacDisabledBackgroundColor,
-        disabledContentColor = MacDisabledContentColor
+        disabledBackgroundColor = WindowsDisabledBackgroundColor,
+        disabledContentColor = WindowsDisabledContentColor
     ),
     contentPadding: PaddingValues = macButtonPaddingValues(windowsButtonStyle),
     content: @Composable RowScope.() -> Unit
 ) {
+    var isPointerHovering by remember { mutableStateOf(false) }
     Button(
         onClick = onClick,
-        modifier = modifier.sizeIn(windowsButtonStyle.minWidth, windowsButtonStyle.minHeight),
+        modifier = Modifier
+            .pointerMoveFilter(
+                onEnter = {
+                    isPointerHovering = true
+                    false
+                },
+                onExit = {
+                    isPointerHovering = false
+                    false
+                }
+            ),
         enabled = enabled,
         interactionState = interactionState,
         elevation = elevation,
         shape = shape,
         border = border,
-        colors = colors,
+        colors = if (isPointerHovering) {
+            ButtonDefaults.buttonColors(
+                disabledBackgroundColor = colors.backgroundColor(false),
+                disabledContentColor = colors.contentColor(false),
+                backgroundColor = WindowsTheme.colors.highlight,
+                contentColor = MaterialTheme.colors.surface
+            )
+        } else {
+            colors
+        },
         contentPadding = contentPadding,
         content = content
     )
 }
+
 
 @Composable
 private fun macButtonPaddingValues(windowsButtonStyle: WindowsButtonStyle) =
@@ -56,7 +80,7 @@ private fun macButtonPaddingValues(windowsButtonStyle: WindowsButtonStyle) =
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun WindowsSecondaryButton(
+fun WindowsHyperlinkButton( // TODO
     onClick: () -> Unit,
     modifier: Modifier = Modifier, // TODO: Make an "indication" that changes to primary color on click
     enabled: Boolean = true,
@@ -69,11 +93,11 @@ fun WindowsSecondaryButton(
     ),
     shape: Shape = MaterialTheme.shapes.small,
     border: BorderStroke? = null,
-    colors: ButtonColors = MacButtonDefaults.secondaryButtonColors(),
+    colors: ButtonColors = WindowsButtonDefaults.secondaryButtonColors(),
     contentPadding: PaddingValues = macButtonPaddingValues(windowsButtonStyle),
     content: @Composable RowScope.() -> Unit
 ) {
-    MacButton(
+    WindowsButton(
         onClick = onClick,
         modifier = modifier.sizeIn(windowsButtonStyle.minWidth, windowsButtonStyle.minHeight),
         enabled = enabled,
@@ -87,9 +111,21 @@ fun WindowsSecondaryButton(
     )
 }
 
-sealed class ButtonStyle(val minWidth: Dp, val minHeight: Dp) {
-    object Large : ButtonStyle(minWidth = 157.dp, minHeight = 28.dp)
-    object Small : ButtonStyle(minWidth = Dp.Unspecified, 20.dp)
+internal expect fun Modifier.pointerMoveFilter(
+    onMove: (position: Offset) -> Boolean = { false },
+    onExit: () -> Boolean = { false },
+    onEnter: () -> Boolean = { false },
+): Modifier
+
+
+sealed class WindowsButtonStyle(val minWidth: Dp, val minHeight: Dp) {
+    object Button : WindowsButtonStyle(minWidth = 120.dp, minHeight = 32.dp)
+    object Hyperlink : WindowsButtonStyle(minWidth = Dp.Unspecified, 32.dp)
+}
+
+@OptIn(ExperimentalMaterialApi::class)
+object ZeroButtonElevation : ButtonElevation {
+    override fun elevation(enabled: Boolean, interactionState: InteractionState) = 0.dp
 }
 
 object WindowsButtonDefaults {
@@ -101,8 +137,8 @@ object WindowsButtonDefaults {
         contentColor: Color = MaterialTheme.colors.onSurface,
     ): ButtonColors = ButtonDefaults.buttonColors(
         backgroundColor = backgroundColor,
-        disabledBackgroundColor = MacDisabledBackgroundColor,
+        disabledBackgroundColor = WindowsDisabledBackgroundColor,
         contentColor = contentColor,
-        disabledContentColor = MacDisabledContentColor
+        disabledContentColor = WindowsDisabledContentColor
     )
 }

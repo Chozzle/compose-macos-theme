@@ -18,16 +18,9 @@ kotlin {
         named("commonMain") {
             dependencies {
                 implementation(kotlin("stdlib-common"))
-                api(compose.runtime)
-                api(compose.foundation)
-                api(compose.material)
-                api(compose.materialIconsExtended) // Probably not needed
-            }
-        }
-        val commonTest by getting {
-            dependencies {
-                implementation(kotlin("test-common"))
-                implementation(kotlin("test-annotations-common"))
+                implementation(compose.runtime)
+                implementation(compose.foundation)
+                implementation(compose.material)
             }
         }
         named("desktopMain") {
@@ -38,8 +31,8 @@ kotlin {
         named("androidMain") {
             dependencies {
                 kotlin.srcDirs("src/jvmMain/kotlin")
-                api("androidx.appcompat:appcompat:1.1.0")
-                api("androidx.core:core-ktx:1.3.1")
+                implementation("androidx.appcompat:appcompat:1.1.0")
+                implementation("androidx.core:core-ktx:1.3.1")
                 implementation("com.google.android.material:material:1.2.1")
             }
         }

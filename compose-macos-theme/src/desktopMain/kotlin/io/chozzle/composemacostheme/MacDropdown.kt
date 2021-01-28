@@ -65,7 +65,7 @@ fun MacDropdownMenu(
         dropdownOffset = DpOffset(0.dp, -(heightOfItem * (selectedIndex + 1)))
     ) {
         menuItems.forEachIndexed { index, itemString ->
-            var isMouseHovering by remember { mutableStateOf(false) }
+            var isPointerHovering by remember { mutableStateOf(false) }
             MacDropdownMenuItem(
                 onClick = {
                     showMenu = false
@@ -74,16 +74,16 @@ fun MacDropdownMenu(
                 modifier = Modifier
                     .pointerMoveFilter(
                         onEnter = {
-                            isMouseHovering = true
+                            isPointerHovering = true
                             false
                         },
                         onExit = {
-                            isMouseHovering = false
+                            isPointerHovering = false
                             false
                         }
                     ).padding(horizontal = 6.dp)
                     .background(
-                        if (isMouseHovering) MacTheme.colors.primary.copy(alpha = 0.7f) else Color.Unspecified,
+                        if (isPointerHovering) MacTheme.colors.primary.copy(alpha = 0.7f) else Color.Unspecified,
                         shape = RoundedCornerShape(4.dp)
                     )
             ) {
@@ -96,7 +96,7 @@ fun MacDropdownMenu(
                     Text(
                         text = checkOrSpace,
                         Modifier.padding(end = MenuItemPadding),
-                        color = if (isMouseHovering) Color.White else Color.Unspecified,
+                        color = if (isPointerHovering) Color.White else Color.Unspecified,
                         fontSize = FontSize - 3.sp,
                         fontWeight = FontWeight.Bold
                     )
@@ -111,7 +111,7 @@ fun MacDropdownMenu(
 
                         Text(
                             text = itemString,
-                            color = if (isMouseHovering) Color.White else Color.Unspecified,
+                            color = if (isPointerHovering) Color.White else Color.Unspecified,
                             style = AmbientTextStyle.current.copy(fontSize = FontSize)
                         )
                     }

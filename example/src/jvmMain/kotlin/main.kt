@@ -32,8 +32,6 @@ fun main() = Window(title = "Native theme for Compose :)") {
         ) {
             Text("Mac:")
             MacTheme {
-
-
                 MacExampleView()
 
                 Spacer(Modifier.height(16.dp))

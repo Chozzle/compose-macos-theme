@@ -3,6 +3,7 @@ package io.chozzle.composewindowstheme
 import androidx.compose.foundation.AmbientIndication
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.InteractionState
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.selection.triStateToggleable
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -23,6 +24,7 @@ import androidx.compose.ui.graphics.drawscope.Fill
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.state.ToggleableState
 import androidx.compose.ui.unit.dp
+
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -77,7 +79,7 @@ private fun macCheckboxColors(
     uncheckedColor: Color = WindowsTheme.colors.primary50,
     checkmarkColor: Color = MaterialTheme.colors.surface,
     disabledCheckmarkColor: Color = WindowsTheme.colors.primary50,
-    disabledColor: Color = MacDisabledBackgroundColor.copy(alpha = 0.03f),
+    disabledColor: Color = WindowsDisabledBackgroundColor.copy(alpha = 0.03f),
     disabledIndeterminateColor: Color = checkedColor.copy(alpha = ContentAlpha.disabled)
 ): MacCheckboxColors {
     return remember(
