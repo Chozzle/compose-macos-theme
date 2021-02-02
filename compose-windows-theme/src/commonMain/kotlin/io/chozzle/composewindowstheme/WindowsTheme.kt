@@ -9,6 +9,7 @@ import androidx.compose.runtime.staticAmbientOf
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.ContentDrawScope
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -17,11 +18,19 @@ object WindowsTheme {
 
     @Composable
     val colors: WindowsColors
-        get() = AmbientMacColors.current
+        get() = AmbientWindowsColors.current
+
+    @Composable
+    val iconFont: Font
+        get() = AmbientIconFont.current
 }
 
-private val AmbientMacColors = staticAmbientOf<WindowsColors> {
-    error("No MacColors provided")
+private val AmbientWindowsColors = staticAmbientOf<WindowsColors> {
+    error("No WindowsColors provided")
+}
+
+private val AmbientIconFont = staticAmbientOf<Font> {
+    error("No Font provided")
 }
 /**
  * Wraps [MaterialTheme] with modifications to match MacOS Theme
@@ -29,7 +38,7 @@ private val AmbientMacColors = staticAmbientOf<WindowsColors> {
 @Composable
 fun WindowsTheme(
     colors: Colors = lightColors(
-        primary = windowsLightPalette.primary,
+        primary = windowsLightPalette.baseLow,
     ),
     typography: Typography = Typography(
         defaultFontFamily = WindowsFonts.SegoeUI(),
@@ -45,7 +54,9 @@ fun WindowsTheme(
     ),
     content: @Composable () -> Unit
 ) {
-    Providers(AmbientMacColors provides windowsLightPalette) {
+    Providers(AmbientWindowsColors provides windowsLightPalette,
+        AmbientIconFont provides WindowsFonts.SegoeAssets()
+    ) {
         MaterialTheme(colors, typography, shapes) {
             val indicationFactory: @Composable () -> Indication = {
                 MacIndication

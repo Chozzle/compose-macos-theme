@@ -40,4 +40,20 @@ private fun ButtonsView() {
             Text("You can't touch this")
         }
     }
+    Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
+        WindowsButton(
+            onClick = {},
+            colors = WindowsButtonDefaults.accentColors
+        ) {
+            Text("Primary")
+        }
+
+        WindowsButton(
+            enabled = false,
+            onClick = {},
+            colors = WindowsButtonDefaults.accentColors
+        ) {
+            Text("You can't touch this")
+        }
+    }
 }

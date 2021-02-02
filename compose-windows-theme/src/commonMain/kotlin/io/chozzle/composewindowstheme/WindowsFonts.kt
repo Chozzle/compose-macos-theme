@@ -31,6 +31,13 @@ object WindowsFonts {
             FontStyle.Italic
         )
     )
+
+    @Composable
+    fun SegoeAssets() = font(
+        "segmdl2",
+        FontWeight.Normal,
+        FontStyle.Normal
+    )
 }
 
 @Composable
