@@ -1,12 +1,6 @@
 import androidx.compose.desktop.Window
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -23,13 +17,24 @@ import io.chozzle.composemacostheme.MacTheme
 
 fun main() = Window(title = "Native theme for Compose :)") {
     Row(Modifier.fillMaxSize(), horizontalArrangement = Arrangement.SpaceEvenly) {
-        WindowsExampleView()
+        Column(
+            Modifier.weight(1f),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            Spacer(Modifier.height(16.dp))
+            Text("Windows:")
+            WindowsExampleView()
+        }
 
         Column(
-            Modifier.fillMaxSize()
+            Modifier.weight(1f)
+                .fillMaxHeight()
                 .background(color = Color(red = 246, green = 246, blue = 246, alpha = 255)),
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
+            Spacer(Modifier.height(16.dp))
             Text("Mac:")
             MacTheme {
                 MacExampleView()
