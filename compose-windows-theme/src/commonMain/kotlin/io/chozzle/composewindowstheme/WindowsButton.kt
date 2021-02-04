@@ -4,7 +4,9 @@ import androidx.compose.animation.animateAsState
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.TweenSpec
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Interaction
 import androidx.compose.foundation.InteractionState
+import androidx.compose.foundation.indication
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.sizeIn
@@ -58,27 +60,24 @@ fun WindowsButton(
                     false
                 }
             ).sizeIn(windowsButtonStyle.minWidth, windowsButtonStyle.minHeight)
-        ,
+
+            // Material indication interferes with animated hover color change
+            .indication(interactionState, indication = null),
         enabled = enabled,
         interactionState = interactionState,
         elevation = elevation,
         shape = shape,
         border = border,
-        colors = if (isPointerHovering) {
-            ButtonDefaults.buttonColors(
-                disabledBackgroundColor = colors.disabledBackgroundColor,
-                disabledContentColor = colors.disabledContentColor,
-                backgroundColor = backgroundColor,
-                contentColor = colors.contentColor
-            )
-        } else {
-            ButtonDefaults.buttonColors(
-                disabledBackgroundColor = colors.disabledBackgroundColor,
-                disabledContentColor = colors.disabledContentColor,
-                backgroundColor = backgroundColor,
-                contentColor = colors.contentColor
-            )
-        },
+        colors = ButtonDefaults.buttonColors(
+            disabledBackgroundColor = colors.disabledBackgroundColor,
+            disabledContentColor = colors.disabledContentColor,
+            backgroundColor = if (interactionState.contains(Interaction.Pressed)) {
+                colors.pressedColor
+            } else {
+                backgroundColor
+            },
+            contentColor = colors.contentColor
+        ),
         contentPadding = contentPadding,
         content = content
     )
@@ -92,7 +91,8 @@ object WindowsButtonDefaults {
             disabledContentColor = WindowsDisabledContentColor,
             backgroundColor = WindowsTheme.colors.baseLow,
             contentColor = MaterialTheme.colors.onBackground,
-            hoverColor = WindowsTheme.colors.listLow
+            hoverColor = WindowsTheme.colors.listLow,
+            pressedColor = WindowsTheme.colors.baseMediumLow
         )
     val accentColors: WindowsButtonColors
         @Composable
@@ -101,7 +101,8 @@ object WindowsButtonDefaults {
             disabledContentColor = WindowsDisabledContentColor,
             backgroundColor = WindowsTheme.colors.accent,
             contentColor = MaterialTheme.colors.onPrimary,
-            hoverColor = WindowsTheme.colors.accentLight
+            hoverColor = WindowsTheme.colors.accentLight,
+            pressedColor = WindowsTheme.colors.accentDark
         )
 }
 
@@ -110,7 +111,8 @@ data class WindowsButtonColors(
     val disabledBackgroundColor: Color,
     val contentColor: Color,
     val disabledContentColor: Color,
-    val hoverColor: Color
+    val hoverColor: Color,
+    val pressedColor: Color
 )
 
 @Composable
