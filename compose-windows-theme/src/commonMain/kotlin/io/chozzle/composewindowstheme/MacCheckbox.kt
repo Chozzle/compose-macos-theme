@@ -1,6 +1,6 @@
 package io.chozzle.composewindowstheme
 
-import androidx.compose.foundation.AmbientIndication
+import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.InteractionState
 import androidx.compose.foundation.layout.Box
@@ -48,7 +48,7 @@ fun MacCheckbox(
             onClick = { onCheckedChange(!checked) },
             enabled = enabled,
             interactionState = interactionState,
-            indication = if (enabled) AmbientIndication.current() else null // Unfortunately necessary
+            indication = if (enabled) LocalIndication.current else null // Unfortunately necessary
         ),
         Alignment.Center
     ) {
@@ -69,7 +69,7 @@ fun MacCheckbox(
             )
         }
         val checkColor = colors.checkmarkColor(enabled, state)
-        io.chozzle.composewindowstheme.MacCheckboxCheck(checkColor)
+        MacCheckboxCheck(checkColor)
     }
 }
 

@@ -1,6 +1,6 @@
 package io.chozzle.composewindowstheme
 
-import androidx.compose.animation.animateAsState
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.TweenSpec
 import androidx.compose.foundation.BorderStroke
@@ -35,7 +35,7 @@ fun WindowsButton(
     content: @Composable RowScope.() -> Unit
 ) {
     var isPointerHovering by remember { mutableStateOf(false) }
-    val backgroundColor by animateAsState(
+    val backgroundColor by animateColorAsState(
         targetValue = if (isPointerHovering) {
             colors.hoverColor
         } else {
@@ -169,7 +169,12 @@ sealed class WindowsButtonStyle(val minWidth: Dp, val minHeight: Dp) {
     object Hyperlink : WindowsButtonStyle(minWidth = Dp.Unspecified, 32.dp)
 }
 
+
 @OptIn(ExperimentalMaterialApi::class)
 object ZeroButtonElevation : ButtonElevation {
-    override fun elevation(enabled: Boolean, interactionState: InteractionState) = 0.dp
+
+    @Composable
+    override fun elevation(enabled: Boolean, interactionState: InteractionState): State<Dp> {
+        return mutableStateOf(0.dp)
+    }
 }

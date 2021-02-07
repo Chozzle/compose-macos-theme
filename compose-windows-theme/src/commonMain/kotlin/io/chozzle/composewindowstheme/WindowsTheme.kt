@@ -5,7 +5,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Providers
-import androidx.compose.runtime.staticAmbientOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.ContentDrawScope
 import androidx.compose.ui.text.TextStyle
@@ -25,11 +26,11 @@ object WindowsTheme {
         get() = AmbientIconFont.current
 }
 
-private val AmbientWindowsColors = staticAmbientOf<WindowsColors> {
+private val AmbientWindowsColors = staticCompositionLocalOf<WindowsColors> {
     error("No WindowsColors provided")
 }
 
-private val AmbientIconFont = staticAmbientOf<Font> {
+private val AmbientIconFont = staticCompositionLocalOf<Font> {
     error("No Font provided")
 }
 /**
@@ -58,11 +59,11 @@ fun WindowsTheme(
         AmbientIconFont provides WindowsFonts.SegoeAssets()
     ) {
         MaterialTheme(colors, typography, shapes) {
-            val indicationFactory: @Composable () -> Indication = {
+            val indication = remember {
                 MacIndication
             }
             Providers(
-                AmbientIndication provides indicationFactory,
+                LocalIndication provides indication,
                 content = content
             )
         }
@@ -83,6 +84,7 @@ private object MacIndication : Indication {
         }
     }
 
+    @Composable
     override fun createInstance(): IndicationInstance {
         return DefaultDebugIndicationInstance
     }

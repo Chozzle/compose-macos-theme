@@ -22,6 +22,8 @@ import androidx.compose.foundation.Interaction
 import androidx.compose.foundation.InteractionState
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
@@ -35,6 +37,7 @@ import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.Placeable
@@ -74,10 +77,10 @@ import io.chozzle.composemacostheme.MacTheme
  * be neither editable nor focusable, the input of the text field will not be selectable,
  * visually text field will appear in the disabled UI state
  * @param readOnly controls the editable state of the [OutlinedTextField]. When `true`, the text
- * fields will not be editable but otherwise operable. Read-only text fields are usually used to
- * display the pre-filled text that user cannot edit
+ * field can not be modified, however, a user can focus it and copy text from it. Read-only text
+ * fields are usually used to display pre-filled forms that user can not edit
  * @param textStyle the style to be applied to the input text. The default [textStyle] uses the
- * [AmbientTextStyle] defined by the theme
+ * [LocalTextStyle] defined by the theme
  * @param label the optional label to be displayed inside the text field container. The default
  * text style for internal [Text] is [Typography.caption] when the text field is in focus and
  * [Typography.subtitle1] when the text field is not in focus
@@ -94,6 +97,9 @@ import io.chozzle.composemacostheme.MacTheme
  * text field. By default no visual transformation is applied
  * @param keyboardOptions software keyboard options that contains configuration such as
  * [KeyboardType] and [ImeAction].
+ * @param keyboardActions when the input service emits an IME action, the corresponding callback
+ * is called. Note that this IME action may be different from what you specified in
+ * [KeyboardOptions.imeAction].
  * @param singleLine when set to true, this text field becomes a single horizontally scrolling
  * text field instead of wrapping onto multiple lines. The keyboard will be informed to not show
  * the return key as the [ImeAction]. Note that [maxLines] parameter will be ignored as the
@@ -101,8 +107,6 @@ import io.chozzle.composemacostheme.MacTheme
  * @param maxLines the maximum height in terms of maximum number of visible lines. Should be
  * equal or greater than 1. Note that this parameter will be ignored and instead maxLines will be
  * set to 1 if [singleLine] is set to true.
- * @param onImeActionPerformed is triggered when the input service performs an [ImeAction].
- * Note that the emitted IME action may be different from what you specified through the
  * [KeyboardOptions.imeAction] field. The callback also exposes a [SoftwareKeyboardController]
  * instance as a parameter that can be used to request to hide the software keyboard
  * @param onTextInputStarted a callback to be invoked when the connection with the platform's text
@@ -127,7 +131,7 @@ fun MacOutlinedTextField(
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
     readOnly: Boolean = false,
-    textStyle: TextStyle = AmbientTextStyle.current.copy(fontSize = 13.sp),
+    textStyle: TextStyle = LocalTextStyle.current.copy(fontSize = 13.sp), // MacOsTheme
     label: @Composable (() -> Unit)? = null,
     placeholder: @Composable (() -> Unit)? = null,
     leadingIcon: @Composable (() -> Unit)? = null,
@@ -135,9 +139,9 @@ fun MacOutlinedTextField(
     isErrorValue: Boolean = false,
     visualTransformation: VisualTransformation = VisualTransformation.None,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
+    keyboardActions: KeyboardActions = KeyboardActions.Default,
     singleLine: Boolean = false,
     maxLines: Int = Int.MAX_VALUE,
-    onImeActionPerformed: (ImeAction, SoftwareKeyboardController?) -> Unit = { _, _ -> },
     onTextInputStarted: (SoftwareKeyboardController) -> Unit = {},
     interactionState: InteractionState = remember { InteractionState() },
     activeColor: Color = MacTheme.colors.highlight,
@@ -162,15 +166,15 @@ fun MacOutlinedTextField(
         modifier = modifier,
         singleLine = singleLine,
         textStyle = textStyle,
-        label = null,
+        label = label,
         placeholder = placeholder,
         leading = leadingIcon,
         trailing = trailingIcon,
         isErrorValue = isErrorValue,
         visualTransformation = visualTransformation,
         keyboardOptions = keyboardOptions,
+        keyboardActions = keyboardActions,
         maxLines = maxLines,
-        onImeActionPerformed = onImeActionPerformed,
         onTextInputStarted = onTextInputStarted,
         interactionState = interactionState,
         activeColor = activeColor,
@@ -201,10 +205,10 @@ fun MacOutlinedTextField(
  * be neither editable nor focusable, the input of the text field will not be selectable,
  * visually text field will appear in the disabled UI state
  * @param readOnly controls the editable state of the [OutlinedTextField]. When `true`, the text
- * fields will not be editable but otherwise operable. Read-only text fields are usually used to
- * display the pre-filled text that user cannot edit
+ * field can not be modified, however, a user can focus it and copy text from it. Read-only text
+ * fields are usually used to display pre-filled forms that user can not edit
  * @param textStyle the style to be applied to the input text. The default [textStyle] uses the
- * [AmbientTextStyle] defined by the theme
+ * [LocalTextStyle] defined by the theme
  * @param label the optional label to be displayed inside the text field container. The default
  * text style for internal [Text] is [Typography.caption] when the text field is in focus and
  * [Typography.subtitle1] when the text field is not in focus
@@ -221,6 +225,9 @@ fun MacOutlinedTextField(
  * text field. By default no visual transformation is applied
  * @param keyboardOptions software keyboard options that contains configuration such as
  * [KeyboardType] and [ImeAction].
+ * @param keyboardActions when the input service emits an IME action, the corresponding callback
+ * is called. Note that this IME action may be different from what you specified in
+ * [KeyboardOptions.imeAction].
  * @param singleLine when set to true, this text field becomes a single horizontally scrolling
  * text field instead of wrapping onto multiple lines. The keyboard will be informed to not show
  * the return key as the [ImeAction]. Note that [maxLines] parameter will be ignored as the
@@ -228,8 +235,6 @@ fun MacOutlinedTextField(
  * @param maxLines the maximum height in terms of maximum number of visible lines. Should be
  * equal or greater than 1. Note that this parameter will be ignored and instead maxLines will be
  * set to 1 if [singleLine] is set to true.
- * @param onImeActionPerformed is triggered when the input service performs an [ImeAction].
- * Note that the emitted IME action may be different from what you specified through the
  * [KeyboardOptions.imeAction] field. The callback also exposes a [SoftwareKeyboardController]
  * instance as a parameter that can be used to request to hide the software keyboard.
  * @param onTextInputStarted a callback to be invoked when the connection with the platform's text
@@ -254,7 +259,7 @@ fun MacOutlinedTextField(
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
     readOnly: Boolean = false,
-    textStyle: TextStyle = AmbientTextStyle.current,
+    textStyle: TextStyle = LocalTextStyle.current,
     label: @Composable (() -> Unit)? = null,
     placeholder: @Composable (() -> Unit)? = null,
     leadingIcon: @Composable (() -> Unit)? = null,
@@ -262,9 +267,9 @@ fun MacOutlinedTextField(
     isErrorValue: Boolean = false,
     visualTransformation: VisualTransformation = VisualTransformation.None,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
+    keyboardActions: KeyboardActions = KeyboardActions(),
     singleLine: Boolean = false,
     maxLines: Int = Int.MAX_VALUE,
-    onImeActionPerformed: (ImeAction, SoftwareKeyboardController?) -> Unit = { _, _ -> },
     onTextInputStarted: (SoftwareKeyboardController) -> Unit = {},
     interactionState: InteractionState = remember { InteractionState() },
     activeColor: Color = MaterialTheme.colors.primary,
@@ -288,8 +293,8 @@ fun MacOutlinedTextField(
         isErrorValue = isErrorValue,
         visualTransformation = visualTransformation,
         keyboardOptions = keyboardOptions,
+        keyboardActions = keyboardActions,
         maxLines = maxLines,
-        onImeActionPerformed = onImeActionPerformed,
         onTextInputStarted = onTextInputStarted,
         interactionState = interactionState,
         activeColor = activeColor,
@@ -303,18 +308,29 @@ fun MacOutlinedTextField(
 
 @Composable
 internal fun OutlinedTextFieldLayout(
-    modifier: Modifier = Modifier,
-    decoratedTextField: @Composable (Modifier) -> Unit,
+    modifier: Modifier,
+    value: TextFieldValue,
+    onValueChange: (TextFieldValue) -> Unit,
+    enabled: Boolean,
+    readOnly: Boolean,
+    keyboardOptions: KeyboardOptions,
+    keyboardActions: KeyboardActions,
+    textStyle: TextStyle,
+    singleLine: Boolean,
+    maxLines: Int = Int.MAX_VALUE,
+    visualTransformation: VisualTransformation,
+    onTextInputStarted: (SoftwareKeyboardController) -> Unit,
+    interactionState: InteractionState,
     decoratedPlaceholder: @Composable ((Modifier) -> Unit)?,
     decoratedLabel: @Composable (() -> Unit)?,
     leading: @Composable (() -> Unit)?,
     trailing: @Composable (() -> Unit)?,
-    singleLine: Boolean,
     leadingColor: Color,
     trailingColor: Color,
     labelProgress: Float,
     indicatorWidth: Dp,
     indicatorColor: Color,
+    cursorColor: Color,
     cornerRadius: Dp
 ) {
     val outlinedBorderParams = remember {
@@ -331,24 +347,43 @@ internal fun OutlinedTextFieldLayout(
         outlinedBorderParams.borderWidth.value = indicatorWidth
     }
 
-    // places leading icon, input field, label, placeholder, trailing icon
-    IconsWithTextFieldLayout(
-        modifier = modifier.drawOutlinedBorder(outlinedBorderParams),
-        textField = decoratedTextField,
-        leading = leading,
-        trailing = trailing,
+    BasicTextField(
+        value = value,
+        modifier = modifier
+        // MacOsTheme: Removed padding and size constraints
+            .drawOutlinedBorder(outlinedBorderParams),
+        onValueChange = onValueChange,
+        enabled = enabled,
+        readOnly = readOnly,
+        textStyle = textStyle,
+        cursorBrush = SolidColor(cursorColor),
+        visualTransformation = visualTransformation,
+        keyboardOptions = keyboardOptions,
+        keyboardActions = keyboardActions,
+        interactionState = interactionState,
+        onTextInputStarted = onTextInputStarted,
         singleLine = singleLine,
-        leadingColor = leadingColor,
-        trailingColor = trailingColor,
-        onLabelMeasured = {
-            val labelWidth = it * labelProgress
-            if (outlinedBorderParams.labelWidth.value != labelWidth) {
-                outlinedBorderParams.labelWidth.value = labelWidth
-            }
-        },
-        animationProgress = labelProgress,
-        placeholder = decoratedPlaceholder,
-        label = decoratedLabel
+        maxLines = maxLines,
+        decorationBox = @Composable { coreTextField ->
+            // places leading icon, input field, label, placeholder, trailing icon
+            IconsWithTextFieldLayout(
+                textField = coreTextField,
+                leading = leading,
+                trailing = trailing,
+                singleLine = singleLine,
+                leadingColor = leadingColor,
+                trailingColor = trailingColor,
+                onLabelMeasured = {
+                    val labelWidth = it * labelProgress
+                    if (outlinedBorderParams.labelWidth.value != labelWidth) {
+                        outlinedBorderParams.labelWidth.value = labelWidth
+                    }
+                },
+                animationProgress = labelProgress,
+                placeholder = decoratedPlaceholder,
+                label = decoratedLabel
+            )
+        }
     )
 }
 
@@ -360,8 +395,7 @@ internal fun OutlinedTextFieldLayout(
 \ */
 @Composable
 private fun IconsWithTextFieldLayout(
-    modifier: Modifier = Modifier,
-    textField: @Composable (Modifier) -> Unit,
+    textField: @Composable () -> Unit,
     placeholder: @Composable ((Modifier) -> Unit)?,
     label: @Composable (() -> Unit)?,
     leading: @Composable (() -> Unit)?,
@@ -394,21 +428,18 @@ private fun IconsWithTextFieldLayout(
                 placeholder(Modifier.layoutId(PlaceholderId).padding(horizontal = TextFieldPadding))
             }
 
-            textField(
-                Modifier
-                    .layoutId(TextFieldId)
-                    .padding(horizontal = TextFieldPadding)
-            )
+            Box(Modifier.layoutId(TextFieldId).padding(horizontal = TextFieldPadding)) {
+                textField()
+            }
 
             if (label != null) {
                 Box(modifier = Modifier.layoutId(LabelId)) { label() }
             }
-        },
-        modifier = modifier
+        }
     ) { measurables, incomingConstraints ->
         // used to calculate the constraints for measuring elements that will be placed in a row
         var occupiedSpaceHorizontally = 0
-        val bottomPadding = TextFieldPadding.toIntPx()
+        val bottomPadding = TextFieldPadding.roundToPx()
 
         // measure leading icon
         val constraints =
@@ -532,7 +563,7 @@ private fun calculateHeight(
         textFieldPlaceable.height,
         heightOrZero(placeholderPlaceable)
     )
-    val topBottomPadding = TextFieldVerticalPadding.value * density
+    val topBottomPadding = TextFieldVerticalPadding.value * density // MacOsTheme: Modified vertical padding
     val middleSectionHeight = inputFieldHeight + topBottomPadding + max(
         topBottomPadding,
         heightOrZero(labelPlaceable) / 2f
@@ -630,6 +661,7 @@ private fun Modifier.drawOutlinedBorder(
     val dy = if (radius > height / 2) height / 2 else radius
 
     val path = Path().apply {
+        // MacOsTheme: Modified indicator width and start position
         // width and height minus corners plus line width
         val effectiveWidth: Float = width - 2 * dx + lineWidth
         val effectiveHeight: Float = height - 2 * dy + lineWidth

@@ -4,7 +4,7 @@ import androidx.compose.foundation.InteractionState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.AmbientTextStyle
+import androidx.compose.material.LocalTextStyle
 import androidx.compose.material.ContentAlpha
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -119,9 +119,9 @@ private fun CheckboxWithLabel(
         Text(
             label,
             color = if (enabled) {
-                AmbientTextStyle.current.color
+                LocalTextStyle.current.color
             } else {
-                AmbientTextStyle.current.color.copy(alpha = ContentAlpha.disabled)
+                LocalTextStyle.current.color.copy(alpha = ContentAlpha.disabled)
             },
             fontSize = 13.sp
         )

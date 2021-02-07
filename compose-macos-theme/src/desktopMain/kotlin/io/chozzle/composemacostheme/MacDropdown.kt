@@ -11,7 +11,7 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.AmbientTextStyle
+import androidx.compose.material.LocalTextStyle
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
@@ -25,7 +25,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerMoveFilter
-import androidx.compose.ui.platform.AmbientDensity
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
@@ -46,29 +46,26 @@ fun MacDropdownMenu(
     dropdownModifier: Modifier = Modifier
 ) {
     val longestItem = menuItems.maxByOrNull { it.length }.orEmpty()
-    var showMenu by remember { mutableStateOf(false) }
-    val heightOfItem = with(AmbientDensity.current) { FontSize.toDp() + MenuItemPadding * 2 + FontPadding * 2 }
+    var expanded by remember { mutableStateOf(false) }
+    val heightOfItem = with(LocalDensity.current) { FontSize.toDp() + MenuItemPadding * 2 + FontPadding * 2 }
+    DropdownToggle(
+        longestItem,
+        FontSize,
+        menuItems,
+        selectedIndex,
+        onClick = { expanded = true }
+    )
     MacDropdownMenu(
-        toggle = {
-            DropdownToggle(
-                longestItem,
-                FontSize,
-                menuItems,
-                selectedIndex,
-                onClick = { showMenu = true }
-            )
-        },
-        toggleModifier = toggleModifier,
-        dropdownModifier = dropdownModifier,
-        expanded = showMenu,
-        onDismissRequest = { showMenu = false },
-        dropdownOffset = DpOffset(0.dp, -(heightOfItem * (selectedIndex + 1)))
+        expanded = expanded,
+        modifier = dropdownModifier,
+        onDismissRequest = { expanded = false },
+        offset = DpOffset(0.dp, -(heightOfItem * (selectedIndex + 1)))
     ) {
         menuItems.forEachIndexed { index, itemString ->
             var isPointerHovering by remember { mutableStateOf(false) }
             MacDropdownMenuItem(
                 onClick = {
-                    showMenu = false
+                    expanded = false
                     onItemSelected(index)
                 },
                 modifier = Modifier
@@ -97,7 +94,7 @@ fun MacDropdownMenu(
                         text = checkOrSpace,
                         Modifier.padding(end = MenuItemPadding),
                         color = if (isPointerHovering) Color.White else Color.Unspecified,
-                        fontSize = FontSize - 3.sp,
+                        fontSize = CheckFontSize,
                         fontWeight = FontWeight.Bold
                     )
 
@@ -106,13 +103,13 @@ fun MacDropdownMenu(
                         Text(
                             text = longestItem,
                             color = Color.Transparent,
-                            style = AmbientTextStyle.current.copy(fontSize = FontSize)
+                            style = LocalTextStyle.current.copy(fontSize = FontSize)
                         )
 
                         Text(
                             text = itemString,
                             color = if (isPointerHovering) Color.White else Color.Unspecified,
-                            style = AmbientTextStyle.current.copy(fontSize = FontSize)
+                            style = LocalTextStyle.current.copy(fontSize = FontSize)
                         )
                     }
                 }
@@ -188,6 +185,7 @@ private fun DisclosureDoubleArrow() {
     }
 }
 
+private val CheckFontSize = 10.sp
 private val FontSize = 13.sp
 private val FontPadding = 1.5.dp
 private val MenuItemPadding = 3.dp

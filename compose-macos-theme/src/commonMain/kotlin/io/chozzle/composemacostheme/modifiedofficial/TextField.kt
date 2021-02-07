@@ -1,5 +1,6 @@
 package io.chozzle.composemacostheme.modifiedofficial
 
+import androidx.compose.foundation.InteractionState
 import androidx.compose.material.*
 
 /*
@@ -20,7 +21,11 @@ import androidx.compose.material.*
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.defaultMinSizeConstraints
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -28,11 +33,16 @@ import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.layout.AlignmentLine
 import androidx.compose.ui.layout.LastBaseline
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.Placeable
 import androidx.compose.ui.layout.layoutId
+import androidx.compose.ui.text.SoftwareKeyboardController
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -42,43 +52,70 @@ import kotlin.math.roundToInt
 
 @Composable
 internal fun TextFieldLayout(
-    modifier: Modifier = Modifier,
-    decoratedTextField: @Composable (Modifier) -> Unit,
+    modifier: Modifier,
+    value: TextFieldValue,
+    onValueChange: (TextFieldValue) -> Unit,
+    enabled: Boolean,
+    readOnly: Boolean,
+    keyboardOptions: KeyboardOptions,
+    keyboardActions: KeyboardActions,
+    textStyle: TextStyle,
+    singleLine: Boolean,
+    maxLines: Int = Int.MAX_VALUE,
+    visualTransformation: VisualTransformation,
+    onTextInputStarted: (SoftwareKeyboardController) -> Unit,
+    interactionState: InteractionState,
     decoratedPlaceholder: @Composable ((Modifier) -> Unit)?,
     decoratedLabel: @Composable (() -> Unit)?,
     leading: @Composable (() -> Unit)?,
     trailing: @Composable (() -> Unit)?,
-    singleLine: Boolean,
     leadingColor: Color,
     trailingColor: Color,
     labelProgress: Float,
     indicatorWidth: Dp,
     indicatorColor: Color,
     backgroundColor: Color,
+    cursorColor: Color,
     shape: Shape
 ) {
-    // places leading icon, text field with label and placeholder, trailing icon
-    IconsWithTextFieldLayout(
+    BasicTextField(
+        value = value,
         modifier = modifier
-            .background(
-                color = backgroundColor,
-                shape = shape
+            .defaultMinSizeConstraints(
+                minWidth = TextFieldMinWidth,
+                minHeight = TextFieldMinHeight
             )
-            .drawIndicatorLine(
-                lineWidth = indicatorWidth,
-                color = indicatorColor
-            ),
-        textField = decoratedTextField,
-        placeholder = decoratedPlaceholder,
-        label = decoratedLabel,
-        leading = leading,
-        trailing = trailing,
+            .background(color = backgroundColor, shape = shape)
+            .drawIndicatorLine(lineWidth = indicatorWidth, color = indicatorColor),
+        onValueChange = onValueChange,
+        enabled = enabled,
+        readOnly = readOnly,
+        textStyle = textStyle,
+        cursorBrush = SolidColor(cursorColor),
+        visualTransformation = visualTransformation,
+        keyboardOptions = keyboardOptions,
+        keyboardActions = keyboardActions,
+        interactionState = interactionState,
+        onTextInputStarted = onTextInputStarted,
         singleLine = singleLine,
-        leadingColor = leadingColor,
-        trailingColor = trailingColor,
-        animationProgress = labelProgress
+        maxLines = maxLines,
+        decorationBox = @Composable { coreTextField ->
+            // places leading icon, text field with label and placeholder, trailing icon
+            IconsWithTextFieldLayout(
+                textField = coreTextField,
+                placeholder = decoratedPlaceholder,
+                label = decoratedLabel,
+                leading = leading,
+                trailing = trailing,
+                singleLine = singleLine,
+                leadingColor = leadingColor,
+                trailingColor = trailingColor,
+                animationProgress = labelProgress
+            )
+        }
     )
 }
+
 
 /**
  * Layout of the leading and trailing icons and the input field, label and placeholder in
@@ -86,8 +123,7 @@ internal fun TextFieldLayout(
  */
 @Composable
 private fun IconsWithTextFieldLayout(
-    modifier: Modifier = Modifier,
-    textField: @Composable (Modifier) -> Unit,
+    textField: @Composable () -> Unit,
     label: @Composable (() -> Unit)?,
     placeholder: @Composable ((Modifier) -> Unit)?,
     leading: @Composable (() -> Unit)?,
@@ -129,14 +165,13 @@ private fun IconsWithTextFieldLayout(
                         )
                 ) { label() }
             }
-            textField(Modifier.layoutId(TextFieldId).then(padding))
-        },
-        modifier = modifier
+            Box(Modifier.layoutId(TextFieldId).then(padding)) { textField() }
+        }
     ) { measurables, incomingConstraints ->
-        val topBottomPadding = TextFieldPadding.toIntPx()
-        val baseLineOffset = FirstBaselineOffset.toIntPx()
-        val bottomPadding = LastBaselineOffset.toIntPx()
-        val topPadding = TextFieldTopPadding.toIntPx()
+        val topBottomPadding = TextFieldPadding.roundToPx()
+        val baseLineOffset = FirstBaselineOffset.roundToPx()
+        val bottomPadding = LastBaselineOffset.roundToPx()
+        val topPadding = TextFieldTopPadding.roundToPx()
         var occupiedSpaceHorizontally = 0
 
         // measure leading icon
@@ -389,7 +424,7 @@ private fun Placeable.PlacementScope.placeWithoutLabel(
 /**
  * A draw modifier that draws a bottom indicator line in [TextField]
  */
-private fun Modifier.drawIndicatorLine(lineWidth: Dp, color: Color): Modifier {
+internal fun Modifier.drawIndicatorLine(lineWidth: Dp, color: Color): Modifier {
     return drawBehind {
         val strokeWidth = lineWidth.value * density
         val y = size.height - strokeWidth / 2
@@ -405,4 +440,3 @@ private fun Modifier.drawIndicatorLine(lineWidth: Dp, color: Color): Modifier {
 private val FirstBaselineOffset = 20.dp
 private val LastBaselineOffset = 10.dp
 private val TextFieldTopPadding = 4.dp
-const val ContainerAlpha = 0.12f

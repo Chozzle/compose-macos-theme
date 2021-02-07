@@ -5,7 +5,10 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Providers
-import androidx.compose.runtime.staticAmbientOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.ContentDrawScope
 import androidx.compose.ui.text.TextStyle
@@ -20,7 +23,7 @@ object MacTheme {
         get() = AmbientMacColors.current
 }
 
-private val AmbientMacColors = staticAmbientOf<MacColors> {
+private val AmbientMacColors = staticCompositionLocalOf<MacColors> {
     error("No MacColors provided")
 }
 /**
@@ -47,11 +50,11 @@ fun MacTheme(
 ) {
     Providers(AmbientMacColors provides macLightPalette) {
         MaterialTheme(colors, typography, shapes) {
-            val indicationFactory: @Composable () -> Indication = {
+            val indication = remember {
                 MacIndication
             }
             Providers(
-                AmbientIndication provides indicationFactory,
+                LocalIndication provides indication,
                 content = content
             )
         }
@@ -72,6 +75,7 @@ private object MacIndication : Indication {
         }
     }
 
+    @Composable
     override fun createInstance(): IndicationInstance {
         return DefaultDebugIndicationInstance
     }

@@ -4,12 +4,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.font.fontFamily
+import androidx.compose.ui.text.font.FontFamily
 
 object MacFonts {
 
     @Composable
-    fun SFPro() = fontFamily(
+    fun SFPro() = FontFamily(
         font(
             "SF Pro Regular",
             "sf_pro_display_regular",

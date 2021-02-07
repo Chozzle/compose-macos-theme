@@ -9,4 +9,4 @@ private val fontDirectory = "font"
 
 @Composable
 actual fun font(alias: String, path: String, weight: FontWeight, style: FontStyle): Font =
-    androidx.compose.ui.text.platform.font(alias, "$fontDirectory/$path.otf", weight, style)
+    androidx.compose.ui.text.platform.Font("$fontDirectory/$path.otf", weight, style)

@@ -6,6 +6,8 @@ import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -94,7 +96,11 @@ sealed class MacButtonStyle(val minWidth: Dp, val minHeight: Dp) {
 
 @OptIn(ExperimentalMaterialApi::class)
 object ZeroButtonElevation : ButtonElevation {
-    override fun elevation(enabled: Boolean, interactionState: InteractionState) = 0.dp
+
+    @Composable
+    override fun elevation(enabled: Boolean, interactionState: InteractionState): State<Dp> {
+        return mutableStateOf(0.dp)
+    }
 }
 
 object MacButtonDefaults {
