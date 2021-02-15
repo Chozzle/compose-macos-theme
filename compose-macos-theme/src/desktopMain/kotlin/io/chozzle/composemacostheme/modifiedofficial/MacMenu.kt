@@ -25,28 +25,14 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Interaction
 import androidx.compose.foundation.InteractionState
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ColumnScope
-import androidx.compose.foundation.layout.ExperimentalLayout
-import androidx.compose.foundation.layout.IntrinsicSize
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.preferredWidth
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.ProvideTextStyle
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.ripple.rememberRipple
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.Immutable
-import androidx.compose.runtime.Providers
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.TransformOrigin
@@ -121,6 +107,7 @@ fun MacDropdownMenu(
         Popup(
             onDismissRequest = onDismissRequest,
             popupPositionProvider = popupPositionProvider,
+            isFocusable = true
         ) {
             // Menu open/close animation.
             val transition = updateTransition(expandedStates, "DropDownMenu")
@@ -187,7 +174,7 @@ fun MacDropdownMenu(
                 Column(
                     modifier = modifier
                         .padding(vertical = DropdownMenuItemVerticalPadding)
-                        .preferredWidth(IntrinsicSize.Max)
+                        .width(IntrinsicSize.Max)
                         .verticalScroll(rememberScrollState()),
                     content = content
                 )
@@ -237,7 +224,7 @@ fun MacDropdownMenuItem(
         val typography = MaterialTheme.typography
         ProvideTextStyle(typography.subtitle1) {
             val contentAlpha = if (enabled) ContentAlpha.high else ContentAlpha.disabled
-            Providers(LocalContentAlpha provides contentAlpha) {
+            CompositionLocalProvider(LocalContentAlpha provides contentAlpha) {
                 content()
             }
         }

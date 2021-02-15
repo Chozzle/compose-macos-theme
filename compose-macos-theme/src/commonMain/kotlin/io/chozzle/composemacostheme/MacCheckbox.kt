@@ -3,6 +3,7 @@ package io.chozzle.composemacostheme
 import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.InteractionState
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.selection.triStateToggleable
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -37,6 +38,7 @@ fun MacCheckbox(
     Box(
         modifier = modifier.size(CheckboxSize)
             .clip(RoundedCornerShape(RadiusSize))
+            .background(color = MaterialTheme.colors.surface)
             .triStateToggleable(
             state = ToggleableState(checked),
             onClick = { onCheckedChange(!checked) },

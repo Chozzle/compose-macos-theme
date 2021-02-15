@@ -47,7 +47,8 @@ fun WindowsButton(
         )
     )
 
-    Button(
+    // TODO: Remove this once https://issuetracker.google.com/issues/179543603 is fixed
+    io.chozzle.composewindowstheme.modifiedofficial.Button(
         onClick = onClick,
         modifier = modifier
             .pointerMoveFilter(

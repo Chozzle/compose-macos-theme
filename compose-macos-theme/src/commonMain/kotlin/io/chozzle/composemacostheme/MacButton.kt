@@ -33,7 +33,8 @@ fun MacButton(
     contentPadding: PaddingValues = macButtonPaddingValues(macButtonStyle),
     content: @Composable RowScope.() -> Unit
 ) {
-    Button(
+    // TODO: Remove this once https://issuetracker.google.com/issues/179543603 is fixed
+    io.chozzle.composemacostheme.modifiedofficial.Button(
         onClick = onClick,
         modifier = modifier.sizeIn(macButtonStyle.minWidth, macButtonStyle.minHeight),
         enabled = enabled,

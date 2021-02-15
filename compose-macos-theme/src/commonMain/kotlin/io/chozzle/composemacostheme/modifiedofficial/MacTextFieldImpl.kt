@@ -22,12 +22,12 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Interaction
 import androidx.compose.foundation.InteractionState
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.preferredSizeIn
+import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.Providers
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -202,7 +202,7 @@ internal fun TextFieldImpl(
             TextFieldType.Outlined -> {
                 OutlinedTextFieldLayout(
                     modifier = modifier
-                        .preferredSizeIn(
+                        .sizeIn(
                             minWidth = TextFieldMinWidth,
                             minHeight = TextFieldMinHeight + OutlinedTextFieldTopPadding
                         ),
@@ -253,14 +253,14 @@ internal fun Decoration(
     content: @Composable () -> Unit
 ) {
     val colorAndEmphasis = @Composable {
-        Providers(LocalContentColor provides contentColor) {
+        CompositionLocalProvider(LocalContentColor provides contentColor) {
             if (contentAlpha != null) {
-                Providers(
+                CompositionLocalProvider(
                     LocalContentAlpha provides contentAlpha,
                     content = content
                 )
             } else {
-                Providers(
+                CompositionLocalProvider(
                     LocalContentAlpha provides contentColor.alpha,
                     content = content
                 )

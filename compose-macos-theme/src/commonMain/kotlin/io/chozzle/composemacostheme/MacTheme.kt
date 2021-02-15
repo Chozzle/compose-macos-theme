@@ -3,12 +3,7 @@ package io.chozzle.composemacostheme
 import androidx.compose.foundation.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.Providers
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
-import androidx.compose.runtime.staticCompositionLocalOf
+import androidx.compose.runtime.*
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.ContentDrawScope
 import androidx.compose.ui.text.TextStyle
@@ -18,8 +13,8 @@ import androidx.compose.ui.unit.sp
 
 object MacTheme {
 
-    @Composable
     val colors: MacColors
+        @Composable
         get() = AmbientMacColors.current
 }
 
@@ -48,12 +43,12 @@ fun MacTheme(
     ),
     content: @Composable () -> Unit
 ) {
-    Providers(AmbientMacColors provides macLightPalette) {
+    CompositionLocalProvider(AmbientMacColors provides macLightPalette) {
         MaterialTheme(colors, typography, shapes) {
             val indication = remember {
                 MacIndication
             }
-            Providers(
+            CompositionLocalProvider(
                 LocalIndication provides indication,
                 content = content
             )

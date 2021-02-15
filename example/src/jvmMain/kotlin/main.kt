@@ -15,7 +15,7 @@ import io.chozzle.composewindowstheme.WindowsExampleView
 import io.chozzle.composemacostheme.MacDropdownMenu
 import io.chozzle.composemacostheme.MacTheme
 
-fun main() = Window(title = "Native theme for Compose :)") {
+fun main() = Window(title = "Native theme for Compose :O") {
     Row(Modifier.fillMaxSize(), horizontalArrangement = Arrangement.SpaceEvenly) {
         Column(
             Modifier.weight(1f),
@@ -39,8 +39,6 @@ fun main() = Window(title = "Native theme for Compose :)") {
             MacTheme {
                 MacExampleView()
 
-                Spacer(Modifier.height(16.dp))
-
                 val menuItems = listOf(
                     "Some options",
                     "Orange",
@@ -57,10 +55,9 @@ fun main() = Window(title = "Native theme for Compose :)") {
                     onItemSelected = {
                         selectedIndex1 = it
                     },
-                    toggleModifier = Modifier.padding(start = 16.dp)
                 )
 
-                Spacer(Modifier.height(16.dp))
+                Spacer(Modifier.height(8.dp))
 
                 var selectedIndex2 by remember { mutableStateOf(0) }
                 MacDropdownMenu(
@@ -69,8 +66,9 @@ fun main() = Window(title = "Native theme for Compose :)") {
                     onItemSelected = {
                         selectedIndex2 = it
                     },
-                    toggleModifier = Modifier.padding(start = 16.dp)
                 )
+
+                Spacer(Modifier.height(8.dp))
             }
         }
     }

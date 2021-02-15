@@ -30,7 +30,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpOffset
-import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import io.chozzle.composemacostheme.modifiedofficial.MacDropdownMenu
@@ -42,7 +41,6 @@ fun MacDropdownMenu(
     menuItems: List<String>,
     selectedIndex: Int,
     onItemSelected: (selectedIndex: Int) -> Unit,
-    toggleModifier: Modifier = Modifier,
     dropdownModifier: Modifier = Modifier
 ) {
     val longestItem = menuItems.maxByOrNull { it.length }.orEmpty()
@@ -50,16 +48,16 @@ fun MacDropdownMenu(
     val heightOfItem = with(LocalDensity.current) { FontSize.toDp() + MenuItemPadding * 2 + FontPadding * 2 }
     DropdownToggle(
         longestItem,
-        FontSize,
         menuItems,
         selectedIndex,
         onClick = { expanded = true }
     )
+
     MacDropdownMenu(
         expanded = expanded,
         modifier = dropdownModifier,
         onDismissRequest = { expanded = false },
-        offset = DpOffset(0.dp, -(heightOfItem * (selectedIndex + 1)))
+       // offset = DpOffset(0.dp, -(heightOfItem * (selectedIndex + 1)))
     ) {
         menuItems.forEachIndexed { index, itemString ->
             var isPointerHovering by remember { mutableStateOf(false) }
@@ -121,7 +119,6 @@ fun MacDropdownMenu(
 @Composable
 private fun DropdownToggle(
     longestItem: String,
-    FontSize: TextUnit,
     menuItems: List<String>,
     selectedIndex: Int,
     onClick: () -> Unit
