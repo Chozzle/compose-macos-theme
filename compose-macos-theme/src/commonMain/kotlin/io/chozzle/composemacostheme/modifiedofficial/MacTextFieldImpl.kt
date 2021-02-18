@@ -164,7 +164,7 @@ internal fun TextFieldImpl(
                 }
             } else null
 
-        val cursorColor = if (isErrorValue) errorColor else activeColor
+        val cursorColor = if (isErrorValue) errorColor else MaterialTheme.colors.onBackground
         val onTextInputStartedAction: (SoftwareKeyboardController) -> Unit = {
             keyboardController.value = it
             onTextInputStarted(it)

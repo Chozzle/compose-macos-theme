@@ -69,7 +69,7 @@ import androidx.compose.ui.window.Popup
  */
 @Suppress("ModifierParameter")
 @Composable
-fun MacDropdownMenu(
+internal fun MacDropdownMenu(
     expanded: Boolean,
     onDismissRequest: () -> Unit,
     modifier: Modifier = Modifier,
@@ -103,24 +103,9 @@ fun MacDropdownMenu(
     }
 }
 
-/**
- * A dropdown menu item, as defined by the Material Design spec.
- *
- * Example usage:
- * @sample androidx.compose.material.samples.MenuSample
- *
- * @param onClick Called when the menu item was clicked
- * @param modifier The modifier to be applied to the menu item
- * @param enabled Controls the enabled state of the menu item - when `false`, the menu item
- * will not be clickable and [onClick] will not be invoked
- * @param contentPadding the padding applied to the content of this menu item
- * @param interactionState the [InteractionState] representing the different [Interaction]s
- * present on this DropdownMenuItem. You can create and pass in your own remembered
- * [InteractionState] if you want to read the [InteractionState] and customize the appearance /
- * behavior of this DropdownMenuItem in different [Interaction]s.
- */
+
 @Composable
-fun MacDropdownMenuItem(
+internal fun MacDropdownMenuItem(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,

@@ -59,7 +59,7 @@ import kotlin.math.roundToInt
 import io.chozzle.composemacostheme.MacTheme
 
 /**
- * Material Design implementation of an
+ * Mac themed modification of a Material Design implementation of an
  * [Outlined TextField](https://material.io/components/text-fields/#outlined-text-field)
  *
  * See example usage:
@@ -187,7 +187,7 @@ fun MacOutlinedTextField(
 }
 
 /**
- * Material Design implementation of an
+ * Mac themed modification of a Material Design implementation of an
  * [Outlined TextField](https://material.io/components/text-fields/#outlined-text-field)
  *
  * See example usage:

@@ -10,6 +10,8 @@ plugins {
     id("signing")
 }
 
+version = "0.1.0"
+
 kotlin {
     android()
     jvm("desktop")

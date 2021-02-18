@@ -1,5 +1,4 @@
 group = "io.github.chozzle"
-version = "0.2.0"
 
 buildscript {
     repositories {

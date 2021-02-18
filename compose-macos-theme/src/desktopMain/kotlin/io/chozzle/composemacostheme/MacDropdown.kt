@@ -4,12 +4,7 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.InteractionState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.offset
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.LocalTextStyle
 import androidx.compose.material.ExperimentalMaterialApi
@@ -35,6 +30,9 @@ import androidx.compose.ui.unit.sp
 import io.chozzle.composemacostheme.modifiedofficial.MacDropdownMenu
 import io.chozzle.composemacostheme.modifiedofficial.MacDropdownMenuItem
 
+/**
+ * Implementation of a DropdownMenu with DropdownMenuItems styled and arranged to mimic MacOS theme
+ * */
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun MacDropdownMenu(
@@ -51,65 +49,83 @@ fun MacDropdownMenu(
         menuItems,
         selectedIndex,
         onClick = { expanded = true }
-    )
-
-    MacDropdownMenu(
-        expanded = expanded,
-        modifier = dropdownModifier,
-        onDismissRequest = { expanded = false },
-       // offset = DpOffset(0.dp, -(heightOfItem * (selectedIndex + 1)))
     ) {
-        menuItems.forEachIndexed { index, itemString ->
-            var isPointerHovering by remember { mutableStateOf(false) }
-            MacDropdownMenuItem(
-                onClick = {
+        MacDropdownMenu(
+            expanded = expanded,
+            modifier = dropdownModifier,
+            onDismissRequest = { expanded = false },
+            offset = DpOffset(0.dp, -(heightOfItem * (selectedIndex + 1)))
+        ) {
+            MenuItems(
+                menuItems = menuItems,
+                onItemSelected = { selectedIndex ->
                     expanded = false
-                    onItemSelected(index)
+                    onItemSelected(selectedIndex)
                 },
-                modifier = Modifier
-                    .pointerMoveFilter(
-                        onEnter = {
-                            isPointerHovering = true
-                            false
-                        },
-                        onExit = {
-                            isPointerHovering = false
-                            false
-                        }
-                    ).padding(horizontal = 6.dp)
-                    .background(
-                        if (isPointerHovering) MacTheme.colors.primary.copy(alpha = 0.7f) else Color.Unspecified,
-                        shape = RoundedCornerShape(4.dp)
-                    )
+                selectedIndex = selectedIndex,
+                longestItem = longestItem
+            )
+        }
+    }
+}
+
+@Composable
+private fun MenuItems(
+    menuItems: List<String>,
+    onItemSelected: (selectedIndex: Int) -> Unit,
+    selectedIndex: Int,
+    longestItem: String
+) {
+    menuItems.forEachIndexed { index, itemString ->
+        var isPointerHovering by remember { mutableStateOf(false) }
+        MacDropdownMenuItem(
+            onClick = {
+                onItemSelected(index)
+            },
+            modifier = Modifier
+                .pointerMoveFilter(
+                    onEnter = {
+                        isPointerHovering = true
+                        false
+                    },
+                    onExit = {
+                        isPointerHovering = false
+                        false
+                    }
+                ).padding(horizontal = 6.dp)
+                .background(
+                    if (isPointerHovering) MacTheme.colors.primary.copy(alpha = 0.7f) else Color.Unspecified,
+                    shape = RoundedCornerShape(4.dp)
+                ),
+            contentPadding = PaddingValues(0.dp)
+        ) {
+            Row(
+                Modifier.fillMaxHeight().padding(2.dp),
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                Row(
-                    Modifier.fillMaxHeight().padding(2.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    val checkOrSpace = if (index == selectedIndex) "\uDBC0\uDD85" else "     "
+                val checkOrSpace = if (index == selectedIndex) "\uDBC0\uDD85" else "      "
+
+                Text(
+                    text = checkOrSpace,
+                    Modifier.padding(end = MenuItemPadding),
+                    color = if (isPointerHovering) Color.White else Color.Unspecified,
+                    fontSize = CheckFontSize,
+                    fontWeight = FontWeight.Bold
+                )
+
+                Box(contentAlignment = Alignment.CenterStart) {
+                    // Invisible text just to calculate potential space taken by longest item
+                    Text(
+                        text = longestItem,
+                        color = Color.Transparent,
+                        style = LocalTextStyle.current.copy(fontSize = FontSize)
+                    )
 
                     Text(
-                        text = checkOrSpace,
-                        Modifier.padding(end = MenuItemPadding),
+                        text = itemString,
                         color = if (isPointerHovering) Color.White else Color.Unspecified,
-                        fontSize = CheckFontSize,
-                        fontWeight = FontWeight.Bold
+                        style = LocalTextStyle.current.copy(fontSize = FontSize)
                     )
-
-                    Box(contentAlignment = Alignment.CenterStart) {
-                        // Invisible text just to calculate potential space taken by longest item
-                        Text(
-                            text = longestItem,
-                            color = Color.Transparent,
-                            style = LocalTextStyle.current.copy(fontSize = FontSize)
-                        )
-
-                        Text(
-                            text = itemString,
-                            color = if (isPointerHovering) Color.White else Color.Unspecified,
-                            style = LocalTextStyle.current.copy(fontSize = FontSize)
-                        )
-                    }
                 }
             }
         }
@@ -121,7 +137,8 @@ private fun DropdownToggle(
     longestItem: String,
     menuItems: List<String>,
     selectedIndex: Int,
-    onClick: () -> Unit
+    onClick: () -> Unit,
+    content: @Composable () -> Unit
 ) {
     Surface(
         shape = RoundedCornerShape(6.dp),
@@ -152,6 +169,7 @@ private fun DropdownToggle(
             }
             DisclosureDoubleArrow()
         }
+        content()
     }
 }
 
