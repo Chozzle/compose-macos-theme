@@ -11,6 +11,7 @@ plugins {
 }
 
 version = "0.3.0"
+group = "io.github.chozzle"
 
 kotlin {
     android()
@@ -85,8 +86,6 @@ if (secretPropsFile.exists()) {
     p.forEach { name, value ->
         extra[name as String] = value
     }
-    println("CARSON ${extra["ossrhPassword"]}")
-
 } else {
     // This is to facilitate CD in the future
     println("No props file, loading env vars")
@@ -111,7 +110,7 @@ publishing {
         pom {
             name.set("MacOS Theme for Compose")
             description.set("A collection of components that follow MacOS Theme, written in Compose UI")
-            url.set("https://https://github.com/chozzle/compose-macos-theme")
+            url.set("https://github.com/chozzle/compose-macos-theme")
 
             licenses {
                 license {
@@ -127,7 +126,7 @@ publishing {
                 }
             }
             scm {
-                url.set("https://https://github.com/chozzle/compose-macos-theme")
+                url.set("https://github.com/chozzle/compose-macos-theme")
             }
         }
 

@@ -6,8 +6,8 @@ plugins {
     id("com.android.library")
     kotlin("multiplatform")
     id("org.jetbrains.compose")
-    id("maven-publish")
-    id("signing")
+    //id("maven-publish")
+    //id("signing")
 }
 
 version = "0.1.0"
@@ -63,6 +63,7 @@ android {
         }
     }
 }
+/*
 
 kotlin {
     android {
@@ -163,4 +164,4 @@ publishing {
             }
         }
     }
-}
+}*/
