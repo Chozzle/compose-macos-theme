@@ -14,6 +14,7 @@ kotlin {
                 implementation(compose.desktop.currentOs)
                 implementation(project(":compose-windows-theme"))
                 implementation(project(":compose-macos-theme"))
+                // Substitute for implementation("io.github.chozzle:compose-macos-theme:0.3.0") in your project
             }
         }
     }

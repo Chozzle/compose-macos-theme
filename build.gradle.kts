@@ -1,5 +1,3 @@
-group = "io.github.chozzle"
-
 buildscript {
     repositories {
         google()

@@ -21,7 +21,7 @@ android {
 }
 
 dependencies {
-    implementation("io.github.chozzle:compose-macos-theme:0.2.0")
+    implementation("io.github.chozzle:compose-macos-theme:0.3.0")
 
     // See https://stackoverflow.com/a/66146595/4672107
     implementation("androidx.activity:activity-compose:1.3.0-alpha02") {
