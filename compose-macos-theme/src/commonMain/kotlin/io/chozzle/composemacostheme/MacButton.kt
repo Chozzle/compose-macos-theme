@@ -1,6 +1,8 @@
 package io.chozzle.composemacostheme
 
 import androidx.compose.foundation.*
+import androidx.compose.foundation.interaction.InteractionSource
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.sizeIn
@@ -22,7 +24,7 @@ fun MacButton(
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
     macButtonStyle: MacButtonStyle = MacButtonStyle.Small,
-    interactionState: InteractionState = remember { InteractionState() },
+    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     elevation: ButtonElevation? = ZeroButtonElevation,
     shape: Shape = MaterialTheme.shapes.small,
     border: BorderStroke? = null,
@@ -37,7 +39,7 @@ fun MacButton(
         onClick = onClick,
         modifier = modifier.sizeIn(macButtonStyle.minWidth, macButtonStyle.minHeight),
         enabled = enabled,
-        interactionState = interactionState,
+        interactionSource = interactionSource,
         elevation = elevation,
         shape = shape,
         border = border,
@@ -63,7 +65,7 @@ fun MacSecondaryButton(
     modifier: Modifier = Modifier, // TODO: Make an "indication" that changes to primary color on click
     enabled: Boolean = true,
     macButtonStyle: MacButtonStyle = MacButtonStyle.Small,
-    interactionState: InteractionState = remember { InteractionState() },
+    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     elevation: ButtonElevation? = ButtonDefaults.elevation(
         defaultElevation = 2.dp, // TODO: Try to adjust shadow to be more similar to Mac
         pressedElevation = 2.dp,
@@ -79,7 +81,7 @@ fun MacSecondaryButton(
         onClick = onClick,
         modifier = modifier.sizeIn(macButtonStyle.minWidth, macButtonStyle.minHeight),
         enabled = enabled,
-        interactionState = interactionState,
+        interactionSource = interactionSource,
         elevation = elevation,
         shape = shape,
         border = border,
@@ -98,7 +100,7 @@ sealed class MacButtonStyle(val minWidth: Dp, val minHeight: Dp) {
 object ZeroButtonElevation : ButtonElevation {
 
     @Composable
-    override fun elevation(enabled: Boolean, interactionState: InteractionState): State<Dp> {
+    override fun elevation(enabled: Boolean, interactionSource: InteractionSource): State<Dp> {
         return mutableStateOf(0.dp)
     }
 }

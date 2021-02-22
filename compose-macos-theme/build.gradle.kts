@@ -21,9 +21,9 @@ kotlin {
         named("commonMain") {
             dependencies {
                 implementation(kotlin("stdlib-common"))
-                implementation(compose.runtime)
-                implementation(compose.foundation)
-                implementation(compose.material)
+                api(compose.runtime)
+                api(compose.foundation)
+                api(compose.material)
             }
         }
         named("desktopMain") {
@@ -34,9 +34,9 @@ kotlin {
         named("androidMain") {
             dependencies {
                 kotlin.srcDirs("src/jvmMain/kotlin")
-                implementation("androidx.appcompat:appcompat:1.1.0")
-                implementation("androidx.core:core-ktx:1.3.1")
-                implementation("com.google.android.material:material:1.2.1")
+                api("androidx.appcompat:appcompat:1.1.0")
+                api("androidx.core:core-ktx:1.3.1")
+                //api("com.google.android.material:material:1.2.1")
             }
         }
     }

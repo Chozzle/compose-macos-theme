@@ -22,11 +22,10 @@ import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.core.updateTransition
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.InteractionState
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
-import androidx.compose.foundation.layout.ExperimentalLayout
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -57,7 +56,6 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Popup
 import androidx.compose.ui.window.PopupPositionProvider
 import io.chozzle.composemacostheme.MacTheme
 import kotlin.math.max
@@ -132,7 +130,6 @@ internal fun DropdownMenuContent(
         border = BorderStroke(1.dp, MacTheme.colors.surfaceBorder),
         shape = RoundedCornerShape(8.dp)
     ) {
-        @OptIn(ExperimentalLayout::class)
         Column(
             modifier = modifier
                 .padding(vertical = DropdownMenuItemVerticalPadding)
@@ -149,7 +146,7 @@ internal fun DropdownMenuItemContent(
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
     contentPadding: PaddingValues = MenuDefaults.DropdownMenuItemContentPadding,
-    interactionState: InteractionState = remember { InteractionState() },
+    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     content: @Composable RowScope.() -> Unit
 ) {
     // TODO(popam, b/156911853): investigate replacing this Row with ListItem
@@ -158,7 +155,7 @@ internal fun DropdownMenuItemContent(
             .clickable(
                 enabled = enabled,
                 onClick = onClick,
-                interactionState = interactionState,
+                interactionSource = interactionSource,
                 indication = rememberRipple(true)
             )
             .fillMaxWidth()

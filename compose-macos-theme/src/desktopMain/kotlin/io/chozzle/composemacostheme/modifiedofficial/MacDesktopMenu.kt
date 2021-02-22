@@ -21,12 +21,11 @@ import androidx.compose.material.MenuDefaults
 
 
 import androidx.compose.animation.core.MutableTransitionState
-import androidx.compose.foundation.InteractionState
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -110,7 +109,7 @@ internal fun MacDropdownMenuItem(
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
     contentPadding: PaddingValues = MenuDefaults.DropdownMenuItemContentPadding,
-    interactionState: InteractionState = remember { InteractionState() },
+    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     content: @Composable RowScope.() -> Unit
 ) {
     DropdownMenuItemContent(
@@ -118,7 +117,7 @@ internal fun MacDropdownMenuItem(
         modifier = modifier,
         enabled = enabled,
         contentPadding = contentPadding,
-        interactionState = interactionState,
+        interactionSource = interactionSource,
         content = content
     )
 }

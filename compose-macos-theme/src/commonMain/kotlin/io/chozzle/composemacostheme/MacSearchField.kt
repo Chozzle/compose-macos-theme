@@ -1,8 +1,9 @@
 package io.chozzle.composemacostheme
 
-import androidx.compose.foundation.InteractionState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.InteractionSource
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
@@ -29,13 +30,13 @@ fun MacSearchField(
 
         // Not sure this is the best way to handle enter pressed. IME actions don't seem reliable yet on desktop
         modifier = modifier.height(26.dp)
-        .onKeyEvent {
-            if (it.type == KeyEventType.KeyUp && it.key == Key.Enter) {
-                onSearchRequested(value)
-                return@onKeyEvent true
-            }
-            false
-        },
+            .onKeyEvent {
+                if (it.type == KeyEventType.KeyUp && it.key == Key.Enter) {
+                    onSearchRequested(value)
+                    return@onKeyEvent true
+                }
+                false
+            },
         leadingIcon = { Text("􀊫") },
         trailingIcon = {
             if (value.isNotEmpty()) {
@@ -57,7 +58,10 @@ fun MacSearchField(
 private fun CloseIcon(closeClicked: () -> Unit) {
     Text(
         "\uDBC0\uDD84",
-        Modifier.clickable(interactionState = remember { InteractionState() }, indication = null) {
+        Modifier.clickable(
+            interactionSource = remember { MutableInteractionSource() },
+            indication = null
+        ) {
             closeClicked()
         },
         fontSize = 10.sp,

@@ -16,6 +16,7 @@
 package io.chozzle.composemacostheme.modifiedofficial
 
 import androidx.compose.foundation.*
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
@@ -35,7 +36,7 @@ fun Button(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
-    interactionState: InteractionState = remember { InteractionState() },
+    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     elevation: ButtonElevation? = ButtonDefaults.elevation(),
     shape: Shape = MaterialTheme.shapes.small,
     border: BorderStroke? = null,
@@ -53,12 +54,12 @@ fun Button(
         color = colors.backgroundColor(enabled).value,
         contentColor = contentColor.copy(alpha = 1f),
         border = border,
-        elevation = elevation?.elevation(enabled, interactionState)?.value ?: 0.dp,
+        elevation = elevation?.elevation(enabled, interactionSource)?.value ?: 0.dp,
         modifier = modifier.clickable(
             onClick = onClick,
             enabled = enabled,
             role = Role.Button,
-            interactionState = interactionState,
+            interactionSource = interactionSource,
             indication = null
         )
     ) {
@@ -72,7 +73,7 @@ fun Button(
                             minWidth = ButtonDefaults.MinWidth,
                             minHeight = ButtonDefaults.MinHeight
                         )
-                        .indication(interactionState, LocalIndication.current)
+                        .indication(interactionSource, LocalIndication.current)
                         .padding(contentPadding),
                     horizontalArrangement = Arrangement.Center,
                     verticalAlignment = Alignment.CenterVertically,

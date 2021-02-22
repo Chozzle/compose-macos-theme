@@ -1,6 +1,8 @@
 package io.chozzle.composemacostheme
 
 import androidx.compose.foundation.*
+import androidx.compose.foundation.interaction.InteractionSource
+import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
@@ -61,17 +63,22 @@ fun MacTheme(
  * */
 private object MacIndication : Indication {
 
-    private object DefaultDebugIndicationInstance : IndicationInstance {
-        override fun ContentDrawScope.drawIndication(interactionState: InteractionState) {
+    private class DefaultDebugIndicationInstance(
+        private val isPressed: State<Boolean>
+    ) : IndicationInstance {
+        override fun ContentDrawScope.drawIndication() {
             drawContent()
-            if (interactionState.contains(Interaction.Pressed)) {
+            if (isPressed.value) {
                 drawRect(color = Color.Black.copy(alpha = 0.07f), size = size)
             }
         }
     }
 
     @Composable
-    override fun createInstance(): IndicationInstance {
-        return DefaultDebugIndicationInstance
+    override fun rememberUpdatedInstance(interactionSource: InteractionSource): IndicationInstance {
+        val isPressed = interactionSource.collectIsPressedAsState()
+        return remember(interactionSource) {
+            DefaultDebugIndicationInstance(isPressed)
+        }
     }
 }

@@ -1,8 +1,8 @@
 package io.chozzle.composemacostheme
 
-import androidx.compose.foundation.InteractionState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.LocalTextStyle
 import androidx.compose.material.ContentAlpha
@@ -104,7 +104,7 @@ private fun CheckboxWithLabel(
 ) {
     var isChecked by remember { mutableStateOf(checked) }
     Row(
-        Modifier.clickable(interactionState = remember { InteractionState() }, indication = null) {
+        Modifier.clickable(interactionSource = remember { MutableInteractionSource() }, indication = null) {
             if (!enabled) return@clickable
             isChecked = !isChecked
         },
