@@ -132,7 +132,7 @@ internal fun TextFieldImpl(
                     Box(modifier.alpha(placeholderAlphaProgress)) {
                         Decoration(
                             contentColor = colors.placeholderColor(enabled).value,
-                            typography = MaterialTheme.typography.subtitle1,
+                            typography = textStyle,
                             content = placeholder
                         )
                     }
@@ -290,28 +290,6 @@ private object TextFieldTransitionScope {
         // multiple text fields.
         val transition = updateTransition(inputState)
 
-//        val indicatorColor by transition.animateColor(
-//            transitionSpec = {
-//                if (InputPhase.UnfocusedEmpty isTransitioningTo InputPhase.Focused
-//                    || InputPhase.UnfocusedNotEmpty isTransitioningTo InputPhase.Focused
-//                ) {
-//                    // MacOSTheme: Set initial state (keyframe at time 0) to transparent so Mac outline flash can animate in
-//                    keyframes {
-//                        durationMillis = AnimationDuration
-//                        activeColor.copy(alpha = 0f) at 0 with FastOutLinearInEasing
-//                    }
-//                } else {
-//                    tween(durationMillis = AnimationDuration)
-//                }
-//            }
-//        ) {
-//            when (it) {
-//                InputPhase.Focused -> activeColor
-//                InputPhase.UnfocusedEmpty -> indicatorInactiveColor
-//                InputPhase.UnfocusedNotEmpty -> indicatorInactiveColor
-//            }
-//        }
-
         val labelProgress by transition.animateFloat(
             transitionSpec = { tween(durationMillis = AnimationDuration) }
         ) {
@@ -398,7 +376,7 @@ internal const val PlaceholderId = "Hint"
 internal const val LabelId = "Label"
 
 private const val FlashAnimationDuration = 200
-private const val AnimationDuration = 150
+internal const val AnimationDuration = 150
 private const val PlaceholderAnimationDuration = 83
 private const val PlaceholderAnimationDelayOrDuration = 67
 

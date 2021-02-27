@@ -143,7 +143,7 @@ fun MacOutlinedTextField(
     singleLine: Boolean = false,
     maxLines: Int = Int.MAX_VALUE,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
-    colors: TextFieldColors = TextFieldDefaults.outlinedTextFieldColors(),
+    colors: TextFieldColors = MacTextFieldDefaults.outlinedTextFieldColors(),
     cornerRadius: Dp = 1.dp
 ) {
     var textFieldValueState by remember { mutableStateOf(TextFieldValue(text = value)) }
@@ -254,7 +254,7 @@ fun MacOutlinedTextField(
     singleLine: Boolean = false,
     maxLines: Int = Int.MAX_VALUE,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
-    colors: TextFieldColors = TextFieldDefaults.outlinedTextFieldColors(),
+    colors: TextFieldColors = MacTextFieldDefaults.outlinedTextFieldColors(),
     shape: Shape,
     cornerRadius: Dp = 0.dp
 ) {
