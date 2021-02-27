@@ -2,7 +2,7 @@ package io.chozzle.composewindowstheme
 
 import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.InteractionState
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
@@ -37,19 +37,19 @@ fun WindowsCheckbox(
     onCheckedChange: (Boolean) -> Unit,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
-    interactionState: InteractionState = remember { InteractionState() },
+    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     colors: MacCheckboxColors = macCheckboxColors()
 ) {
     Box(
         modifier = modifier.size(CheckboxSize)
             .clip(RoundedCornerShape(RadiusSize))
             .triStateToggleable(
-            state = ToggleableState(checked),
-            onClick = { onCheckedChange(!checked) },
-            enabled = enabled,
-            interactionState = interactionState,
-            indication = if (enabled) LocalIndication.current else null // Unfortunately necessary
-        ),
+                state = ToggleableState(checked),
+                onClick = { onCheckedChange(!checked) },
+                enabled = enabled,
+                interactionSource = interactionSource,
+                indication = if (enabled) LocalIndication.current else null // Unfortunately necessary
+            ),
         Alignment.Center
     ) {
         val state = ToggleableState(checked)

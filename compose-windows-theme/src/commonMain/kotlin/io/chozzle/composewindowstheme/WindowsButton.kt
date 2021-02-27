@@ -4,9 +4,10 @@ import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.TweenSpec
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Interaction
-import androidx.compose.foundation.InteractionState
 import androidx.compose.foundation.indication
+import androidx.compose.foundation.interaction.InteractionSource
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.sizeIn
@@ -26,7 +27,7 @@ fun WindowsButton(
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
     windowsButtonStyle: WindowsButtonStyle = WindowsButtonStyle.Button,
-    interactionState: InteractionState = remember { InteractionState() },
+    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     elevation: ButtonElevation? = ZeroButtonElevation,
     shape: Shape = MaterialTheme.shapes.small,
     border: BorderStroke? = null,
@@ -63,16 +64,16 @@ fun WindowsButton(
             ).sizeIn(windowsButtonStyle.minWidth, windowsButtonStyle.minHeight)
 
             // Material indication interferes with animated hover color change
-            .indication(interactionState, indication = null),
+            .indication(interactionSource, indication = null),
         enabled = enabled,
-        interactionState = interactionState,
+        interactionSource = interactionSource,
         elevation = elevation,
         shape = shape,
         border = border,
         colors = ButtonDefaults.buttonColors(
             disabledBackgroundColor = colors.disabledBackgroundColor,
             disabledContentColor = colors.disabledContentColor,
-            backgroundColor = if (interactionState.contains(Interaction.Pressed)) {
+            backgroundColor = if (interactionSource.collectIsPressedAsState().value) {
                 colors.pressedColor
             } else {
                 backgroundColor
@@ -175,7 +176,7 @@ sealed class WindowsButtonStyle(val minWidth: Dp, val minHeight: Dp) {
 object ZeroButtonElevation : ButtonElevation {
 
     @Composable
-    override fun elevation(enabled: Boolean, interactionState: InteractionState): State<Dp> {
+    override fun elevation(enabled: Boolean, interactionSource: InteractionSource): State<Dp> {
         return mutableStateOf(0.dp)
     }
 }

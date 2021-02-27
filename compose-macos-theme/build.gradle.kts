@@ -34,9 +34,6 @@ kotlin {
         named("androidMain") {
             dependencies {
                 kotlin.srcDirs("src/jvmMain/kotlin")
-                api("androidx.appcompat:appcompat:1.1.0")
-                api("androidx.core:core-ktx:1.3.1")
-                //api("com.google.android.material:material:1.2.1")
             }
         }
     }

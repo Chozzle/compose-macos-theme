@@ -1,11 +1,11 @@
 package io.chozzle.composewindowstheme
 
 import androidx.compose.foundation.*
+import androidx.compose.foundation.interaction.InteractionSource
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.drawscope.ContentDrawScope
 import androidx.compose.ui.text.TextStyle
@@ -74,11 +74,13 @@ fun WindowsTheme(
  * */
 private object NoIndication : Indication {
     private object NoIndicationInstance : IndicationInstance {
-        override fun ContentDrawScope.drawIndication(interactionState: InteractionState) {
+        override fun ContentDrawScope.drawIndication() {
             drawContent()
         }
     }
 
     @Composable
-    override fun createInstance(): IndicationInstance = NoIndicationInstance
+    override fun rememberUpdatedInstance(interactionSource: InteractionSource): IndicationInstance {
+        return NoIndicationInstance
+    }
 }
