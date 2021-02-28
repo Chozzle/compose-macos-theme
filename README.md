@@ -15,13 +15,13 @@ Add the common dependency which will work for both android and desktop.
 sourceSets {
     named("commonMain") {
         dependencies {
-            implementation("io.github.chozzle:compose-macos-theme:0.2.0")
+            implementation("io.github.chozzle:compose-macos-theme:0.3.1")
         }
     }
 }
 ```
 
-Optionally supply specific dependencies:
+Optionally, supply specific dependencies:
 
 #### Desktop JVM
 Currently it appears that for desktop projects, you must use the kotlin multiplatform plugin
@@ -36,7 +36,7 @@ kotlin {
         named("jvmMain") {
             dependencies {
                 implementation(compose.desktop.currentOs)
-                implementation("io.github.chozzle:compose-macos-theme-desktop:0.2.0")
+                implementation("io.github.chozzle:compose-macos-theme-desktop:0.3.1")
             }
         }
     }
@@ -47,7 +47,7 @@ kotlin {
 Do not specify android specifically (it won't work). Gradle will automatically import the android sourceset only.
 ```kotlin 
 dependencies {
-    implementation("io.github.chozzle:compose-macos-theme:0.2.0")
+    implementation("io.github.chozzle:compose-macos-theme:0.3.1 ")
 }
 ```
 
@@ -77,6 +77,6 @@ repositories {
 - [ ] Switch
 - [ ] Radio button
 - [ ] Dark theme
-- [ ] Theme for Windows?
+- [-] Theme for Windows?
 
 Note that SF Symbols used in this library are only licenced to be used on Apple devices.
