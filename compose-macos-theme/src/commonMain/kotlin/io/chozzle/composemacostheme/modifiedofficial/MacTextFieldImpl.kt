@@ -375,7 +375,7 @@ internal const val TextFieldId = "TextField"
 internal const val PlaceholderId = "Hint"
 internal const val LabelId = "Label"
 
-private const val FlashAnimationDuration = 200
+private const val FlashAnimationDuration = 150
 internal const val AnimationDuration = 150
 private const val PlaceholderAnimationDuration = 83
 private const val PlaceholderAnimationDelayOrDuration = 67

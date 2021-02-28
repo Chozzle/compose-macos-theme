@@ -162,16 +162,9 @@ private class DefaultTextFieldColors(
             else -> unfocusedIndicatorColor
         }
         return if (enabled) {
-            return if (interaction is FocusInteraction.Focus) {
-                animateColorAsState(
-                    targetValue, keyframes {
-                        targetValue.copy(alpha = 0f) at 0 with FastOutLinearInEasing
-                        durationMillis = AnimationDuration
-                    }
-                )
-            } else {
-                animateColorAsState(targetValue, tween(durationMillis = AnimationDuration))
-            }
+            // TODO: MacTheme: Tried keyframe animation here to start focus animation at 0% alpha, but there always
+            // seems to be 1 frame of of 100% alpha which ruins animation
+            animateColorAsState(targetValue, tween(durationMillis = AnimationDuration))
         } else {
             rememberUpdatedState(targetValue)
         }
