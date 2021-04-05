@@ -2,6 +2,7 @@ package io.chozzle.composemacostheme
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.LocalIndication
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.indication
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.requiredSize
