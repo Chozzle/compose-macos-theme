@@ -74,9 +74,9 @@ repositories {
 - [x] Checkbox
 - [x] Buttons
 - [x] Dropdown menu - desktop only
+- [x] Radio button
 - [ ] Switch
-- [ ] Radio button
 - [ ] Dark theme
-- [-] Theme for Windows?
+- [ ] Theme for Windows?
 
 Note that SF Symbols used in this library are only licenced to be used on Apple devices.
