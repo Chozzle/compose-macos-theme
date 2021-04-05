@@ -76,15 +76,15 @@ expect fun MacCheckboxCheck(checkColor: Color)
 @Composable
 private fun macCheckboxColors(
     checkedColor: Color = MacTheme.colors.primary,
-    uncheckedColor: Color = MacTheme.colors.primary50,
+    borderColor: Color = MacTheme.colors.borderDark,
     checkmarkColor: Color = MaterialTheme.colors.surface,
-    disabledCheckmarkColor: Color = MacTheme.colors.primary50,
+    disabledCheckmarkColor: Color = MaterialTheme.colors.onSurface.copy(alpha = 0.25f),
     disabledColor: Color = MacDisabledBackgroundColor.copy(alpha = 0.03f),
     disabledIndeterminateColor: Color = checkedColor.copy(alpha = ContentAlpha.disabled)
 ): MacCheckboxColors {
     return remember(
         checkedColor,
-        uncheckedColor,
+        borderColor,
         checkmarkColor,
         disabledColor,
         disabledIndeterminateColor
@@ -99,8 +99,8 @@ private fun macCheckboxColors(
             disabledUncheckedBoxColor = disabledColor,
             disabledIndeterminateBoxColor = disabledIndeterminateColor,
             checkedBorderColor = checkedColor,
-            uncheckedBorderColor = uncheckedColor,
-            disabledBorderColor = uncheckedColor.copy(alpha = 0.33f),
+            uncheckedBorderColor = borderColor,
+            disabledBorderColor = borderColor.copy(alpha = 0.8f),
             disabledIndeterminateBorderColor = disabledIndeterminateColor
         )
     }
@@ -226,5 +226,5 @@ interface MacCheckboxColors {
 }
 
 private val RadiusSize = 4.dp
-private val StrokeWidth = 0.5.dp
+private val StrokeWidth = 1.dp
 private val CheckboxSize = 14.dp

@@ -18,7 +18,7 @@ val macLightPalette = MacColors(
     primary = Color(red = 48, green = 123, blue = 247), // blue
     highlight = Color(0xFF94B2F4), // light blue
     border = Color(0xFFE5E5E5), // light gray
-    borderDark = Color(0xFF919191), // light gray
+    borderDark = Color(0xFFE3E3E3), // light gray
     surfaceBorder = Color(0xFFC1C1C1), // light gray
     surfaceDark = Color(0xFFEDEDED), // light gray
     primary50 = Color(0xFF797979), // light gray
