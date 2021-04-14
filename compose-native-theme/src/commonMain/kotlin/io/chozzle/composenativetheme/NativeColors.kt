@@ -1,10 +1,10 @@
-package io.chozzle.composewindowstheme
+package io.chozzle.composenativetheme
 
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 
-data class WindowsColors(
+data class NativeColors(
     val baseLow: Color,
     val baseMediumLow: Color,
     val listLow: Color,
@@ -18,7 +18,7 @@ data class WindowsColors(
     val primary50: Color
 )
 
-val windowsLightPalette = WindowsColors(
+val nativeLightPalette = NativeColors(
     baseLow = Color(red = 0f, green = 0f, blue = 0f, alpha = 0.2f),
     baseMediumLow = Color(red = 0f, green = 0f, blue = 0f, alpha = 0.4f),
     listLow = Color(red = 0f, green = 0f, blue = 0f, alpha = 0.1f),
@@ -33,12 +33,12 @@ val windowsLightPalette = WindowsColors(
 )
 
 
-internal val WindowsDisabledBackgroundColor: Color
+internal val NativeDisabledBackgroundColor: Color
     @Composable
     get() = MaterialTheme.colors.onSurface.copy(alpha = 0.05f)
 
 
 // TODO handle dark theme here
-internal val WindowsDisabledContentColor: Color
+internal val NativeDisabledContentColor: Color
     @Composable
-    get() = windowsLightPalette.primary50
+    get() = nativeLightPalette.primary50

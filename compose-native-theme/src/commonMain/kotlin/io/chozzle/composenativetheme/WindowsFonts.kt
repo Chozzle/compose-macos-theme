@@ -1,4 +1,4 @@
-package io.chozzle.composewindowstheme
+package io.chozzle.composenativetheme
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.text.font.Font

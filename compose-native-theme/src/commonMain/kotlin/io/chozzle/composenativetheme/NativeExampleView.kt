@@ -1,4 +1,4 @@
-package io.chozzle.composewindowstheme
+package io.chozzle.composenativetheme
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -34,7 +34,7 @@ private fun ButtonsView() {
     Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
         WindowsButton(
             onClick = {},
-            colors = WindowsButtonDefaults.accentColors
+            colors = NativeButtonDefaults.accentColors
         ) {
             Text("Primary")
         }
@@ -42,7 +42,7 @@ private fun ButtonsView() {
         WindowsButton(
             enabled = false,
             onClick = {},
-            colors = WindowsButtonDefaults.accentColors
+            colors = NativeButtonDefaults.accentColors
         ) {
             Text("You can't touch this")
         }

@@ -1,16 +1,10 @@
-package io.chozzle.composewindowstheme
+package io.chozzle.composenativetheme
 
-import androidx.compose.animation.animateColorAsState
-import androidx.compose.animation.core.LinearEasing
-import androidx.compose.animation.core.TweenSpec
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.indication
 import androidx.compose.foundation.interaction.InteractionSource
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.RowScope
-import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -19,86 +13,78 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import io.chozzle.composemacostheme.MacButton
+import io.chozzle.composemacostheme.MacButtonStyle
+import io.chozzle.composemacostheme.MacDisabledBackgroundColor
+import io.chozzle.composemacostheme.MacDisabledContentColor
+import io.chozzle.composewindowstheme.WindowsButton
+import io.chozzle.composewindowstheme.WindowsButtonColors
+import io.chozzle.composewindowstheme.WindowsButtonDefaults
+import io.chozzle.composewindowstheme.WindowsButtonStyle
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun WindowsButton(
+fun Button(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
-    windowsButtonStyle: WindowsButtonStyle = WindowsButtonStyle.Button,
+    windowsButtonStyle: NativeButtonStyle = NativeButtonStyle.Primary,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     elevation: ButtonElevation? = ZeroButtonElevation,
     shape: Shape = MaterialTheme.shapes.small,
     border: BorderStroke? = null,
-    colors: WindowsButtonColors = WindowsButtonDefaults.primaryColors,
+    colors: NativeButtonColors = NativeButtonDefaults.primaryColors,
     contentPadding: PaddingValues = windowsButtonPaddingValues(windowsButtonStyle),
     content: @Composable RowScope.() -> Unit
 ) {
-    var isPointerHovering by remember { mutableStateOf(false) }
-    val backgroundColor by animateColorAsState(
-        targetValue = if (isPointerHovering) {
-            colors.hoverColor
-        } else {
-            colors.backgroundColor
-        },
-        animationSpec = TweenSpec(
-            durationMillis = 250,
-            easing = LinearEasing
-        )
-    )
-
-    // TODO: Remove this once https://issuetracker.google.com/issues/179543603 is fixed
-    io.chozzle.composewindowstheme.modifiedofficial.Button(
-        onClick = onClick,
-        modifier = modifier
-            .pointerMoveFilter(
-                onEnter = {
-                    isPointerHovering = true
-                    false
+    when (LocalTheme.current) {
+        Mac -> {
+            MacButton(
+                onClick = onClick,
+                modifier = modifier,
+                enabled = enabled,
+                macButtonStyle = when (windowsButtonStyle) {
+                    NativeButtonStyle.Primary -> MacButtonStyle.Large
+                    NativeButtonStyle.Secondary -> MacButtonStyle.Small
                 },
-                onExit = {
-                    isPointerHovering = false
-                    false
-                }
-            ).sizeIn(windowsButtonStyle.minWidth, windowsButtonStyle.minHeight)
-
-            // Material indication interferes with animated hover color change
-            .indication(interactionSource, indication = null),
-        enabled = enabled,
-        interactionSource = interactionSource,
-        elevation = elevation,
-        shape = shape,
-        border = border,
-        colors = ButtonDefaults.buttonColors(
-            disabledBackgroundColor = colors.disabledBackgroundColor,
-            disabledContentColor = colors.disabledContentColor,
-            backgroundColor = if (interactionSource.collectIsPressedAsState().value) {
-                colors.pressedColor
-            } else {
-                backgroundColor
+                interactionSource = interactionSource,
+                elevation = elevation,
+                shape = shape,
+                border = border,
+                colors = colors.toMacColors(),
+                contentPadding = contentPadding,
+                content = content
+            )
+        }
+        Windows -> WindowsButton(
+            onClick = onClick,
+            modifier = modifier,
+            enabled = enabled,
+            windowsButtonStyle = when (windowsButtonStyle) {
+                NativeButtonStyle.Primary -> WindowsButtonStyle.Button
+                NativeButtonStyle.Secondary -> TODO()
             },
-            contentColor = colors.contentColor
-        ),
-        contentPadding = contentPadding,
-        content = content
-    )
+            interactionSource = interactionSource,
+            elevation = elevation,
+            shape = shape,
+            border = border,
+            colors = colors.toWindowsColors(),
+            contentPadding = contentPadding,
+            content = content
+        )
+    }
 }
 
-object WindowsButtonDefaults {
-    val primaryColors: WindowsButtonColors
+object NativeButtonDefaults {
+    val primaryColors: NativeButtonColors
         @Composable
-        get() = WindowsButtonColors(
-            disabledBackgroundColor = WindowsDisabledBackgroundColor,
-            disabledContentColor = WindowsDisabledContentColor,
-            backgroundColor = WindowsTheme.colors.baseLow,
-            contentColor = MaterialTheme.colors.onBackground,
-            hoverColor = WindowsTheme.colors.listLow,
-            pressedColor = WindowsTheme.colors.baseMediumLow
-        )
-    val accentColors: WindowsButtonColors
+        get() = when (LocalTheme.current) {
+            Mac -> TODO()
+            Windows -> WindowsButtonDefaults.primaryColors
+        }
+    val accentColors: NativeButtonColors
         @Composable
-        get() = WindowsButtonColors(
+        get() = NativeButtonColors(
             disabledBackgroundColor = WindowsDisabledBackgroundColor,
             disabledContentColor = WindowsDisabledContentColor,
             backgroundColor = WindowsTheme.colors.accent,
@@ -108,7 +94,7 @@ object WindowsButtonDefaults {
         )
 }
 
-data class WindowsButtonColors(
+data class NativeButtonColors(
     val backgroundColor: Color,
     val disabledBackgroundColor: Color,
     val contentColor: Color,
@@ -125,7 +111,21 @@ private fun windowsButtonPaddingValues(windowsButtonStyle: WindowsButtonStyle) =
         PaddingValues(10.dp, 6.dp, 10.dp, 6.dp)
     }
 
+private fun NativeButtonColors.toMacColors() =
+    ButtonDefaults.buttonColors(
+        disabledBackgroundColor = disabledBackgroundColor,
+        disabledContentColor = disabledContentColor
+    )
 
+private fun NativeButtonColors.toWindowsColors() =
+    WindowsButtonColors(
+        backgroundColor,
+        disabledBackgroundColor,
+        contentColor,
+        disabledContentColor,
+        hoverColor,
+        pressedColor
+    )
 /*@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun WindowsHyperlinkButton( // TODO
@@ -166,9 +166,9 @@ internal expect fun Modifier.pointerMoveFilter(
 ): Modifier
 
 
-sealed class WindowsButtonStyle(val minWidth: Dp, val minHeight: Dp) {
-    object Button : WindowsButtonStyle(minWidth = 120.dp, minHeight = 32.dp)
-    object Hyperlink : WindowsButtonStyle(minWidth = Dp.Unspecified, 32.dp)
+sealed class NativeButtonStyle {
+    object Primary : NativeButtonStyle()
+    object Secondary : NativeButtonStyle()
 }
 
 
