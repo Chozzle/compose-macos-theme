@@ -118,7 +118,7 @@ data class WindowsButtonColors(
 )
 
 @Composable
-private fun windowsButtonPaddingValues(windowsButtonStyle: WindowsButtonStyle) =
+fun windowsButtonPaddingValues(windowsButtonStyle: WindowsButtonStyle) =
     if (windowsButtonStyle == WindowsButtonStyle.Hyperlink) {
         PaddingValues(10.dp, 2.dp, 10.dp, 2.dp)
     } else {

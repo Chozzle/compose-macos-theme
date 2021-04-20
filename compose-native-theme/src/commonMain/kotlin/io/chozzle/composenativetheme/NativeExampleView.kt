@@ -5,17 +5,23 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun WindowsExampleView() {
-    WindowsTheme {
-        Column(
-            verticalArrangement = Arrangement.spacedBy(8.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-        ) {
-            ButtonsView()
+fun NativeExampleView() {
+
+    CompositionLocalProvider(
+        LocalTheme provides Mac,
+    ) {
+        NativeTheme {
+            Column(
+                verticalArrangement = Arrangement.spacedBy(8.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+            ) {
+                ButtonsView()
+            }
         }
     }
 }
@@ -23,23 +29,23 @@ fun WindowsExampleView() {
 @Composable
 private fun ButtonsView() {
     Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-        WindowsButton(onClick = {}) {
+        Button(onClick = {}) {
             Text("Primary")
         }
 
-        WindowsButton(enabled = false, onClick = {}) {
+        Button(enabled = false, onClick = {}) {
             Text("You can't touch this")
         }
     }
     Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-        WindowsButton(
+        Button(
             onClick = {},
             colors = NativeButtonDefaults.accentColors
         ) {
             Text("Primary")
         }
 
-        WindowsButton(
+        Button(
             enabled = false,
             onClick = {},
             colors = NativeButtonDefaults.accentColors

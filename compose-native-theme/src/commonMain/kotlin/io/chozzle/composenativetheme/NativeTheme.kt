@@ -16,17 +16,19 @@ import androidx.compose.ui.unit.sp
 
 sealed class NativeTheme {
 
-    val theme: NativeTheme
-        @Composable
-        get() = LocalTheme.current
+    companion object {
+        val theme: NativeTheme
+            @Composable
+            get() = LocalTheme.current
 
-    val colors: NativeColors
-        @Composable
-        get() = LocalNativeColors.current
+        val colors: NativeColors
+            @Composable
+            get() = LocalNativeColors.current
+    }
 }
 
-object Mac: NativeTheme()
-object Windows: NativeTheme()
+object Mac : NativeTheme()
+object Windows : NativeTheme()
 
 private val LocalNativeColors = staticCompositionLocalOf<NativeColors> {
     error("No NativeColors provided")

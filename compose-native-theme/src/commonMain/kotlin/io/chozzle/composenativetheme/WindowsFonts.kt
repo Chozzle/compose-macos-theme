@@ -41,4 +41,4 @@ object WindowsFonts {
 }
 
 @Composable
-expect fun font(path: String, weight: FontWeight, style: FontStyle): Font
+fun font(path: String, weight: FontWeight, style: FontStyle): Font = TODO()

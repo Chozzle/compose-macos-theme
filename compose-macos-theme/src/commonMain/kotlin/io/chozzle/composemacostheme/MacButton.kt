@@ -50,7 +50,7 @@ fun MacButton(
 }
 
 @Composable
-private fun macButtonPaddingValues(macButtonStyle: MacButtonStyle) =
+fun macButtonPaddingValues(macButtonStyle: MacButtonStyle) =
     if (macButtonStyle == MacButtonStyle.Small) {
         PaddingValues(10.dp, 2.dp, 10.dp, 2.dp)
     } else {

@@ -16,6 +16,7 @@ import io.chozzle.composemacostheme.MacExampleView
 import io.chozzle.composewindowstheme.WindowsExampleView
 import io.chozzle.composemacostheme.MacDropdownMenu
 import io.chozzle.composemacostheme.MacTheme
+import io.chozzle.composenativetheme.NativeExampleView
 
 fun main() = Window(title = "Native theme for Compose :O") {
     Row(Modifier.fillMaxSize(), horizontalArrangement = Arrangement.SpaceEvenly) {
@@ -27,6 +28,15 @@ fun main() = Window(title = "Native theme for Compose :O") {
             Spacer(Modifier.height(16.dp))
             Text("Windows:")
             WindowsExampleView()
+        }
+        Column(
+            Modifier.weight(1f),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            Spacer(Modifier.height(16.dp))
+            Text("Windows:")
+            NativeExampleView()
         }
 
         Column(

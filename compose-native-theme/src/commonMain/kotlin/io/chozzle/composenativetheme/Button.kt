@@ -8,19 +8,17 @@ import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import io.chozzle.composemacostheme.MacButton
 import io.chozzle.composemacostheme.MacButtonStyle
-import io.chozzle.composemacostheme.MacDisabledBackgroundColor
-import io.chozzle.composemacostheme.MacDisabledContentColor
+import io.chozzle.composemacostheme.macButtonPaddingValues
 import io.chozzle.composewindowstheme.WindowsButton
 import io.chozzle.composewindowstheme.WindowsButtonColors
-import io.chozzle.composewindowstheme.WindowsButtonDefaults
 import io.chozzle.composewindowstheme.WindowsButtonStyle
+import io.chozzle.composewindowstheme.windowsButtonPaddingValues
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -28,13 +26,13 @@ fun Button(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
-    windowsButtonStyle: NativeButtonStyle = NativeButtonStyle.Primary,
+    nativeButtonStyle: NativeButtonStyle = NativeButtonStyle.Primary,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     elevation: ButtonElevation? = ZeroButtonElevation,
     shape: Shape = MaterialTheme.shapes.small,
     border: BorderStroke? = null,
     colors: NativeButtonColors = NativeButtonDefaults.primaryColors,
-    contentPadding: PaddingValues = windowsButtonPaddingValues(windowsButtonStyle),
+    contentPadding: NativePaddingValues = NativePaddingValues.ThemeDefault,
     content: @Composable RowScope.() -> Unit
 ) {
     when (LocalTheme.current) {
@@ -43,7 +41,7 @@ fun Button(
                 onClick = onClick,
                 modifier = modifier,
                 enabled = enabled,
-                macButtonStyle = when (windowsButtonStyle) {
+                macButtonStyle = when (nativeButtonStyle) {
                     NativeButtonStyle.Primary -> MacButtonStyle.Large
                     NativeButtonStyle.Secondary -> MacButtonStyle.Small
                 },
@@ -52,7 +50,16 @@ fun Button(
                 shape = shape,
                 border = border,
                 colors = colors.toMacColors(),
-                contentPadding = contentPadding,
+                contentPadding = when (contentPadding) {
+                    NativePaddingValues.ThemeDefault -> {
+                        when (nativeButtonStyle) {
+                            NativeButtonStyle.Primary -> macButtonPaddingValues(macButtonStyle = MacButtonStyle.Large)
+                            NativeButtonStyle.Secondary -> macButtonPaddingValues(macButtonStyle = MacButtonStyle.Small)
+                        }
+                    }
+                    is NativePaddingValues.Values -> contentPadding.values
+                    else -> error("Not supported")
+                },
                 content = content
             )
         }
@@ -60,7 +67,7 @@ fun Button(
             onClick = onClick,
             modifier = modifier,
             enabled = enabled,
-            windowsButtonStyle = when (windowsButtonStyle) {
+            windowsButtonStyle = when (nativeButtonStyle) {
                 NativeButtonStyle.Primary -> WindowsButtonStyle.Button
                 NativeButtonStyle.Secondary -> TODO()
             },
@@ -69,28 +76,50 @@ fun Button(
             shape = shape,
             border = border,
             colors = colors.toWindowsColors(),
-            contentPadding = contentPadding,
+            contentPadding = when (contentPadding) {
+                NativePaddingValues.ThemeDefault -> {
+                    when (nativeButtonStyle) {
+                        NativeButtonStyle.Primary -> {
+                            windowsButtonPaddingValues(windowsButtonStyle = WindowsButtonStyle.Button)
+                        }
+                        NativeButtonStyle.Secondary -> {
+                            windowsButtonPaddingValues(windowsButtonStyle = WindowsButtonStyle.Hyperlink)
+                        }
+                    }
+                }
+                is NativePaddingValues.Values -> contentPadding.values
+                else -> error("Not supported")
+            },
             content = content
         )
     }
 }
 
+interface NativePaddingValues {
+    object ThemeDefault : NativePaddingValues
+    data class Values(val values: PaddingValues) : NativePaddingValues, PaddingValues by values
+}
+
 object NativeButtonDefaults {
     val primaryColors: NativeButtonColors
         @Composable
-        get() = when (LocalTheme.current) {
-            Mac -> TODO()
-            Windows -> WindowsButtonDefaults.primaryColors
-        }
+        get() = NativeButtonColors(
+            disabledBackgroundColor = NativeDisabledBackgroundColor,
+            disabledContentColor = NativeDisabledContentColor,
+            backgroundColor = NativeTheme.colors.baseLow,
+            contentColor = MaterialTheme.colors.onBackground,
+            hoverColor = NativeTheme.colors.listLow,
+            pressedColor = NativeTheme.colors.baseMediumLow
+        )
     val accentColors: NativeButtonColors
         @Composable
         get() = NativeButtonColors(
-            disabledBackgroundColor = WindowsDisabledBackgroundColor,
-            disabledContentColor = WindowsDisabledContentColor,
-            backgroundColor = WindowsTheme.colors.accent,
+            disabledBackgroundColor = NativeDisabledBackgroundColor,
+            disabledContentColor = NativeDisabledContentColor,
+            backgroundColor = NativeTheme.colors.accent,
             contentColor = MaterialTheme.colors.onPrimary,
-            hoverColor = WindowsTheme.colors.accentLight,
-            pressedColor = WindowsTheme.colors.accentDark
+            hoverColor = NativeTheme.colors.accentLight,
+            pressedColor = NativeTheme.colors.accentDark
         )
 }
 
@@ -104,19 +133,13 @@ data class NativeButtonColors(
 )
 
 @Composable
-private fun windowsButtonPaddingValues(windowsButtonStyle: WindowsButtonStyle) =
-    if (windowsButtonStyle == WindowsButtonStyle.Hyperlink) {
-        PaddingValues(10.dp, 2.dp, 10.dp, 2.dp)
-    } else {
-        PaddingValues(10.dp, 6.dp, 10.dp, 6.dp)
-    }
-
 private fun NativeButtonColors.toMacColors() =
     ButtonDefaults.buttonColors(
         disabledBackgroundColor = disabledBackgroundColor,
         disabledContentColor = disabledContentColor
     )
 
+@Composable
 private fun NativeButtonColors.toWindowsColors() =
     WindowsButtonColors(
         backgroundColor,
@@ -159,11 +182,11 @@ fun WindowsHyperlinkButton( // TODO
     )
 }*/
 
-internal expect fun Modifier.pointerMoveFilter(
-    onMove: (position: Offset) -> Boolean = { false },
-    onExit: () -> Boolean = { false },
-    onEnter: () -> Boolean = { false },
-): Modifier
+//internal expect fun Modifier.pointerMoveFilter(
+//    onMove: (position: Offset) -> Boolean = { false },
+//    onExit: () -> Boolean = { false },
+//    onEnter: () -> Boolean = { false },
+//): Modifier
 
 
 sealed class NativeButtonStyle {
