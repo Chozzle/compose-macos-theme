@@ -35,7 +35,7 @@ fun main() = Window(title = "Native theme for Compose :O") {
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             Spacer(Modifier.height(16.dp))
-            Text("Windows:")
+            Text("Native theme (mac):")
             NativeExampleView()
         }
 

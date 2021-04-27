@@ -13,6 +13,11 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import io.chozzle.composemacostheme.MacFonts
+import io.chozzle.composemacostheme.MacTheme
+import io.chozzle.composemacostheme.macLightPalette
+import io.chozzle.composewindowstheme.WindowsFonts
+import io.chozzle.composewindowstheme.WindowsTheme
 
 sealed class NativeTheme {
 
@@ -40,26 +45,21 @@ val LocalTheme = staticCompositionLocalOf<NativeTheme> {
 
 @Composable
 fun NativeTheme(
-    colors: Colors = lightColors(
-        primary = nativeLightPalette.baseLow,
-    ),
-    typography: Typography = Typography(
-        //defaultFontFamily = nativeFonts.SegoeUI(),
-        button = TextStyle(
-            fontWeight = FontWeight.Medium,
-            fontSize = 14.sp,
-        )
-    ),
-    shapes: Shapes = Shapes(
-        small = RoundedCornerShape(2.dp),
-        medium = RoundedCornerShape(11.dp),
-        large = RoundedCornerShape(11.dp)
-    ),
+    colors: Colors?,
+    typography: Typography?,
+    shapes: Shapes?,
     content: @Composable () -> Unit
-) {
-    CompositionLocalProvider(
-        LocalNativeColors provides nativeLightPalette,
-    ) {
-        MaterialTheme(colors, typography, shapes, content)
-    }
+) = when (LocalTheme.current) {
+    Mac -> MacTheme(
+        colors = colors,
+        typography = typography,
+        shapes = shapes,
+        content = content
+    )
+    Windows -> WindowsTheme(
+        colors = colors,
+        typography = typography,
+        shapes = shapes,
+        content = content
+    )
 }
