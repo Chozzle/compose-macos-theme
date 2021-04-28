@@ -18,31 +18,45 @@ object MacTheme {
     val colors: MacColors
         @Composable
         get() = AmbientMacColors.current
+
+    val defaultColors
+        @Composable
+        get() = lightColors(
+            primary = macLightPalette.primary,
+        )
+
+    val defaultTypography
+        @Composable
+        get() = Typography(
+            defaultFontFamily = MacFonts.SFPro(),
+            button = TextStyle(
+                fontWeight = FontWeight.Medium,
+                fontSize = 13.sp,
+            )
+        )
+
+    val defaultShapes
+        @Composable
+        get() = Shapes(
+            small = RoundedCornerShape(4.dp),
+            medium = RoundedCornerShape(11.dp),
+            large = RoundedCornerShape(11.dp)
+        )
 }
 
 private val AmbientMacColors = staticCompositionLocalOf<MacColors> {
     error("No MacColors provided")
 }
+
+
 /**
  * Wraps [MaterialTheme] with modifications to match MacOS Theme
  * */
 @Composable
 fun MacTheme(
-    colors: Colors = lightColors(
-        primary = macLightPalette.primary,
-    ),
-    typography: Typography = Typography(
-        defaultFontFamily = MacFonts.SFPro(),
-        button = TextStyle(
-            fontWeight = FontWeight.Medium,
-            fontSize = 13.sp,
-        )
-    ),
-    shapes: Shapes = Shapes(
-        small = RoundedCornerShape(4.dp),
-        medium = RoundedCornerShape(11.dp),
-        large = RoundedCornerShape(11.dp)
-    ),
+    colors: Colors = MacTheme.defaultColors,
+    typography: Typography = MacTheme.defaultTypography,
+    shapes: Shapes = MacTheme.defaultShapes,
     content: @Composable () -> Unit
 ) {
     CompositionLocalProvider(AmbientMacColors provides macLightPalette) {

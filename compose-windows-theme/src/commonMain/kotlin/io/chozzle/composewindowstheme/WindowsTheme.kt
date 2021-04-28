@@ -21,9 +21,30 @@ object WindowsTheme {
 
         get() = LocalWindowsColors.current
 
-    val iconFont: Font
+
+    val defaultColors
         @Composable
-        get() = LocalIconFont.current
+        get() = lightColors(
+            primary = windowsLightPalette.baseLow,
+        )
+
+    val defaultTypography
+        @Composable
+        get() = Typography(
+            defaultFontFamily = WindowsFonts.SegoeUI(),
+            button = TextStyle(
+                fontWeight = FontWeight.Medium,
+                fontSize = 14.sp,
+            )
+        )
+
+    val defaultShapes
+        @Composable
+        get() = Shapes(
+            small = RoundedCornerShape(2.dp),
+            medium = RoundedCornerShape(11.dp),
+            large = RoundedCornerShape(11.dp)
+        )
 }
 
 private val LocalWindowsColors = staticCompositionLocalOf<WindowsColors> {
@@ -39,21 +60,9 @@ private val LocalIconFont = staticCompositionLocalOf<Font> {
  * */
 @Composable
 fun WindowsTheme(
-    colors: Colors = lightColors(
-        primary = windowsLightPalette.baseLow,
-    ),
-    typography: Typography = Typography(
-        defaultFontFamily = WindowsFonts.SegoeUI(),
-        button = TextStyle(
-            fontWeight = FontWeight.Medium,
-            fontSize = 14.sp,
-        )
-    ),
-    shapes: Shapes = Shapes(
-        small = RoundedCornerShape(2.dp),
-        medium = RoundedCornerShape(11.dp),
-        large = RoundedCornerShape(11.dp)
-    ),
+    colors: Colors = WindowsTheme.defaultColors,
+    typography: Typography = WindowsTheme.defaultTypography,
+    shapes: Shapes = WindowsTheme.defaultShapes,
     content: @Composable () -> Unit
 ) {
     CompositionLocalProvider(

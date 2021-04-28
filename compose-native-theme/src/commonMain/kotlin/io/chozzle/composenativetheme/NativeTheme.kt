@@ -45,21 +45,19 @@ val LocalTheme = staticCompositionLocalOf<NativeTheme> {
 
 @Composable
 fun NativeTheme(
-    colors: Colors?,
-    typography: Typography?,
-    shapes: Shapes?,
+    colors: Colors = when(LocalTheme.current){
+        Mac -> MacTheme.defaultColors
+        Windows -> WindowsTheme.defaultColors
+    },
+    typography: Typography = when(LocalTheme.current){
+        Mac -> MacTheme.defaultTypography
+        Windows -> WindowsTheme.defaultTypography
+    },
+    shapes: Shapes = when(LocalTheme.current){
+        Mac -> MacTheme.defaultShapes
+        Windows -> WindowsTheme.defaultShapes
+    },
     content: @Composable () -> Unit
-) = when (LocalTheme.current) {
-    Mac -> MacTheme(
-        colors = colors,
-        typography = typography,
-        shapes = shapes,
-        content = content
-    )
-    Windows -> WindowsTheme(
-        colors = colors,
-        typography = typography,
-        shapes = shapes,
-        content = content
-    )
+) {
+    content()
 }
