@@ -1,27 +1,66 @@
 package io.chozzle.composenativetheme
 
+import androidx.compose.animation.Crossfade
+import androidx.compose.animation.core.TweenSpec
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.delay
 
 @Composable
 fun NativeExampleView() {
 
-    CompositionLocalProvider(
-        LocalTheme provides Mac,
-    ) {
-        NativeTheme {
-            Column(
-                verticalArrangement = Arrangement.spacedBy(8.dp),
-                horizontalAlignment = Alignment.CenterHorizontally,
-            ) {
-                ButtonsView()
+    var currentDisplayingTheme: NativeTheme by remember { mutableStateOf(Mac) }
+
+    LaunchedEffect(currentDisplayingTheme) {
+        while (true) {
+            delay(5000)
+            currentDisplayingTheme = if (currentDisplayingTheme is Mac) {
+                Windows
+            } else {
+                Mac
             }
+        }
+    }
+    Crossfade(
+        targetState = currentDisplayingTheme,
+        animationSpec = TweenSpec(2500)
+    ) { screen ->
+        when (screen) {
+            Mac ->
+                CompositionLocalProvider(
+                    LocalTheme provides Mac,
+                ) {
+                    exampleContent()
+                }
+            Windows ->
+                CompositionLocalProvider(
+                    LocalTheme provides Windows,
+                ) {
+                    exampleContent()
+                }
+        }
+    }
+}
+
+@Composable
+fun exampleContent() {
+    NativeTheme {
+        Column(
+            verticalArrangement = Arrangement.spacedBy(8.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
+            ButtonsView()
         }
     }
 }
@@ -29,18 +68,25 @@ fun NativeExampleView() {
 @Composable
 private fun ButtonsView() {
     Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-        Button(onClick = {}) {
-            Text("Primary")
+        Button(
+            onClick = {},
+            nativeButtonStyle = NativeButtonStyle.Secondary
+        ) {
+            Text("Secondary")
         }
 
-        Button(enabled = false, onClick = {}) {
-            Text("You can't touch this")
+        Button(
+            enabled = false,
+            onClick = {},
+            nativeButtonStyle = NativeButtonStyle.Secondary
+        ) {
+            Text("Disabled")
         }
     }
     Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
         Button(
             onClick = {},
-            colors = NativeButtonDefaults.accentColors
+            colors = NativeButtonDefaults.primaryColors
         ) {
             Text("Primary")
         }
@@ -50,7 +96,7 @@ private fun ButtonsView() {
             onClick = {},
             colors = NativeButtonDefaults.accentColors
         ) {
-            Text("You can't touch this")
+            Text("Disabled")
         }
     }
 }

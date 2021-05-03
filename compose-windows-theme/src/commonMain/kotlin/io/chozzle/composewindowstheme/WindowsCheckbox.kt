@@ -38,7 +38,7 @@ fun WindowsCheckbox(
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
-    colors: MacCheckboxColors = macCheckboxColors()
+    colors: MacCheckboxColors = windowsCheckboxColors()
 ) {
     Box(
         modifier = modifier.size(CheckboxSize)
@@ -78,7 +78,7 @@ expect fun MacCheckboxCheck(checkColor: Color)
 
 @ExperimentalMaterialApi
 @Composable
-private fun macCheckboxColors(
+private fun windowsCheckboxColors(
     checkedColor: Color = WindowsTheme.colors.accent,
     uncheckedColor: Color = WindowsTheme.colors.primary50,
     checkmarkColor: Color = MaterialTheme.colors.surface,

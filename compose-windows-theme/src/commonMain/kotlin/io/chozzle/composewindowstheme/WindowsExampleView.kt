@@ -36,7 +36,7 @@ private fun ButtonsView() {
             onClick = {},
             colors = WindowsButtonDefaults.accentColors
         ) {
-            Text("Primary")
+            Text("Accent")
         }
 
         WindowsButton(

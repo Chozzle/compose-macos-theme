@@ -66,11 +66,7 @@ fun MacSecondaryButton(
     enabled: Boolean = true,
     macButtonStyle: MacButtonStyle = MacButtonStyle.Small,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
-    elevation: ButtonElevation? = ButtonDefaults.elevation(
-        defaultElevation = 2.dp, // TODO: Try to adjust shadow to be more similar to Mac
-        pressedElevation = 2.dp,
-        disabledElevation = 0.dp
-    ),
+    elevation: ButtonElevation? = MacButtonDefaults.secondaryButtonElevation() ,
     shape: Shape = MaterialTheme.shapes.small,
     border: BorderStroke? = null,
     colors: ButtonColors = MacButtonDefaults.secondaryButtonColors(),
@@ -107,7 +103,6 @@ object ZeroButtonElevation : ButtonElevation {
 
 object MacButtonDefaults {
 
-    @OptIn(ExperimentalMaterialApi::class)
     @Composable
     fun secondaryButtonColors(
         backgroundColor: Color = MaterialTheme.colors.surface,
@@ -117,5 +112,12 @@ object MacButtonDefaults {
         disabledBackgroundColor = MacDisabledBackgroundColor,
         contentColor = contentColor,
         disabledContentColor = MacDisabledContentColor
+    )
+
+    @Composable
+    fun secondaryButtonElevation() = ButtonDefaults.elevation(
+        defaultElevation = 2.dp, // TODO: Try to adjust shadow to be more similar to Mac
+        pressedElevation = 2.dp,
+        disabledElevation = 0.dp
     )
 }

@@ -13,6 +13,7 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import io.chozzle.composemacostheme.MacButton
+import io.chozzle.composemacostheme.MacButtonDefaults
 import io.chozzle.composemacostheme.MacButtonStyle
 import io.chozzle.composemacostheme.macButtonPaddingValues
 import io.chozzle.composewindowstheme.WindowsButton
@@ -28,7 +29,7 @@ fun Button(
     enabled: Boolean = true,
     nativeButtonStyle: NativeButtonStyle = NativeButtonStyle.Primary,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
-    elevation: ButtonElevation? = ZeroButtonElevation,
+    elevation: ButtonElevation? = null,
     shape: Shape = MaterialTheme.shapes.small,
     border: BorderStroke? = null,
     colors: NativeButtonColors = NativeButtonDefaults.primaryColors,
@@ -46,10 +47,13 @@ fun Button(
                     NativeButtonStyle.Secondary -> MacButtonStyle.Small
                 },
                 interactionSource = interactionSource,
-                elevation = elevation,
+                elevation = elevation ?: when (nativeButtonStyle) {
+                    NativeButtonStyle.Primary -> MacButtonDefaults.secondaryButtonElevation()
+                    NativeButtonStyle.Secondary -> MacButtonDefaults.secondaryButtonElevation()
+                },
                 shape = shape,
                 border = border,
-                colors = colors.toMacColors(),
+                colors = colors.toMacColors(nativeButtonStyle),
                 contentPadding = when (contentPadding) {
                     NativePaddingValues.ThemeDefault -> {
                         when (nativeButtonStyle) {
@@ -69,7 +73,7 @@ fun Button(
             enabled = enabled,
             windowsButtonStyle = when (nativeButtonStyle) {
                 NativeButtonStyle.Primary -> WindowsButtonStyle.Button
-                NativeButtonStyle.Secondary -> TODO()
+                NativeButtonStyle.Secondary -> WindowsButtonStyle.Button // TODO decide how to merge button design
             },
             interactionSource = interactionSource,
             elevation = elevation,
@@ -133,21 +137,24 @@ data class NativeButtonColors(
 )
 
 @Composable
-private fun NativeButtonColors.toMacColors() =
-    ButtonDefaults.buttonColors(
-        disabledBackgroundColor = disabledBackgroundColor,
-        disabledContentColor = disabledContentColor
-    )
+private fun NativeButtonColors.toMacColors(nativeButtonStyle: NativeButtonStyle) =
+    when (nativeButtonStyle) {
+        NativeButtonStyle.Primary -> ButtonDefaults.buttonColors(
+            disabledBackgroundColor = disabledBackgroundColor,
+            disabledContentColor = disabledContentColor
+        )
+        NativeButtonStyle.Secondary -> MacButtonDefaults.secondaryButtonColors()
+    }
 
 @Composable
 private fun NativeButtonColors.toWindowsColors() =
     WindowsButtonColors(
-        backgroundColor,
-        disabledBackgroundColor,
-        contentColor,
-        disabledContentColor,
-        hoverColor,
-        pressedColor
+        backgroundColor = backgroundColor,
+        disabledBackgroundColor = disabledBackgroundColor,
+        contentColor = contentColor,
+        disabledContentColor = disabledContentColor,
+        hoverColor = hoverColor,
+        pressedColor = pressedColor
     )
 /*@OptIn(ExperimentalMaterialApi::class)
 @Composable
