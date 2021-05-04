@@ -104,7 +104,7 @@ private fun ButtonsView() {
             Text("Secondary")
         }
         MacButton(enabled = false, onClick = {}) {
-            Text("You can't touch this")
+            Text("Disabled")
         }
     }
 }

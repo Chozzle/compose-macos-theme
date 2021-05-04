@@ -28,7 +28,7 @@ private fun ButtonsView() {
         }
 
         WindowsButton(enabled = false, onClick = {}) {
-            Text("You can't touch this")
+            Text("Disabled")
         }
     }
     Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
@@ -44,7 +44,7 @@ private fun ButtonsView() {
             onClick = {},
             colors = WindowsButtonDefaults.accentColors
         ) {
-            Text("You can't touch this")
+            Text("Disabled")
         }
     }
 }

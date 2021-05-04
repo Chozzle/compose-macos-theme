@@ -96,6 +96,22 @@ fun Button(
             },
             content = content
         )
+        Material -> androidx.compose.material.Button(
+            onClick = onClick,
+            modifier = modifier,
+            enabled = enabled,
+            interactionSource = interactionSource,
+            elevation = elevation ?: ButtonDefaults.elevation(),
+            shape = shape,
+            border = border,
+            colors = colors.toMacColors(nativeButtonStyle),
+            contentPadding = when (contentPadding) {
+                NativePaddingValues.ThemeDefault -> ButtonDefaults.ContentPadding
+                is NativePaddingValues.Values -> contentPadding.values
+                else -> error("Not supported")
+            },
+            content = content
+        )
     }
 }
 
