@@ -6,6 +6,9 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.ButtonElevation
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -29,7 +32,7 @@ fun NativeExampleView() {
         while (true) {
             delay(3000)
 
-            currentDisplayingTheme = when (currentDisplayingTheme){
+            currentDisplayingTheme = when (currentDisplayingTheme) {
                 Mac -> Windows
                 Windows -> Material
                 Material -> Mac
@@ -40,25 +43,10 @@ fun NativeExampleView() {
         targetState = currentDisplayingTheme,
         animationSpec = TweenSpec(2500)
     ) { screen ->
-        when (screen) {
-            Mac ->
-                CompositionLocalProvider(
-                    LocalTheme provides Mac,
-                ) {
-                    exampleContent()
-                }
-            Windows ->
-                CompositionLocalProvider(
-                    LocalTheme provides Windows,
-                ) {
-                    exampleContent()
-                }
-            Material ->
-                CompositionLocalProvider(
-                    LocalTheme provides Material,
-                ) {
-                    exampleContent()
-                }
+        CompositionLocalProvider(
+            LocalTheme provides screen,
+        ) {
+            exampleContent()
         }
     }
 }
