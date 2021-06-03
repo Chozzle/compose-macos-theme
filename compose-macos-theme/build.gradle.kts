@@ -10,7 +10,7 @@ plugins {
     id("signing")
 }
 
-version = "0.4.0"
+Reversion = "0.4.1"
 group = "io.github.chozzle"
 
 kotlin {

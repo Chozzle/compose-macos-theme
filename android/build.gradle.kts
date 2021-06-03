@@ -21,11 +21,7 @@ android {
 }
 
 dependencies {
-    implementation(project(":compose-native-theme"))
-
-    // These are redundant, because native-theme depends on them
-    implementation(project(":compose-macos-theme"))
-    implementation(project(":compose-windows-theme"))
+    implementation("io.github.chozzle:compose-macos-theme:0.4.1")
 
     implementation("androidx.appcompat:appcompat:1.3.0-beta01")
     // See https://stackoverflow.com/a/66146595/4672107
