@@ -132,7 +132,7 @@ internal fun DropdownMenuContent(
     ) {
         Column(
             modifier = modifier
-                .padding(vertical = DropdownMenuItemVerticalPadding)
+                .padding(all = DropdownMenuItemVerticalPadding)
                 .width(IntrinsicSize.Max)
                 .verticalScroll(rememberScrollState()),
             content = content

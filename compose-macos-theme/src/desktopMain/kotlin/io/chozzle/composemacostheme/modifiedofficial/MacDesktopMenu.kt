@@ -89,7 +89,7 @@ internal fun MacDropdownMenu(
         }
 
         Popup(
-            isFocusable = true, // Required to allow dismissing dropdown by clicking outside
+            focusable = true, // Required to allow dismissing dropdown by clicking outside
             onDismissRequest = onDismissRequest,
             popupPositionProvider = popupPositionProvider
         ) {

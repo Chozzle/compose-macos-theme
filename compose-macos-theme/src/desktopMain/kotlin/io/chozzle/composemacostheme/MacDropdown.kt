@@ -92,7 +92,7 @@ private fun MenuItems(
                         isPointerHovering = false
                         false
                     }
-                ).padding(horizontal = 6.dp)
+                )
                 .background(
                     if (isPointerHovering) MacTheme.colors.primary.copy(alpha = 0.7f) else Color.Unspecified,
                     shape = RoundedCornerShape(4.dp)
@@ -100,7 +100,12 @@ private fun MenuItems(
             contentPadding = PaddingValues(0.dp)
         ) {
             Row(
-                Modifier.fillMaxHeight().padding(2.dp),
+                Modifier.fillMaxHeight().padding(
+                    start = 2.dp,
+                    top = 2.dp,
+                    end = 12.dp,
+                    bottom = 2.dp
+                ),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 val checkOrSpace = if (index == selectedIndex) "\uDBC0\uDD85" else "      "
