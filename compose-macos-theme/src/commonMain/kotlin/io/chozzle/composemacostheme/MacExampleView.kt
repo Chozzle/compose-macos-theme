@@ -28,10 +28,10 @@ fun MacExampleView() {
         ) {
             MacSearchField(
                 onSearchRequested = { println("Searched: $it") },
-                modifier = Modifier.width(200.dp).align(Alignment.End)
+                modifier = Modifier.width(200.dp)
             )
 
-            Spacer(Modifier.height(32.dp))
+            Spacer(Modifier.height(16.dp))
 
             Column(
                 verticalArrangement = Arrangement.spacedBy(8.dp),
@@ -93,7 +93,7 @@ private fun ButtonsView() {
         macButtonStyle = MacButtonStyle.Large,
         onClick = {}
     ) {
-        Text("A large one")
+        Text("Primary")
     }
 
     Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {

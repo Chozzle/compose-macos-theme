@@ -1,6 +1,7 @@
 package io.chozzle.composenativetheme
 
 import androidx.compose.animation.Crossfade
+import androidx.compose.animation.core.FastOutLinearInEasing
 import androidx.compose.animation.core.TweenSpec
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -26,7 +27,7 @@ fun NativeExampleView() {
 
     LaunchedEffect(currentDisplayingTheme) {
         while (true) {
-            delay(3000)
+            delay(2000)
 
             currentDisplayingTheme = when (currentDisplayingTheme) {
                 Mac -> Windows
@@ -38,7 +39,7 @@ fun NativeExampleView() {
 
     Crossfade(
         targetState = currentDisplayingTheme,
-        animationSpec = TweenSpec(2500)
+        animationSpec = TweenSpec(1000, easing = FastOutLinearInEasing)
     ) { screen ->
         CompositionLocalProvider(
             LocalTheme provides screen,
