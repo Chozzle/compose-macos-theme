@@ -30,7 +30,8 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
 
 // Copied from compose source to work around https://issuetracker.google.com/issues/179543603
-// Can be removed when this issue is fixed
+// Basically just want to remove the ripple effect
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun Button(
     onClick: () -> Unit,
@@ -44,24 +45,19 @@ fun Button(
     contentPadding: PaddingValues = ButtonDefaults.ContentPadding,
     content: @Composable RowScope.() -> Unit
 ) {
-    // TODO(aelias): Avoid manually putting the clickable above the clip and
-    // the ripple below the clip once http://b/157687898 is fixed and we have
-    // more flexibility to move the clickable modifier (see candidate approach
-    // aosp/1361921)
     val contentColor by colors.contentColor(enabled)
     Surface(
+        modifier = modifier,
         shape = shape,
         color = colors.backgroundColor(enabled).value,
         contentColor = contentColor.copy(alpha = 1f),
         border = border,
         elevation = elevation?.elevation(enabled, interactionSource)?.value ?: 0.dp,
-        modifier = modifier.clickable(
-            onClick = onClick,
-            enabled = enabled,
-            role = Role.Button,
-            interactionSource = interactionSource,
-            indication = null
-        )
+        onClick = onClick,
+        enabled = enabled,
+        role = Role.Button,
+        interactionSource = interactionSource,
+        indication = LocalIndication.current
     ) {
         CompositionLocalProvider(LocalContentAlpha provides contentColor.alpha) {
             ProvideTextStyle(
@@ -73,7 +69,6 @@ fun Button(
                             minWidth = ButtonDefaults.MinWidth,
                             minHeight = ButtonDefaults.MinHeight
                         )
-                        .indication(interactionSource, LocalIndication.current)
                         .padding(contentPadding),
                     horizontalArrangement = Arrangement.Center,
                     verticalAlignment = Alignment.CenterVertically,

@@ -1,44 +1,19 @@
 package io.chozzle.composenativetheme
 
+import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
+import io.chozzle.composemacostheme.MacFonts
+import io.chozzle.composewindowstheme.WindowsFonts
 
-object WindowsFonts {
-
+object NativeFonts {
     @Composable
-    fun SegoeUI() = FontFamily(
-        font(
-            "segoe_ui",
-            FontWeight.Normal,
-            FontStyle.Normal
-        ),
-        font(
-            "segoe_ui_italic",
-            FontWeight.Normal,
-            FontStyle.Italic
-        ),
-        font(
-            "segoe_ui_bold",
-            FontWeight.Bold,
-            FontStyle.Normal
-        ),
-        font(
-            "segoe_ui_bold_italic",
-            FontWeight.Bold,
-            FontStyle.Italic
-        )
-    )
-
-    @Composable
-    fun SegoeAssets() = font(
-        "segmdl2",
-        FontWeight.Normal,
-        FontStyle.Normal
-    )
+    fun NativeFont() = when (LocalTheme.current) {
+        Mac -> MacFonts.SFPro()
+        Windows -> WindowsFonts.SegoeUI()
+        Material -> FontFamily.Default
+    }
 }
-
-@Composable
-fun font(path: String, weight: FontWeight, style: FontStyle): Font = TODO()

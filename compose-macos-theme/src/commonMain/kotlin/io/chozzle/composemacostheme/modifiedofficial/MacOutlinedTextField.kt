@@ -90,39 +90,31 @@ import kotlin.math.roundToInt
  * container
  * @param trailingIcon the optional trailing icon to be displayed at the end of the text field
  * container
- * @param isErrorValue indicates if the text field's current value is in error. If set to true, the
- * label, bottom indicator and trailing icon will be displayed in [errorColor] color
- * @param visualTransformation transforms the visual representation of the input [value].
+ * @param isError indicates if the text field's current value is in error. If set to true, the
+ * label, bottom indicator and trailing icon by default will be displayed in error color
+ * @param visualTransformation transforms the visual representation of the input [value]
  * For example, you can use [androidx.compose.ui.text.input.PasswordVisualTransformation] to create a password
  * text field. By default no visual transformation is applied
  * @param keyboardOptions software keyboard options that contains configuration such as
- * [KeyboardType] and [ImeAction].
+ * [KeyboardType] and [ImeAction]
  * @param keyboardActions when the input service emits an IME action, the corresponding callback
  * is called. Note that this IME action may be different from what you specified in
- * [KeyboardOptions.imeAction].
+ * [KeyboardOptions.imeAction]
  * @param singleLine when set to true, this text field becomes a single horizontally scrolling
  * text field instead of wrapping onto multiple lines. The keyboard will be informed to not show
  * the return key as the [ImeAction]. Note that [maxLines] parameter will be ignored as the
- * maxLines attribute will be automatically set to 1.
+ * maxLines attribute will be automatically set to 1
  * @param maxLines the maximum height in terms of maximum number of visible lines. Should be
  * equal or greater than 1. Note that this parameter will be ignored and instead maxLines will be
- * set to 1 if [singleLine] is set to true.
- * [KeyboardOptions.imeAction] field. The callback also exposes a [SoftwareKeyboardController]
- * instance as a parameter that can be used to request to hide the software keyboard
- * @param onTextInputStarted a callback to be invoked when the connection with the platform's text
- * input service (e.g. software keyboard on Android) has been established. Called with the
- * [SoftwareKeyboardController] instance that can be used to request to show or hide the software
- * keyboard
- * @param interactionState the [InteractionState] representing the different [Interaction]s
- * present on this OutlinedTextField. You can create and pass in your own remembered
- * [InteractionState] if you want to read the [InteractionState] and customize the appearance /
- * behavior of this OutlinedTextField in different [Interaction]s.
- * @param activeColor the color of the label, bottom indicator and the cursor when the text field is
- * in focus
- * @param inactiveColor the color of either the input text or placeholder when the text field is in
- * focus, and the color of the label and bottom indicator when the text field is not in focus
- * @param errorColor the alternative color of the label, bottom indicator, cursor and trailing icon
- * used when [isErrorValue] is set to true
+ * set to 1 if [singleLine] is set to true
+ * [KeyboardOptions.imeAction] field.
+ * @param interactionSource the [MutableInteractionSource] representing the stream of
+ * [Interaction]s for this OutlinedTextField. You can create and pass in your own remembered
+ * [MutableInteractionSource] if you want to observe [Interaction]s and customize the
+ * appearance / behavior of this OutlinedTextField in different [Interaction]s.
+ * @param colors [TextFieldColors] that will be used to resolve color of the text and content
+ * (including label, placeholder, leading and trailing icons, border) for this text field in
+ * different states. See [TextFieldDefaults.outlinedTextFieldColors]
  */
 @Composable
 fun MacOutlinedTextField(
@@ -181,6 +173,14 @@ fun MacOutlinedTextField(
 /**
  * Mac themed modification of a Material Design implementation of an
  * [Outlined TextField](https://material.io/components/text-fields/#outlined-text-field)
+ *
+ * <a href="https://material.io/components/text-fields#outlined-text-field" class="external" target="_blank">Material Design outlined text field</a>.
+ *
+ * Outlined text fields have less visual emphasis than filled text fields. When they appear in
+ * places like forms, where many text fields are placed together, their reduced emphasis helps
+ * simplify the layout.
+ *
+ * ![Outlined text field image](https://developer.android.com/images/reference/androidx/compose/material/outlined-text-field.png)
  *
  * See example usage:
  * @sample androidx.compose.material.samples.OutlinedTextFieldSample
@@ -403,7 +403,10 @@ private fun IconsWithTextFieldLayout(
                 placeholder(Modifier.layoutId(PlaceholderId).padding(horizontal = TextFieldPadding))
             }
 
-            Box(Modifier.layoutId(TextFieldId).padding(horizontal = TextFieldPadding)) {
+            Box(
+                modifier = Modifier.layoutId(TextFieldId).padding(horizontal = TextFieldPadding),
+                propagateMinConstraints = true
+            ) {
                 textField()
             }
 

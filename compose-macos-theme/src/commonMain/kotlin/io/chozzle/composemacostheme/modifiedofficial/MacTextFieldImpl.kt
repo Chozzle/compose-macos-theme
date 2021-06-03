@@ -47,6 +47,7 @@ import androidx.compose.ui.layout.MeasureScope
 import androidx.compose.ui.layout.Placeable
 import androidx.compose.ui.platform.InspectorValueInfo
 import androidx.compose.ui.platform.debugInspectorInfo
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
@@ -106,8 +107,7 @@ internal fun TextFieldImpl(
     }
 
     TextFieldTransitionScope.Transition(
-        inputState = inputState,
-        showLabel = label != null,
+        inputState = inputState, showLabel = label != null
     ) { labelProgress, indicatorWidth, placeholderAlphaProgress ->
 
         val decoratedLabel: @Composable (() -> Unit)? =
@@ -139,10 +139,14 @@ internal fun TextFieldImpl(
                 }
             } else null
 
+        // Developers need to handle invalid input manually. But since we don't provide error
+        // message slot API, we can set the default error message in case developers forget about
+        // it.
+        val textFieldModifier = modifier.semantics { if (isError) error("Invalid input") }
         when (type) {
             TextFieldType.Filled -> {
                 TextFieldLayout(
-                    modifier = modifier,
+                    modifier = textFieldModifier,
                     value = value,
                     onValueChange = onValueChange,
                     enabled = enabled,
@@ -171,11 +175,7 @@ internal fun TextFieldImpl(
             }
             TextFieldType.Outlined -> {
                 OutlinedTextFieldLayout(
-                    modifier = modifier
-                        .sizeIn(
-                            minWidth = TextFieldMinWidth,
-                            minHeight = TextFieldMinHeight + OutlinedTextFieldTopPadding
-                        ),
+                    modifier = textFieldModifier,
                     value = value,
                     onValueChange = onValueChange,
                     enabled = enabled,
@@ -203,13 +203,6 @@ internal fun TextFieldImpl(
             }
         }
     }
-}
-
-/**
- * Set alpha if the color is not translucent
- */
-internal fun Color.applyAlpha(alpha: Float): Color {
-    return if (this.alpha != 1f) this else this.copy(alpha = alpha)
 }
 
 /**
@@ -249,6 +242,7 @@ internal fun heightOrZero(placeable: Placeable?) = placeable?.height ?: 0
  */
 internal fun Modifier.iconPadding(start: Dp = 0.dp, end: Dp = 0.dp) =
     this.then(
+        @Suppress("ModifierInspectorInfo")
         object : LayoutModifier, InspectorValueInfo(
             debugInspectorInfo {
                 name = "iconPadding"
@@ -388,9 +382,6 @@ internal val TextFieldMinWidth = 0.dp
 internal val TextFieldVerticalPadding = 1.dp
 internal val TextFieldPadding = 3.dp
 internal val HorizontalIconPadding = 6.dp
-
-// Filled text field uses 42% opacity to meet the contrast requirements for accessibility reasons
-private const val IndicatorInactiveAlpha = 0.42f
 
 /*
 This padding is used to allow label not overlap with the content above it. This 8.dp will work
