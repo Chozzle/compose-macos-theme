@@ -12,12 +12,14 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import io.chozzle.composemacostheme.modifiedofficial.MacOutlinedTextField
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun MacExampleView() {
     MacTheme {

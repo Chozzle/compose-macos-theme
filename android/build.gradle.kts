@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    compileSdkVersion(30)
+    compileSdk = 31
 
     defaultConfig {
-        minSdkVersion(26)
-        targetSdkVersion(30)
+        minSdk = 26
+        targetSdk = 31
         versionCode = 1
         versionName = "1.0"
     }
@@ -23,9 +23,9 @@ android {
 dependencies {
     implementation("io.github.chozzle:compose-macos-theme:0.4.1")
 
-    implementation("androidx.appcompat:appcompat:1.3.0-beta01")
+    implementation("androidx.appcompat:appcompat:1.4.0-beta01")
     // See https://stackoverflow.com/a/66146595/4672107
-    implementation("androidx.activity:activity-compose:1.3.0-alpha02") {
+    implementation("androidx.activity:activity-compose:1.3.1") {
         exclude(group = "androidx.compose.animation")
         exclude(group = "androidx.compose.foundation")
         exclude(group = "androidx.compose.material")
