@@ -7,6 +7,7 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.key.*
@@ -18,6 +19,7 @@ import io.chozzle.composemacostheme.modifiedofficial.MacOutlinedTextField
 /**
  * Wraps a [MacOutlinedTextField] and also interprets a Enter keypress as a search request
  * */
+@ExperimentalComposeUiApi
 @Composable
 fun MacSearchField(
     onSearchRequested: (query: String) -> Unit,
