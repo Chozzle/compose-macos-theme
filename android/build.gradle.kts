@@ -21,11 +21,12 @@ android {
 }
 
 dependencies {
-    implementation("io.github.chozzle:compose-macos-theme:0.4.1")
+    implementation("io.github.chozzle:compose-macos-theme:0.4.2")
+    //implementation(project(":compose-macos-theme"))
 
-    implementation("androidx.appcompat:appcompat:1.4.0-beta01")
+    implementation("androidx.appcompat:appcompat:1.4.0-rc01")
     // See https://stackoverflow.com/a/66146595/4672107
-    implementation("androidx.activity:activity-compose:1.3.1") {
+    implementation("androidx.activity:activity-compose:1.4.0") {
         exclude(group = "androidx.compose.animation")
         exclude(group = "androidx.compose.foundation")
         exclude(group = "androidx.compose.material")

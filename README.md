@@ -15,7 +15,7 @@ Add the common dependency which will work for both android and desktop.
 sourceSets {
     named("commonMain") {
         dependencies {
-            implementation("io.github.chozzle:compose-macos-theme:0.4.1")
+            implementation("io.github.chozzle:compose-macos-theme:0.4.2")
         }
     }
 }
@@ -36,7 +36,7 @@ kotlin {
         named("jvmMain") {
             dependencies {
                 implementation(compose.desktop.currentOs)
-                implementation("io.github.chozzle:compose-macos-theme-desktop:0.4.1")
+                implementation("io.github.chozzle:compose-macos-theme-desktop:0.4.2")
             }
         }
     }
@@ -47,7 +47,7 @@ kotlin {
 Do not specify android specifically (it won't work). Gradle will automatically import the android sourceset only.
 ```kotlin 
 dependencies {
-    implementation("io.github.chozzle:compose-macos-theme:0.4.1 ")
+    implementation("io.github.chozzle:compose-macos-theme:0.4.2 ")
 }
 ```
 

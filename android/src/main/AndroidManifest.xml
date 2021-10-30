@@ -9,6 +9,7 @@
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         <activity
                 android:name="io.chozzle.composemacostheme.MainActivity"
+                android:exported="true"
                 android:label="Example">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
