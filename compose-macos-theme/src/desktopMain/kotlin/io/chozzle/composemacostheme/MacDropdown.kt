@@ -3,7 +3,9 @@ package io.chozzle.composemacostheme
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.hoverable
 import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsHoveredAsState
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.LocalTextStyle
@@ -17,10 +19,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.pointer.pointerMoveFilter
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -34,7 +34,7 @@ import io.chozzle.composemacostheme.modifiedofficial.MacDropdownMenuItem
 /**
  * Implementation of a DropdownMenu with DropdownMenuItems styled and arranged to mimic MacOS theme
  * */
-@OptIn(ExperimentalMaterialApi::class)
+@ExperimentalMaterialApi
 @Composable
 fun MacDropdownMenu(
     menuItems: List<String>,
@@ -70,7 +70,6 @@ fun MacDropdownMenu(
     }
 }
 
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 private fun MenuItems(
     menuItems: List<String>,
@@ -79,22 +78,15 @@ private fun MenuItems(
     longestItem: String
 ) {
     menuItems.forEachIndexed { index, itemString ->
-        var isPointerHovering by remember { mutableStateOf(false) }
+        val hoverInteractionSource = remember { MutableInteractionSource() }
+        val isPointerHovering by hoverInteractionSource.collectIsHoveredAsState()
+
         MacDropdownMenuItem(
             onClick = {
                 onItemSelected(index)
             },
             modifier = Modifier
-                .pointerMoveFilter(
-                    onEnter = {
-                        isPointerHovering = true
-                        false
-                    },
-                    onExit = {
-                        isPointerHovering = false
-                        false
-                    }
-                )
+                .hoverable(hoverInteractionSource)
                 .background(
                     if (isPointerHovering) MacTheme.colors.primary.copy(alpha = 0.7f) else Color.Unspecified,
                     shape = RoundedCornerShape(4.dp)

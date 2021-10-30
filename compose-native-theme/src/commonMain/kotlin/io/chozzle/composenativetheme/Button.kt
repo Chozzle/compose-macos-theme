@@ -21,7 +21,7 @@ import io.chozzle.composewindowstheme.WindowsButtonColors
 import io.chozzle.composewindowstheme.WindowsButtonStyle
 import io.chozzle.composewindowstheme.windowsButtonPaddingValues
 
-@OptIn(ExperimentalMaterialApi::class)
+@ExperimentalMaterialApi
 @Composable
 fun Button(
     onClick: () -> Unit,
@@ -215,14 +215,4 @@ fun WindowsHyperlinkButton( // TODO
 sealed class NativeButtonStyle {
     object Primary : NativeButtonStyle()
     object Secondary : NativeButtonStyle()
-}
-
-
-@OptIn(ExperimentalMaterialApi::class)
-object ZeroButtonElevation : ButtonElevation {
-
-    @Composable
-    override fun elevation(enabled: Boolean, interactionSource: InteractionSource): State<Dp> {
-        return mutableStateOf(0.dp)
-    }
 }

@@ -26,7 +26,7 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.state.ToggleableState
 import androidx.compose.ui.unit.dp
 
-@OptIn(ExperimentalMaterialApi::class)
+@ExperimentalMaterialApi
 @Composable
 fun MacRadioButton(
     selected: Boolean,

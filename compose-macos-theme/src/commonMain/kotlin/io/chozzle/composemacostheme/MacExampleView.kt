@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.material.ContentAlpha
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.LocalTextStyle
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -89,6 +90,7 @@ fun MacExampleView() {
     }
 }
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 private fun ButtonsView() {
     MacButton(
@@ -100,17 +102,26 @@ private fun ButtonsView() {
 
     Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
         MacButton(onClick = {}) {
-            Text("Primary")
+            Text(
+                "Primary",
+                modifier = Modifier,
+                maxLines = 1
+            )
         }
         MacSecondaryButton(onClick = {}) {
             Text("Secondary")
         }
         MacButton(enabled = false, onClick = {}) {
-            Text("Disabled")
+            Text(
+                "Disabled",
+                modifier = Modifier.requiredWidth(IntrinsicSize.Min),
+                maxLines = 1
+            )
         }
     }
 }
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 private fun CheckboxWithLabel(
     label: String,
@@ -146,6 +157,7 @@ private fun CheckboxWithLabel(
     }
 }
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 private fun RadioButtonWithLabel(
     label: String,

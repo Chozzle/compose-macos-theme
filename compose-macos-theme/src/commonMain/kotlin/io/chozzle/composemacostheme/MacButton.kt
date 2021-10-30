@@ -17,7 +17,7 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
-@OptIn(ExperimentalMaterialApi::class)
+@ExperimentalMaterialApi
 @Composable
 fun MacButton(
     onClick: () -> Unit,
@@ -58,7 +58,7 @@ fun macButtonPaddingValues(macButtonStyle: MacButtonStyle) =
     }
 
 
-@OptIn(ExperimentalMaterialApi::class)
+@ExperimentalMaterialApi
 @Composable
 fun MacSecondaryButton(
     onClick: () -> Unit,
@@ -92,7 +92,7 @@ sealed class MacButtonStyle(val minWidth: Dp, val minHeight: Dp) {
     object Small : MacButtonStyle(minWidth = Dp.Unspecified, 20.dp)
 }
 
-@OptIn(ExperimentalMaterialApi::class)
+@ExperimentalMaterialApi
 object ZeroButtonElevation : ButtonElevation {
 
     @Composable

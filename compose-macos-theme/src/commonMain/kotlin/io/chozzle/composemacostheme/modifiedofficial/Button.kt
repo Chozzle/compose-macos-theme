@@ -31,7 +31,7 @@ import androidx.compose.ui.unit.dp
 
 // Copied from compose source to work around https://issuetracker.google.com/issues/179543603
 // Basically just want to remove the ripple effect
-@OptIn(ExperimentalMaterialApi::class)
+@ExperimentalMaterialApi
 @Composable
 fun Button(
     onClick: () -> Unit,

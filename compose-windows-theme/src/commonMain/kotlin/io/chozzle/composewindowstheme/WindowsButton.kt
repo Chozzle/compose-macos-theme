@@ -4,9 +4,11 @@ import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.TweenSpec
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.hoverable
 import androidx.compose.foundation.indication
 import androidx.compose.foundation.interaction.InteractionSource
 import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsHoveredAsState
 import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.RowScope
@@ -20,7 +22,7 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
-@OptIn(ExperimentalMaterialApi::class)
+@ExperimentalMaterialApi
 @Composable
 fun WindowsButton(
     onClick: () -> Unit,
@@ -35,7 +37,8 @@ fun WindowsButton(
     contentPadding: PaddingValues = windowsButtonPaddingValues(windowsButtonStyle),
     content: @Composable RowScope.() -> Unit
 ) {
-    var isPointerHovering by remember { mutableStateOf(false) }
+    val hoverInteractionSource = remember { MutableInteractionSource() }
+    val isPointerHovering by hoverInteractionSource.collectIsHoveredAsState()
     val backgroundColor by animateColorAsState(
         targetValue = if (isPointerHovering) {
             colors.hoverColor
@@ -52,16 +55,8 @@ fun WindowsButton(
     io.chozzle.composewindowstheme.modifiedofficial.Button(
         onClick = onClick,
         modifier = modifier
-            .pointerMoveFilter(
-                onEnter = {
-                    isPointerHovering = true
-                    false
-                },
-                onExit = {
-                    isPointerHovering = false
-                    false
-                }
-            ).sizeIn(windowsButtonStyle.minWidth, windowsButtonStyle.minHeight)
+            .hoverable(hoverInteractionSource)
+            .sizeIn(windowsButtonStyle.minWidth, windowsButtonStyle.minHeight)
 
             // Material indication interferes with animated hover color change
             .indication(interactionSource, indication = null),
@@ -159,20 +154,13 @@ fun WindowsHyperlinkButton( // TODO
     )
 }*/
 
-internal expect fun Modifier.pointerMoveFilter(
-    onMove: (position: Offset) -> Boolean = { false },
-    onExit: () -> Boolean = { false },
-    onEnter: () -> Boolean = { false },
-): Modifier
-
 
 sealed class WindowsButtonStyle(val minWidth: Dp, val minHeight: Dp) {
     object Button : WindowsButtonStyle(minWidth = 120.dp, minHeight = 32.dp)
     object Hyperlink : WindowsButtonStyle(minWidth = Dp.Unspecified, 32.dp)
 }
 
-
-@OptIn(ExperimentalMaterialApi::class)
+@ExperimentalMaterialApi
 object ZeroButtonElevation : ButtonElevation {
 
     @Composable
