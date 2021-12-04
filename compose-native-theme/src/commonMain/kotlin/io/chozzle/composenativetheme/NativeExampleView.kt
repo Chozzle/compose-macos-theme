@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -73,6 +74,7 @@ fun exampleContent() {
     }
 }
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 private fun ButtonsView() {
     Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {

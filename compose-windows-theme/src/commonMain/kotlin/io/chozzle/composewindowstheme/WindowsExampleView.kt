@@ -3,6 +3,7 @@ package io.chozzle.composewindowstheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -20,6 +21,7 @@ fun WindowsExampleView() {
     }
 }
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 private fun ButtonsView() {
     Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {

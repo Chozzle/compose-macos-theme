@@ -1,5 +1,6 @@
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.getValue
@@ -18,6 +19,7 @@ import io.chozzle.composemacostheme.MacTheme
 import io.chozzle.composenativetheme.NativeExampleView
 import io.chozzle.composewindowstheme.WindowsExampleView
 
+@OptIn(ExperimentalMaterialApi::class)
 fun main() = application {
     Window(onCloseRequest = ::exitApplication, title = "Native theme for Compose :O") {
         MaterialTheme {

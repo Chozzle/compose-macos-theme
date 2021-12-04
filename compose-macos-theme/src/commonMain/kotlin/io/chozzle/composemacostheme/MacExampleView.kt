@@ -102,21 +102,13 @@ private fun ButtonsView() {
 
     Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
         MacButton(onClick = {}) {
-            Text(
-                "Primary",
-                modifier = Modifier,
-                maxLines = 1
-            )
+            Text("Primary")
         }
         MacSecondaryButton(onClick = {}) {
             Text("Secondary")
         }
         MacButton(enabled = false, onClick = {}) {
-            Text(
-                "Disabled",
-                modifier = Modifier.requiredWidth(IntrinsicSize.Min),
-                maxLines = 1
-            )
+            Text("Disabled")
         }
     }
 }
