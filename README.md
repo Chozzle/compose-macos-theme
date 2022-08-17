@@ -1,7 +1,7 @@
 # MacOS theme for Compose
 Multiplatform MacOS theme written in Compose UI.
 
-Create native looking UIs for Mac using Compose UI. Share your UI code to run on Android, Windows or Linux. 
+Create native looking UIs for Mac using Compose UI. Share your UI code to run on Mac, Windows, Linux or Android. Maybe iOS will come later.
 You could combine this with themes to match other platforms and write your UI once, but themed to appear native.
 
 ![Desktop Example](screenshots/desktop.png)
